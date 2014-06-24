@@ -1,8 +1,9 @@
 
-// require http module that ships with Node
+// require http and url modules that ship with Node
 var http = require('http');
+var url = require('url');
 
-function start() {
+function start(route, handle) {
     "use strict";
 
     var requestNum = 0;
@@ -11,10 +12,18 @@ function start() {
     // that object has a "listen" method that takes a numeric "port number" value that the object will listen on
     http.createServer( function( request , response ) {
         // this can result in 2 messages to log file because browser attempts to load favicon.ico
-        console.log('\nRequest received...', ++requestNum, request.method, request.httpVersion, request.headers.host + request.url);
+        //console.log('\nRequest received...', ++requestNum, request.method, request.httpVersion, request.headers.host + request.url);
+
+        var pathname = url.parse(request.url).pathname;
+        console.log('\nPathname requested: ' + pathname + '\n');
+
+        var content = route(handle, pathname);
+
+        //console.log(url.parse(request.url, false ));
 
         response.writeHead(200, {'Content-Type': 'text/plain'});
-        response.write('Hello World! ' + new Date());
+        //response.write('Hello World! ' + new Date());
+        response.write(content + ' --- ' + new Date());
         response.end();
     }).listen(8080);
 
