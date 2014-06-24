@@ -2,20 +2,26 @@
 // require http module that ships with Node
 var http = require('http');
 
-var requestNum = 0;
+function start() {
+    "use strict";
 
-// createServer returns an HTTP server object
-// that object has a "listen" method that takes a numeric "port number" value that the object will listen on
-http.createServer( function( request , response ) {
-    // this can result in 2 messages to log file because browser attempts to load favicon.ico
-    console.log('\nRequest received...', ++requestNum, request.method, request.httpVersion, request.headers.host + request.url);
+    var requestNum = 0;
 
-    response.writeHead(200, {'Content-Type': 'text/plain'});
-    response.write('Hello World! ' + new Date());
-    response.end();
-}).listen(8080);
+    // createServer returns an HTTP server object
+    // that object has a "listen" method that takes a numeric "port number" value that the object will listen on
+    http.createServer( function( request , response ) {
+        // this can result in 2 messages to log file because browser attempts to load favicon.ico
+        console.log('\nRequest received...', ++requestNum, request.method, request.httpVersion, request.headers.host + request.url);
 
-console.log('Server started.');
+        response.writeHead(200, {'Content-Type': 'text/plain'});
+        response.write('Hello World! ' + new Date());
+        response.end();
+    }).listen(8080);
+
+    console.log('Server started.');
+}
+
+exports.start = start;
 
 // the code above to start an http server and listen on a port could also be written as:
 //
