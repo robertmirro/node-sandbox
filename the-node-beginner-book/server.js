@@ -6,9 +6,6 @@ var url = require('url');
 function start(route, handle) {
     "use strict";
 
-    var requestNum = 0;
-    var dataChunks = 0;
-
     // createServer returns an HTTP server object
     // that object has a "listen" method that takes a numeric "port number" value that the object will listen on
     http.createServer( function( request , response ) {
@@ -18,24 +15,7 @@ function start(route, handle) {
         var pathname = url.parse(request.url).pathname;
         console.log('\nPathname requested: ' + pathname + '\n');
 
-        // it is the http servers job to gather and data that has been submitted and pass it along to the app
-        // assume data being gathered is encoded as utf-8
-        var postData = '';
-        request.setEncoding('utf8');
-
-        // add listeners to gathering any data that has been submitted
-        request.addListener('data', function( postDataChunk ) {
-            dataChunks += 1;
-            //console.log('\n\nRecieved postDataChunk:', postDataChunk)
-            console.log('Recieved postDataChunk...', postDataChunk.length);
-            postData += postDataChunk;
-        })
-
-        request.addListener('end', function() {
-            // pass response object along to request handler, this server will no longer be responsible for outputting content to the client
-            console.log('END DATA: total chunks of data received: ', dataChunks);
-            route(handle, pathname, response, postData);
-        })
+        route(handle, pathname, response, request);
     }).listen(8080);
 
     console.log('Server started.');

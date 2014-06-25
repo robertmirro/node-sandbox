@@ -1,8 +1,9 @@
-var querystring = require('querystring')
-    fs = require('fs');
+var querystring = require('querystring'),
+    fs = require('fs'),
+    formidable = require('formidable');
 
 // receive response object from router
-function start(response, postData) {
+function start(response, request) {
     "use strict";
 
     console.log('  **Request handler "start" was called...', new Date());
@@ -11,9 +12,9 @@ function start(response, postData) {
         + '<head>'
         + '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> '
         + '</head>'
-        + '<form action="/upload" method="post">'
-        + '<textarea name="text" rows="15" cols="60"></textarea><br />'
-        + '<input type="submit" value="Submit Me" />'
+        + '<form action="/upload" enctype="multipart/form-data" method="post">'
+        + '<input type="file" name="upload">'
+        + '<input type="submit" value="Upload File" />'
         + '</form>'
         + '</body>'
         + '</html>'
@@ -25,21 +26,34 @@ function start(response, postData) {
 }
 
 // receive response object from router
-function upload(response, postData) {
+function upload(response, request) {
     "use strict";
 
     console.log('  **Request handler "upload" was called...');
 
-    postData = querystring.parse(postData).text || 'No data has been posted.';
+    var form = new formidable.IncomingForm();
+    console.log('  ***Parsing started...');
 
-    response.writeHead(200, {"Content-Type": "text/plain"});
-    response.write('Hello World from... UPLOAD! --- ' + new Date());
-    response.write('\nYou have posted the following data:\n\n' + postData /* querystring.parse(postData).text */ );
-    response.end();
+    form.parse(request, function( error, fields, files ) {
+        console.log('  ***Parsing complete...');
+
+        /* Possible error on Windows systems: tried to rename to an already existing file */
+        fs.rename(files.upload.path, "./tmp/test.png", function(error) {
+            if (error) {
+                fs.unlink("./tmp/test.png");
+                fs.rename(files.upload.path, "./tmp/test.png");
+            }
+        });
+
+        response.writeHead(200, {"Content-Type": "text/html"});
+        response.write('Uploaded File Received: ' + new Date());
+        response.write('<br /><img src="/show" />')
+        response.end();
+    });
 }
 
 // display uploaded image file to user
-function show(response, postData) {
+function show(response, request) {
     "use strict";
 
     console.log('  **Request handler "show" was called...');
