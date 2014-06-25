@@ -1,17 +1,20 @@
+var exec = require('child_process').exec;
+
 function start() {
     "use strict";
 
     console.log('  **Request handler "start" was called...', new Date());
 
-    function sleep(milliSeconds) {
-        var startTime = new Date().getTime();
-        while (new Date().getTime() < startTime + milliSeconds);
-    }
-    // simulate a 5 second "blocking" operation delay
-    sleep(5000);
-    console.log('  **Request handler "start" was called, delay ended...', new Date());
+    var content = 'empty';
+    // use child_process.exec to execute a shell command in a non-blocking fashion
+    // exec('find /', function( error, stdout, stderr ) {
+    exec('ls  -alh', function( error, stdout, stderr ) {
+        content = stdout;
+        console.log('content 1: ', content);
+    })
+    console.log('content 2: ', content);
 
-    return 'Hello World from... START!';
+    return 'Hello World from... START! --- ' + content;
 }
 
 function upload() {
