@@ -17,14 +17,9 @@ function start(route, handle) {
         var pathname = url.parse(request.url).pathname;
         console.log('\nPathname requested: ' + pathname + '\n');
 
-        var content = route(handle, pathname);
+        // pass response object along to request handler, this server will no longer be responsible for outputting content to the client
+        route(handle, pathname, response);
 
-        //console.log(url.parse(request.url, false ));
-
-        response.writeHead(200, {'Content-Type': 'text/plain'});
-        //response.write('Hello World! ' + new Date());
-        response.write(content + ' --- ' + new Date());
-        response.end();
     }).listen(8080);
 
     console.log('Server started.');
