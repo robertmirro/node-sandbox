@@ -10,7 +10,7 @@ function start(response) {
     // use child_process.exec to execute a shell command in a non-blocking fashion
     // exec('find /', function( error, stdout, stderr ) {
     // exec('ls -alh /', function( error, stdout, stderr ) {
-    exec('find /', function( error, stdout, stderr ) {
+    exec('find /', {timeout: 10000, maxBuffer: 20000*1024}, function( error, stdout, stderr ) {
         //console.log('Hello World from... START! --- ', stdout);
         console.log('  **Request handler "start" is DONE...', new Date());
 
