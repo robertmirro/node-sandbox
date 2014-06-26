@@ -1,0 +1,9 @@
+"Huh?"
+
+That's right, everything runs in parallel, except your code. To understand that, imagine your code is the king, and node is his army of servants.
+
+The day starts by one servant waking up the king and asking him if he needs anything. The king gives the servant a list of tasks and goes back to sleep a little longer. The servant now distributes those tasks among his colleagues and they get to work.
+
+Once a servant finishes a task, he lines up outside the kings quarter to report. The king lets one servant in at a time, and listens to things he reports. Sometimes the king will give the servant more tasks on the way out.
+
+Life is good, for the king's servants carry out all of his tasks in parallel, but only report with one result at a time, so the king can focus. *
