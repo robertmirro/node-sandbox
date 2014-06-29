@@ -1,4 +1,5 @@
 var http = require('http');
+var bl = require('bl');  // buffer list
 
 var urlToGet = process.argv[2];
 //console.log('urlToGet:', urlToGet);
@@ -7,19 +8,16 @@ var responseData = '';
 
 http.get(urlToGet, function( response ) {
     //console.log(response.statusCode);
-    response.setEncoding('utf8');  // set encoding so toString() is not needed on dataChunk below
+    //response.setEncoding('utf8');  // set encoding so toString() is not needed on dataChunk below, this does NOT work with bl() below
 
-    response.on('data', function( dataChunk ) {
-        //console.log('\n\ndataChunk:', dataChunk.toString());
-        //console.log('\n\ndataChunk:', dataChunk);
-        //console.log('data', dataChunk.length);
-        responseData += dataChunk;
-    });
-
-    response.on('end', function() {
+    response.pipe(bl( function( error, responseData ) {
+        if (error) {
+            return console.log('BL Error:', error);
+        }
+        responseData = responseData.toString();
         console.log(responseData.length);
         console.log(responseData);
-    })
+    }));
 }).on('error', function( error ) {
     return console.log('Error:', error.code);
 });
