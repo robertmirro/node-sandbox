@@ -3,7 +3,6 @@ var through = require('through');
 //accept data from stdin, transform it to UPPERCASE via our "through" stream and then pipe output to stdout
 var tr = through( function writeData( data ) {
 //        console.log('writing...');
-//        process.stdout.write(data.toString().toUpperCase());
 //        this.emit( 'data' , data.toString().toUpperCase() );
         this.queue( data.toString().toUpperCase() );
     },
@@ -15,6 +14,26 @@ var tr = through( function writeData( data ) {
 
 // take data entered from stdin, pipe it to the "through" stream to be processed and then pipe it to stdout stream
 process.stdin.pipe(tr).pipe(process.stdout);
+
+// CAN TEST AS FOLLOWS:
+//1
+//$ echo -e 'bob\nmirro\nis\nme' | node transform.js
+//BOB
+//MIRRO
+//IS
+//ME
+// --OR--
+//2
+//node transform.js
+//[type characters and press <enter> after each line]
+//bob
+//BOB
+//mirro
+//MIRRO
+//is
+//IS
+//me
+//ME
 
 
 // accept data from stdin, tranform it to UPPERCASE and then output using stdout
