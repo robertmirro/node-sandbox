@@ -42,24 +42,23 @@ process.stdin.pipe(split()).pipe(tr).pipe(process.stdout);
 
 // CAN TEST AS FOLLOWS:
 //1
-//$ echo -e 'bob\nmirro\nis\nme' | node lines.js
-//BOB
+//$ echo -e 'Bob\nMirro\nIs\nMe' | node lines.js
+//bob
 //MIRRO
-//IS
+//is
 //ME
 // --OR--
 //2
 //node lines.js
 //[type characters and press <enter> after each line]
+//Bob
 //bob
-//BOB
-//mirro
+//Mirro
 //MIRRO
+//Is
 //is
-//IS
-//me
+//Me
 //ME
-
 
 // OFFICIAL SOLUTION
 //
