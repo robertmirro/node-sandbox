@@ -11,7 +11,8 @@
 
 console.log('here');
 var myRequest = function () {
-    console.log('hola');
+//    console.log('hola');
+    return 'hola';
 };
 
 // NOTE: need to use module.exports here, NOT just "exports"
