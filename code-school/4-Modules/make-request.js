@@ -14,6 +14,7 @@ var makeRequest = function ( message ) {
         });
     });
 
+    console.log('data to POST:' , message );
     request.write(message);
     request.end();
 }

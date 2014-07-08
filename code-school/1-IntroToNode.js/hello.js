@@ -2,6 +2,13 @@
 var http = require('http');
 
 http.createServer( function ( request , response ) {
+    // log any data that might be POSTed here
+    //   used this file to test code-school/4-Modules/make-request.js
+    //   also tested via: curl -d "This is my POST data..." http://localhost:8080/
+    request.on('data' , function( data ) {
+        console.log('data POSTed:', data.toString());
+    });
+
     response.writeHead(200);
     response.write('Hello, this is dog.');
     response.end();
