@@ -29,3 +29,8 @@ exports.myOtherMod = function(  ) {
 exports.myMessage = 'hola';
 writeLog('exports.myMod = myModule...');
 
+
+// the console.log below fails when module_no_export exports nothing
+var modNoExport = require('./module_no_export');
+console.log(modNoExport());
+
