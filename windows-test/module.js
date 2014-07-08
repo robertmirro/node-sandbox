@@ -23,6 +23,9 @@ writeLog('module.exports = myModule');
 module.exports = holdModuleExports;
 
 exports.myMod = myModule;
-exports.myOtherMod = myModule;
+exports.myOtherMod = function(  ) {
+    console.log( 'myOtherMethod' );
+};
+exports.myMessage = 'hola';
 writeLog('exports.myMod = myModule...');
 
