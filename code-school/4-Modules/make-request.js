@@ -19,4 +19,6 @@ var makeRequest = function ( message ) {
     request.end();
 }
 
-makeRequest('This is my message that Im making...');
+// pass a quoted message from command line OR revert to passing a default messages
+//  ex: node make-request.js "this is my command line param message"
+makeRequest(process.argv[2] || 'This is the DEFAULT message that I\'m POSTing...');
