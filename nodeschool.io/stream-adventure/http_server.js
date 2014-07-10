@@ -24,6 +24,7 @@ var server = http.createServer( function( request , response ) {
         return response.end('Only POSTed data is accepted...\n');
     }
 
+//    // UNCOMMENT THIS TO VIEW INCOMING REQUESTS
 //    var requestReceived = 'Request received on ' + new Date();
 //    console.log( requestReceived );
 //    response.write( requestReceived + '\n' );
