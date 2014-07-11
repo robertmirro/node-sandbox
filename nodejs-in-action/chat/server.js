@@ -17,11 +17,31 @@ function sendFile ( response , filePath , fileContents ) {
     response.end( fileContents );
 }
 
-function serverStaticFile ( response , cache , absoluteFilePath ) {
+function serveStaticFile ( response , cache , absoluteFilePath ) {
     "use strict";
-    // server file from cache if possible
-    if ( cache[absoluteFilePath] ) {
-        sendFile( response , absoluteFilePath , cache[absoluteFilePath] );
-        return;
-    }    
+    // serve file from cache if possible
+    if ( cache[ absoluteFilePath ] ) {
+        return sendFile( response , absoluteFilePath , cache[ absoluteFilePath ] );
+    }
+
+    fs.readFile( absoluteFilePath , function( error , fileContents ) {
+        if ( error ) {
+            return send404( response );
+        }
+
+        // cache file then serve file
+        cache[ absoluteFilePath ] = fileContents;
+        sendFile( response , absoluteFilePath , fileContents );
+    });
 }
+
+var server = http.createServer( function( request , response ) {
+    var filePath = ( request.url === '/' ? 'public/index.html' : 'public' + request.url );
+    var absoluteFilePath = './' + filePath;
+    serveStaticFile( response , cache , absoluteFilePath );
+});
+
+// invoke listen() to start the HTTP server
+server.listen( 8080 , function() {
+    console.log( 'Server listening on port', server.address().port );
+});
