@@ -37,7 +37,7 @@ function assignGuestName( socket , guestNumber , guestNicknames , nicknamesUsed 
     guestNicknames[ socket.id ] = name;
     nicknamesUsed.push( name );
 
-    socket.emit( 'nameResult' , { success: true , name: name });
+    socket.emit( 'nameResult' , { success: true , name: name } );
     return ++guestNumber;
 }
 
@@ -45,8 +45,8 @@ function joinRoom( socket , roomName ) {
     socket.join( roomName );
     currentRoom[ socket.id ] = roomName;
 
-    socket.emit( 'joinResult' , { roomName: roomName });
-    socket.broadcast.to( roomName ).emit( 'message' , { text: guestNicknames[ socket.id ] + ' has joined ' + roomName + '.' });
+    socket.emit( 'joinResult' , { roomName: roomName } );
+    socket.broadcast.to( roomName ).emit( 'message' , { text: guestNicknames[ socket.id ] + ' has joined ' + roomName + '.' } );
 
     var usersInRoom = io.sockets.clients( roomName );
     if (usersInRoom.length <= 1) {
@@ -63,6 +63,27 @@ function joinRoom( socket , roomName ) {
             usersInRoomMessage += guestNicknames[ userSocketId ];
         }
         usersInRoomMessage += '.';
-        socket.emit( 'message' , { text: usersInRoomMessage });
+        socket.emit( 'message' , { text: usersInRoomMessage } );
     }
+}
+
+function handleNameChangeAttempts( socket , guestNicknames , nicknamesUsed ) {
+    socket.on( 'nameAttempt' , function( name ) {
+        if ( name.indexOf('Guest') == 0 ) {
+            return socket.emit( 'nameResult' , { success: false , message: 'Names cannot begin with "Guest".' } );
+        }
+        if ( nicknamesUsed.indexOf( name ) >= 0) {
+            return socket.emit( 'nameResult' , { success: false , message: 'The name "' + name + '" is already in use.' } );
+        }
+
+        var previousName = guestNicknames[ socket.id ];
+        var previousNameIndex = nicknamesUsed.indexOf( previousName );
+
+        nicknamesUsed.push( name );
+        guestNicknames[ socket.id ]= name;
+        delete nicknamesUsed[ previousNameIndex ];
+
+        socket.emit( 'nameResult' , { success: true , name: name } );
+        socket.broadcast.to( currentRoom[ socket.id] ).emit( 'message' , { text: previousNameIndex + ' is now known as ' + name + '.' } );
+    });
 }
