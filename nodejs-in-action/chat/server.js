@@ -5,6 +5,8 @@ var mime = require('mime');
 
 var cache = {};
 
+var listenOnPort = process.argv[2];
+
 function send404 ( response ) {
     "use strict";
     response.writeHead( 404 , {'Content-Type': 'text/plain'} );
@@ -42,6 +44,6 @@ var server = http.createServer( function( request , response ) {
 });
 
 // invoke listen() to start the HTTP server
-server.listen( 8080 , function() {
+server.listen( listenOnPort , function() {
     console.log( 'Server listening on port', server.address().port );
 });
