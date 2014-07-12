@@ -2,10 +2,25 @@ var http = require('http');
 var fs = require('fs');
 var path = require('path');
 var mime = require('mime');
+var chatServer = require('./lib/chat_server');
+
+var listenOnPort = process.argv[2] || 8080;
 
 var cache = {};
 
-var listenOnPort = process.argv[2];
+var server = http.createServer( function( request , response ) {
+    var filePath = ( request.url === '/' ? 'public/index.html' : 'public' + request.url );
+    var absoluteFilePath = './' + filePath;
+    serveStaticFile( response , cache , absoluteFilePath );
+});
+
+// invoke listen() to start the HTTP server
+server.listen( listenOnPort , function() {
+    console.log( 'Server listening on port', server.address().port );
+});
+
+chatServer.listen( server );
+
 
 function send404 ( response ) {
     "use strict";
@@ -37,13 +52,3 @@ function serveStaticFile ( response , cache , absoluteFilePath ) {
     });
 }
 
-var server = http.createServer( function( request , response ) {
-    var filePath = ( request.url === '/' ? 'public/index.html' : 'public' + request.url );
-    var absoluteFilePath = './' + filePath;
-    serveStaticFile( response , cache , absoluteFilePath );
-});
-
-// invoke listen() to start the HTTP server
-server.listen( listenOnPort , function() {
-    console.log( 'Server listening on port', server.address().port );
-});
