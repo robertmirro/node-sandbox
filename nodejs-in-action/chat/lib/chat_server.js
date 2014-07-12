@@ -87,3 +87,24 @@ function handleNameChangeAttempts( socket , guestNicknames , nicknamesUsed ) {
         socket.broadcast.to( currentRoom[ socket.id] ).emit( 'message' , { text: previousNameIndex + ' is now known as ' + name + '.' } );
     });
 }
+
+function handleMessageBroadcasting( socket , guestNicknames ) {
+    socket.on( 'message' , function( message ) {
+        socket.broadcast.to( message.room ).emit( 'message' , { text: guestNicknames[ socket.id ] + ': ' + message.text } );
+    });
+}
+
+function handleRoomJoining( socket ) {
+    socket.on( 'join' , function( room ) {
+        socket.leave( currentRoom[ socket.id ] );
+        joinRoom( socket , room.newRoom );
+    });
+}
+
+function handleClientDisconnection( socket , guestNicknames , nicknamesUsed ) {
+    socket.on( 'disconnect' , function(  ) {
+        var nameIndex = nicknamesUsed.indexOf( guestNicknames[ socket.id ] );
+        delete nicknamesUsed[ nameIndex ];
+        delete guestNicknames[ socket.id ];
+    });
+}
