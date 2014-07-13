@@ -10,6 +10,8 @@ function processUserInput( chatApp , socket ) {
     var message = $( '#send-message' ).val();
     var systemMessage;
 
+//    console.log( 'processUserInput: %s' , message );
+
     if ( message.charAt(0) === '/' ) {
         systemMessage = chatApp.processCommand( message );
         if ( systemMessage ) {
@@ -17,11 +19,65 @@ function processUserInput( chatApp , socket ) {
         }
     } else {
         chatApp.sendMessage( $( '#room' ).text() , message );
-        $( '#messages' ).append( divEscapedContentElement( message ) );
+        $( '#messages' ).append( divEscapedContentElement( '(Me):' + message ) );
         $( '#messages' ).scrollTop( $( '#messages' ).prop( 'scrollHeight' ) );
     }
 
     $( '#send-message' ).val( '' );
 }
 
-//var socket = io.connect();
+var socket = io.connect();
+
+$( document ).ready( function() {
+//    console.log( 'document is ready...' );
+    var chatApp = new Chat( socket );
+
+    socket.on( 'nameResult' , function( result ) {
+       var message;
+
+        if ( result.success ) {
+            message = 'You are know known as ' + result.name + '.';
+        } else {
+            message = result.message;
+        }
+        $( '#messages' ).append( divSystemContentElement( message ) );
+    });
+
+    socket.on( 'joinResult' , function( result ) {
+//        console.log( 'joinResult: result.room: %s', result.roomName );
+        $( '#room' ).text( result.roomName );
+        $( '#messages' ).append( divSystemContentElement( 'Room changed to ' + result.roomName + '.' ) );
+    });
+
+    socket.on('message', function (message) {
+        var newElement = $( '<div></div>' ).text( message.text );
+        $( '#messages' ).append( newElement );
+    });
+    socket.on( 'rooms' , function( rooms ) {
+        $( '#room-list' ).empty();
+
+        for( var room in rooms ) {
+            room = room.substring( 1, room.length );
+            if ( room != '' ) {
+                $( '#room-list' ).append( divEscapedContentElement( room) );
+            }
+        }
+
+        $( '#room-list div' ).click( function() {
+            chatApp.processCommand( '/join ' + $( this ).text() );
+            $( '#send-message' ).focus();
+        });
+    });
+
+    setInterval( function() {
+        socket.emit( 'rooms' );
+    }, 1000 );
+
+    $( '#send-message' ).focus();
+
+    $( '#send-form' ).submit( function() {
+        processUserInput( chatApp , socket );
+        return false;
+    });
+});
+

@@ -9,12 +9,12 @@ exports.listen = function( server ) {
 //    console.log( server );
 
     // start socket.io server and piggyback it on existing http server
-    io = socketio.listen( server );
-    io.set( 'log-level' , 1);
+    io = socketio.listen( server , { log: false} );  // log:false = turn OFF debug logging
+    io.set( 'log-level' , 1 );  // default = 1
 
     // handle each socket (user) connection
     io.sockets.on( 'connection' , function( socket ) {
-        console.log( 'connected to socket.id:' , socket.id) ;
+//        console.log( 'connected to socket.id:' , socket.id) ;
 
         guestNumber = assignGuestName( socket , guestNumber , guestNicknames , nicknamesUsed );
         joinRoom( socket , 'Lobby' );
@@ -42,6 +42,7 @@ function assignGuestName( socket , guestNumber , guestNicknames , nicknamesUsed 
 }
 
 function joinRoom( socket , roomName ) {
+//    console.log( 'joinRoom - roomName: %s - %s' , roomName , socket.id );
     socket.join( roomName );
     currentRoom[ socket.id ] = roomName;
 
@@ -49,6 +50,8 @@ function joinRoom( socket , roomName ) {
     socket.broadcast.to( roomName ).emit( 'message' , { text: guestNicknames[ socket.id ] + ' has joined ' + roomName + '.' } );
 
     var usersInRoom = io.sockets.clients( roomName );
+//    console.log( 'usersInRoom.length:' , usersInRoom.length );
+//    console.log( 'usersInRoom:' , usersInRoom );
     if (usersInRoom.length <= 1) {
         return;
     }
@@ -62,9 +65,10 @@ function joinRoom( socket , roomName ) {
             }
             usersInRoomMessage += guestNicknames[ userSocketId ];
         }
-        usersInRoomMessage += '.';
-        socket.emit( 'message' , { text: usersInRoomMessage } );
     }
+    usersInRoomMessage += '.';
+//    console.log( 'usersInRoomMessage: %s' , usersInRoomMessage );
+    socket.emit( 'message' , { room: roomName ,  text: usersInRoomMessage } );
 }
 
 function handleNameChangeAttempts( socket , guestNicknames , nicknamesUsed ) {
@@ -84,12 +88,16 @@ function handleNameChangeAttempts( socket , guestNicknames , nicknamesUsed ) {
         delete nicknamesUsed[ previousNameIndex ];
 
         socket.emit( 'nameResult' , { success: true , name: name } );
-        socket.broadcast.to( currentRoom[ socket.id] ).emit( 'message' , { text: previousNameIndex + ' is now known as ' + name + '.' } );
+        socket.broadcast.to( currentRoom[ socket.id] ).emit( 'message' , { text: previousName + ' is now known as ' + name + '.' } );
     });
 }
 
 function handleMessageBroadcasting( socket , guestNicknames ) {
+//    console.log( 'handleMessageBroadcasting.on INIT' );
     socket.on( 'message' , function( message ) {
+//        console.log( 'handleMessageBroadcasting.on MESSAGE' , message );
+//        console.log( 'guestNicknames[ socket.id ]' , guestNicknames[ socket.id ]);
+//        console.log( 'guestNicknames[]' , guestNicknames);
         socket.broadcast.to( message.room ).emit( 'message' , { text: guestNicknames[ socket.id ] + ': ' + message.text } );
     });
 }

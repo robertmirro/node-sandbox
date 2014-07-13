@@ -3,6 +3,7 @@ var Chat = function( socket ) {
 };
 
 Chat.prototype.sendMessage = function( room , text ) {
+//    console.log( 'sendMessage: %s' , text );
     var message = { room: room , text: text };
     this.socket.emit( 'message' , message );
 };

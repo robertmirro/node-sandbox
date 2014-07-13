@@ -32,7 +32,6 @@ server.listen( listenOnPort , function() {
 
 chatServer.listen( server );
 
-
 function send404 ( response ) {
     "use strict";
     response.writeHead( 404 , {'Content-Type': 'text/plain'} );
@@ -63,16 +62,3 @@ function serveStaticFile ( response , cache , absoluteFilePath ) {
         sendFile( response , absoluteFilePath , fileContents );
     });
 }
-
-//$ DEBUG=server:* node server.js
-//    info  - socket.io started
-//    server:http Server listening on port: 8080 +0ms
-//    server:http filePath requested: public/index.html  +3s
-//    server:sendFile filePath: ./public/index.html +2ms
-//    server:http filePath requested: public/stylesheets/style.css  +52ms
-//    server:http filePath requested: public/javascripts/chat.js  +7ms
-//    server:http filePath requested: public/javascripts/chat_ui.js  +2ms
-//    server:sendFile filePath: ./public/stylesheets/style.css +23ms
-//    debug - served static content /socket.io.js
-//    server:sendFile filePath: ./public/javascripts/chat.js +496ms
-//    server:sendFile filePath: ./public/javascripts/chat_ui.js +1ms
