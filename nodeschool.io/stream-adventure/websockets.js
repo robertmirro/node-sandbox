@@ -1,8 +1,14 @@
 var websocket = require('websocket-stream');
 
 var stream = websocket( 'ws://localhost:' + (process.argv[2] || 8080) );
-//stream.write( 'write: ' + new Date() );
-stream.end( 'hello\n' );
+
+stream.on( 'data' , function( data ) {
+    console.log( 'data recieved from server: %s' , data );
+    stream.end();
+})
+stream.write( 'write: ' + new Date() );
+
+//stream.end( 'hello\n' );
 
 // OFFICIAL SOLUTION
 //
