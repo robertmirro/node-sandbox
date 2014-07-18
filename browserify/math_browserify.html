@@ -2,9 +2,21 @@
 <html>
     <head>
         <script src="math_browserify.js"></script>
+        <script>
+            var square = require('mathSquare');
+            var value = 5;
+            console.log( 'The square value of (%s) is (%s)' , value , square( value ) );
+        </script>
     </head>
     <body>
         <h1>Browserify - math.js / math_browserify.js</h1>
+
+        <b>Build math_browserify.js as follows:</b>
+        <p>$ browserify math.js -r ./square.js:mathSquare -o math_browserify.js</p>
+        <ul>
+            <li>Include math.js, which will be invoked upon loading math_browserify.js</li>
+            <li>-require square.js so that math_browserify.html can require('mathSquare') and invoke its logic</li>
+        </ul>
         <b>View console to see math_browserify.js output...</b>
     </body>
 </html>

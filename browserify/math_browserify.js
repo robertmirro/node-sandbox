@@ -1,4 +1,4 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var square = require('./square');
 var EventEmitter = require('events').EventEmitter;
 
@@ -9,17 +9,19 @@ emitter.on( 'calc-square', function( value ) {
 });
 
 emitter.emit( 'calc-square' , 4 );
-},{"./square":3,"events":4}],2:[function(require,module,exports){
+},{"./square":"QWab05","events":5}],2:[function(require,module,exports){
 module.exports = function multiply( num1 , num2 ) {
     return num1 * num2;
 };
-},{}],3:[function(require,module,exports){
+},{}],"QWab05":[function(require,module,exports){
 var multiply = require('./multiply');
 
 module.exports = function square( num ) {
     return multiply( num , num );
 };
-},{"./multiply":2}],4:[function(require,module,exports){
+},{"./multiply":2}],"mathSquare":[function(require,module,exports){
+module.exports=require('QWab05');
+},{}],5:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
