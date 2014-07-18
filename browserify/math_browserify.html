@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <script src="math_browserify.js"></script>
+        <script src="math_browserify_min.js"></script>
         <script>
             var square = require('mathSquare');
             var value = 5;
@@ -10,6 +10,8 @@
     </head>
     <body>
         <h1>Browserify - math.js / math_browserify.js</h1>
+
+        <h3>NOTE: Can also use math_browserify_min.js to see same results</h3>
 
         <b>Build math_browserify.js as follows:</b>
         <p>$ browserify math.js -r ./square.js:mathSquare -o math_browserify.js</p>
