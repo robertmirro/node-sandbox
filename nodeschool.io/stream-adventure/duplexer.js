@@ -15,3 +15,13 @@ module.exports = function( command , args  ) {
     var spawnedProcess = spawn( command, args );
     return duplexer( spawnedProcess.stdin , spawnedProcess.stdout );
 };
+
+// OFFICIAL SOLUTION
+//
+//var spawn = require('child_process').spawn;
+//var duplexer = require('duplexer');
+//
+//module.exports = function (cmd, args) {
+//    var ps = spawn(cmd, args);
+//    return duplexer(ps.stdin, ps.stdout);
+//};
