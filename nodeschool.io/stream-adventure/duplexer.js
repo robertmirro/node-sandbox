@@ -12,7 +12,7 @@ var duplexer = require('duplexer');
 //});
 
 module.exports = function( command , args  ) {
-    var spawnedProcess = spawn( command, args );
+    var spawnedProcess = spawn( command , args );
     return duplexer( spawnedProcess.stdin , spawnedProcess.stdout );
 };
 
