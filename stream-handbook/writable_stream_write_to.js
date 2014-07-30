@@ -4,7 +4,7 @@ var fs = require('fs');
 var writeStream = fs.createWriteStream( outputFilename );
 var spawn = require('child_process').spawn;
 
-// manually write to a writeable stream
+// manually write to a writable stream
 writeStream.write( new Date() + '\n' );
 writeStream.write( 'bob' );
 writeStream.write( ' mirro ');
