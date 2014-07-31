@@ -9,7 +9,7 @@ var server = http.createServer( function( request , response ) {
     if (request.method.toUpperCase() !== 'POST') {
         response.end('Only POSTed data is accepted...\n');
     }
-    //console.log('Connected to server...', getDateTime());
+//    console.log('Connected to server...', new Date());
     response.writeHead(200, {'Content-Type': 'text/plain'});
 
     //request.pipe(response);
