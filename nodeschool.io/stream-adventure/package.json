@@ -1,0 +1,22 @@
+{
+  "name": "stream-adventure",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "concat-stream": "^1.4.6",
+    "duplexer": "^0.1.1",
+    "request": "^2.37.0",
+    "split": "^0.3.0",
+    "through": "^2.3.4",
+    "trumpet": "^1.6.4",
+    "websocket-stream": "^0.6.0",
+    "ws": "^0.4.31"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "RJM",
+  "license": "MIT"
+}
