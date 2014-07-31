@@ -1,0 +1,6 @@
+# This is NOT working to unignore my_logger directory.
+# need to comment out "node_modules" in parent .gitignore to commit new files in my_logger.
+#
+#!node_modules/my_logger
+
+
