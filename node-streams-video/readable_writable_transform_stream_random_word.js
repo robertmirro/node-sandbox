@@ -58,7 +58,7 @@ function transformWordStream() {
         // simulate a delay and illustrate async processing
         // inform producer we are ready for next dataChunk
         // nextCb();
-        setTimeout( nextCb , 500 );
+        setTimeout( nextCb , 100 );
     };
     return ts;
 }
