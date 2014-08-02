@@ -1,9 +1,10 @@
 {
-  "name": "mongodb",
+  "name": "db-mongodb",
   "version": "0.0.0",
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "mongodb": "^1.4.8",
     "mongojs": "^0.13.1"
   },
   "devDependencies": {},
