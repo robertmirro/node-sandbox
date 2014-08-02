@@ -5,7 +5,8 @@
   "main": "index.js",
   "dependencies": {
     "mongodb": "^1.4.8",
-    "mongojs": "^0.13.1"
+    "mongojs": "^0.13.1",
+    "mongoose": "^3.8.14"
   },
   "devDependencies": {},
   "scripts": {
