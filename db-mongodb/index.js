@@ -3,6 +3,7 @@ var http = require('http') ,
     url = require('url') ;
 
 var dbUrl = 'mongodb://guest:guest@ds053439.mongolab.com:53439/node_demo' ,
+//    dbUrl = 'mongodb://localhost:27017/node_demo' ,
     db =  mongojs.connect( dbUrl , [ 'contacts' ] ) ,
     httpServer = http.createServer() ,
     httpServerPort = ( process.argv[2] || 8080 ) ;
