@@ -1,5 +1,6 @@
-var http = require('http');
-var mongojs = require('mongojs');
+var http = require('http') ,
+    mongojs = require('mongojs') ,
+    url = require('url') ;
 
 var dbUrl = 'mongodb://guest:guest@ds053439.mongolab.com:53439/node_demo' ,
     db =  mongojs.connect( dbUrl , [ 'contacts' ] ) ,
@@ -16,11 +17,17 @@ httpServer.on( 'request' , function( request , response ) {
         response.end();
     }
 
-    db.contacts.find( {} , function( err , records ) {
+    var parsedUrl = url.parse( request.url , true );
+//    console.log( parsedUrl );
+
+    var dbQuery = parsedUrl.query.name ? { name : new RegExp( parsedUrl.query.name , 'i' ) } : {} ;
+
+    db.contacts.find( dbQuery , function( err , records ) {
 //        console.log( 'err:' , err );
 //        console.log( 'records:' , records );
 
-        if ( (records) ) {
+        if ( records && records.length > 0 ) {
+//            console.log( records.length );
             response.writeHead( 200, { 'Content-Type' : 'application/json; charset=utf-8' } );
             return response.end( JSON.stringify( records , null , ' ' ) );  // pretty-print the JSON
         }
