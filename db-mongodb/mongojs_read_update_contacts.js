@@ -35,6 +35,8 @@ httpServer.on( 'request' , function( request , response ) {
         records.forEach( function( contact ) {
 //            response.write( JSON.stringify( contact , null , ' ' ) + '<br /><br />' );
             response.write( '<p>' + contact.name + ' &lt;' + contact.email + '&gt; (<b>' + contact.age + '</b>) </p>' );
+
+//            db.contacts.save( { _id : contact._id , name : contact.name + ' (' + contact.index + ')'} );
         });
         response.end( '</body></html>' );
     });
