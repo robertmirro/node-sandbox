@@ -9,6 +9,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var http = require('http');
+var mongoose = require('mongoose');
 
 var routes = require('./routes/index');
 // var users = require('./routes/users');
@@ -31,13 +32,24 @@ app.use(express.static(path.join(__dirname, 'public')));
 // development only
 if ('development' == app.get('env')) {
 //    app.use(express.errorHandler());
-//    mongoose.connect('mongodb://55.55.55.5/mongo');
+    mongoose.connect('mongodb://guest:guest@ds053439.mongolab.com:53439/node_demo');
 }
 
-app.get('/', function(req, res) {
-    res.send( 'ok' );
+mongoose.model( 'contacts' , { name : String } );
+mongoose.model( 'github_repos' , { name : String } );
+
+app.get('/users', function(req, res) {
+    mongoose.model( 'contacts' ).find( function( err , contacts ) {
+        res.send( contacts );
+    });
+//    res.send( 'ok: ' + new Date() );
 });
 
+app.get('/repos', function(req, res) {
+    mongoose.model( 'github_repos' ).find( function( err , repos ) {
+        res.send( repos );
+    });
+});
 
 /*
 //load all files in models dir
