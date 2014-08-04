@@ -26,9 +26,14 @@ var server = net.createServer( function( socket ) {
     socket.write(getDateTime() + '\n');
     socket.end();
 });
-server.listen(listenOnPort);
+server.listen( listenOnPort , function() {
+    console.log('Server listening on port', server.address().port );
+});
 
-//console.log('Server listening on port', server.address().port );
+// To-Test:
+// 0. node time_server.js 8000
+// 1. curl http://localhost:8000
+// 2. telnet localhost 8000
 
 // OFFICIAL SOLUTION
 //
