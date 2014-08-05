@@ -10,6 +10,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var http = require('http');
 var mongoose = require('mongoose');
+var fs = require('fs');
 
 var routes = require('./routes/index');
 // var users = require('./routes/users');
@@ -35,8 +36,12 @@ if ('development' == app.get('env')) {
     mongoose.connect('mongodb://guest:guest@ds053439.mongolab.com:53439/node_demo');
 }
 
-mongoose.model( 'contacts' , { name : String } );
-mongoose.model( 'github_repos' , { name : String } );
+// load all files in modules directory
+fs.readdirSync( __dirname + '/models').forEach( function( filename ) {
+    if (~filename.indexOf( '.js' )) {
+        require( __dirname + '/models/' + filename );
+    }
+});
 
 app.get('/users', function(req, res) {
     mongoose.model( 'contacts' ).find( function( err , contacts ) {
