@@ -12,9 +12,18 @@ writeStream.write( ' mirro ');
 setTimeout( function(  ) {
     writeStream.end( 'is me' );
 
+    var errorOccurred = false;
+
     console.log( '\n%s:' , outputFilename );
-    var cat = spawn( 'cat' , [ outputFilename ]);
+    var cat = spawn( 'cat' , [ outputFilename /*+ 'InvokeStderr'*/ ]);
     cat.stdout.on( 'data' , function( data ) {
+        process.stdout.write( data.toString() );
+    });
+    cat.stderr.on( 'data' , function( data ) {
+        if ( !errorOccurred ) {
+            errorOccurred = true;
+            process.stdout.write( 'STDERR: ' );
+        }
         process.stdout.write( data.toString() );
     });
     cat.on( 'close' , function( exitCode ) {
