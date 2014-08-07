@@ -10,7 +10,7 @@ writeStream.write( 'bob' );
 writeStream.write( ' mirro ');
 
 setTimeout( function(  ) {
-    writeStream.end( 'is me' );
+    writeStream.end( 'is me\n' );
 
     var errorOccurred = false;
 
@@ -27,7 +27,7 @@ setTimeout( function(  ) {
         process.stdout.write( data.toString() );
     });
     cat.on( 'close' , function( exitCode ) {
-        process.stdout.write( '\n' );
+        process.stdout.write( '\nexit code: ' + exitCode );
     });
 
 } , 1000 );
