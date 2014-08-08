@@ -36,16 +36,19 @@ if ('development' == app.get('env')) {
     mongoose.connect('mongodb://guest:guest@ds053439.mongolab.com:53439/node_demo');
 }
 
-// load all files in modules directory
+// load all files in models directory
 fs.readdirSync( __dirname + '/models').forEach( function( filename ) {
 //    console.log( 'filename: ' , filename );
     if (~filename.indexOf( '.js' )) {
         require( __dirname + '/models/' + filename );
     }
 });
-
-app.get('/users', function(req, res) {
-    mongoose.model( 'contacts' ).find( function( err , contacts ) {
+// /:contactId
+// find users by contactId (contacts.index)
+//   ex: localhost/users/4
+app.get('/users/:contactId', function(req, res) {
+//    console.log( 'params:' , req.params.contactId );
+    mongoose.model( 'contacts' ).find( { index: parseInt(req.params.contactId) } , function( err , contacts ) {
 //        res.writeHead( 200, {  } );
         res.set( 'Content-Type' , 'application/json; charset=utf-8' );  // pretty-print
         res.send( JSON.stringify( contacts , null , ' ' ) /*contacts*/ );
