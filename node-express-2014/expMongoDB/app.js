@@ -38,6 +38,7 @@ if ('development' == app.get('env')) {
 
 // load all files in modules directory
 fs.readdirSync( __dirname + '/models').forEach( function( filename ) {
+//    console.log( 'filename: ' , filename );
     if (~filename.indexOf( '.js' )) {
         require( __dirname + '/models/' + filename );
     }
@@ -55,28 +56,6 @@ app.get('/repos', function(req, res) {
         res.send( repos );
     });
 });
-
-/*
-//load all files in models dir
-fs.readdirSync(__dirname + '/models').forEach(function(filename) {
-    if (~filename.indexOf('.js')) require(__dirname + '/models/' + filename)
-});
-
-
-app.get('/users', function(req, res) {
-    mongoose.model('users').find(function(err, users) {
-        res.send(users);
-    });
-});
-
-app.get('/posts/:userId', function(req, res) {
-    mongoose.model('posts').find({user: req.params.userId}, function(err, posts) {
-        mongoose.model('posts').populate(posts, {path: 'user'}, function(err, posts) {
-            res.send(posts);
-        });
-    });
-});
-*/
 
 
 http.createServer(app).listen(app.get('port'), function(){
