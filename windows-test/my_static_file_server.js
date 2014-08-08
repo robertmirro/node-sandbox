@@ -1,6 +1,9 @@
 var express = require('express'),
     app = express();
 
+// tell express to server files from the /public directory
+// but make it appear as though they are being servered from
+// the root directory (see "test" below)
 app.use(express.static(__dirname + '/public'));
 //app.use(express.static(__dirname + '/'));
 
