@@ -46,14 +46,17 @@ fs.readdirSync( __dirname + '/models').forEach( function( filename ) {
 
 app.get('/users', function(req, res) {
     mongoose.model( 'contacts' ).find( function( err , contacts ) {
-        res.send( contacts );
+//        res.writeHead( 200, {  } );
+        res.set( 'Content-Type' , 'application/json; charset=utf-8' );  // pretty-print
+        res.send( JSON.stringify( contacts , null , ' ' ) /*contacts*/ );
     });
 //    res.send( 'ok: ' + new Date() );
 });
 
 app.get('/repos', function(req, res) {
     mongoose.model( 'github_repos' ).find( function( err , repos ) {
-        res.send( repos );
+        res.set( 'Content-Type' , 'application/json; charset=utf-8' ); // pretty-print
+        res.send( JSON.stringify( repos , null , ' ' ) /*repos*/ );
     });
 });
 
