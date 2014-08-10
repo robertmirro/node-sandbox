@@ -1,9 +1,18 @@
+//
+// http://cwbuecheler.com/web/tutorials/2013/node-express-mongo/
+//
+// $ DEBUG=node-express-jade-mongo npm start
+//
 var express = require('express');
 var path = require('path');
 var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+
+var mongodb = require('mongodb');
+var monk = require('monk');
+var db = monk('localhost:27017/node_test');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -20,6 +29,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// enable the db to be accessible to the router
+app.use( function ( request , response , nextCb ) {
+    request.db = db;
+    nextCb();
+})
 
 app.use('/', routes);
 app.use('/users', users);
@@ -54,6 +69,5 @@ app.use(function(err, req, res, next) {
         error: {}
     });
 });
-
 
 module.exports = app;
