@@ -1,3 +1,8 @@
+//
+// http://cwbuecheler.com/web/tutorials/2014/restful-web-app-node-express-mongodb/
+//
+// $ DEBUG=rest-api-node-express-mongo npm start
+//
 var express = require('express');
 var path = require('path');
 var favicon = require('static-favicon');
