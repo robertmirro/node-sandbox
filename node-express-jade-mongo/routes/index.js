@@ -41,8 +41,11 @@ router.post('/adduser', function(req, res) {
             email: userEmail
         } ,
         function (err, document) {
-            console.log( 'ERROR:' , err );
-//            res.send( 'Uh oh...' );
+            if ( err ) {
+                return res.send( 'Error: Failed to create new user.' );
+            }
+
+            // reset browser address bar location and send user to user list page
             res.location( 'users' );
             res.redirect( 'users' );
         }
