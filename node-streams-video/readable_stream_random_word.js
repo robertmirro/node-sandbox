@@ -15,7 +15,9 @@ function randomWordStream( maxWords ) {
 //    console.log( '%s words' , words.length );
     var currentWord = 0;
 
+    // define read functionality that will be invoked when read stream is piped
     rs._read = function( size ) {
+//        console.log( 'currentWord:' , currentWord );
         if ( currentWord >= maxWords ) {
             // null terminator to inform consumer that data is done being output
             return rs.push( null );
@@ -35,5 +37,11 @@ function randomWordStream( maxWords ) {
 
 // pass maxWords as a command line arg
 var rws = randomWordStream( process.argv[2] );
+console.log( 'About to begin piping read stream to stdout...' );
 rws.pipe( process.stdout );
 
+// test - display 10 words:
+// $ node readable_stream_random_word.js 10
+//
+// test - display words infinitely -
+// $ node readable_stream_random_word.js
