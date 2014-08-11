@@ -34,12 +34,14 @@ function randomWordStream( maxWords ) {
 }
 
 function writeWordStream() {
-    var ws = stream.Writable();
+    var ws = stream.Writable()
+    // define write functionality that will be invoked when data is piped to write stream
     ws._write = function( dataChunk , encoding , nextCb ) {
         console.log( dataChunk.toString() );
 
         // inform producer we are ready for next dataChunk
         // nextCb();
+        // use setTimeout() mainly to simulate a delay for concurrency testing purposes
         setTimeout( nextCb , 500 );
     };
     return ws;
@@ -48,5 +50,11 @@ function writeWordStream() {
 // pass maxWords as a command line arg
 var rws = randomWordStream( process.argv[2] );
 var wws = writeWordStream();
+console.log( 'About to begin piping read stream to write stream...' );
 rws.pipe( wws );
 
+// test - display 10 words:
+// $ node readable_writable_stream_random_word.js 10
+//
+// test - display words infinitely -
+// $ node readable_writable_stream_random_word.js
