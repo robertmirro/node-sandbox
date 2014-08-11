@@ -51,9 +51,11 @@ function writeWordStream() {
 function transformWordStream() {
     var ts = stream.Transform();
     ts._transform = function( dataChunk , encoding , nextCb ) {
+//        console.log( 'chunk: %s\n' , dataChunk.toString() + '(' + ')' );
         // transform pass-thru data to UPPERCASE and push it out to write stream
-        // display original word text in parens
-        ts.push( dataChunk.toString().toUpperCase() + ' (' + dataChunk.toString().split( ' ')[1] + ')' );
+        // display original word text in parens (split word from index + word)
+        var wordString = dataChunk.toString().trim();
+        ts.push( wordString.toUpperCase() + ' (' + wordString.split(' ')[1] + ')' );
 
         // simulate a delay and illustrate async processing
         // inform producer we are ready for next dataChunk
@@ -69,3 +71,8 @@ var wws = writeWordStream();
 var tws = transformWordStream();
 rws.pipe( tws ).pipe( wws );
 
+// test - display 10 words:
+// $ node readable_writable_transform_stream_random_word.js 10
+//
+// test - display words infinitely -
+// $ node readable_writable_transform_stream_random_word.js
