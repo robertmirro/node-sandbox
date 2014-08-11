@@ -10,6 +10,10 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+// use mongoskin to connect/interact with mongodb locally
+var mongo = require('mongoskin');
+var db = mongo.db( 'mongodb://localhost:27017/node_test_api' , { native_parser : true } );
+
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
@@ -25,6 +29,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// enable the db to be accessible to the router
+app.use( function( request , response , nextCb ) {
+    request.db = db;
+    nextCb();
+})
 
 app.use('/', routes);
 app.use('/users', users);

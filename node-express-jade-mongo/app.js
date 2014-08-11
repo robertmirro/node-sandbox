@@ -31,7 +31,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // enable the db to be accessible to the router
-app.use( function ( request , response , nextCb ) {
+app.use( function( request , response , nextCb ) {
     request.db = db;
     nextCb();
 })
