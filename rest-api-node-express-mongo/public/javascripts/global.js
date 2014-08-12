@@ -6,6 +6,9 @@ $( document ).ready( function() {
     // attach click handler to all username links to display user details
     $( '#userList table tbody' ).on( 'click' , 'td a.linkshowuser' , showUserInfo );
 
+    // attach click handler to all username links to display user details
+    $( '#userList table tbody' ).on( 'click' , 'td a.linkdeleteuser' , deleteUser );
+
     // add user button click handler to post to /users/adduser
     $( '#btnAddUser' ).on( 'click' , addUser );
 });
@@ -77,24 +80,41 @@ function addUser( event ) {
         'gender': $('#inputUserGender').val()
     }
 
-    // Use AJAX to post the object to our adduser service
     $.ajax({
         type: 'POST',
         data: newUser,
         url: '/users/adduser',
         dataType: 'JSON'
     }).done( function( response ) {
-        // Check for successful (blank) response
         if ( response.msg === '' ) {
             // Clear the form inputs
             $( '#addUser fieldset input' ).val('');
 
-            // Update the table
             populateTable();
         }
         else {
-            // If something goes wrong, alert the error message that our service returned
             alert( 'Error: ' + response.msg );
         }
     });
 }
+
+function deleteUser(event) {
+    event.preventDefault();
+
+    if ( confirm( 'Are you sure you want to delete this user?' ) ) {
+        $.ajax({
+            type: 'DELETE',
+            url: '/users/deleteuser/' + $(this).attr('rel')
+        }).done(function( response ) {
+            // Check for a successful (blank) response
+            if (response.msg === '') {
+            }
+            else {
+                alert( 'Error: ' + response.msg );
+            }
+
+            populateTable();
+        });
+
+    }
+};

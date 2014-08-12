@@ -16,4 +16,11 @@ router.post( '/adduser' , function( req , res ) {
     });
 })
 
+// DELETE from user list, remove user from DB
+router.delete( '/deleteuser/:userid' , function( req , res ) {
+    req.db.collection( 'users' ).removeById( req.params.userid , function( err , result ) {
+        res.send( { msg : ( result === 1 ? '' : 'error: ' + err ) } );
+    });
+})
+
 module.exports = router;
