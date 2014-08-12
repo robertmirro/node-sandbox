@@ -2,6 +2,7 @@
 // http://cwbuecheler.com/web/tutorials/2014/restful-web-app-node-express-mongodb/
 //
 // $ DEBUG=rest-api-node-express-mongo npm start
+// $ DEBUG=rest-api-node-express-mongo nodemon ./bin/www
 //
 var express = require('express');
 var path = require('path');
