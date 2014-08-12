@@ -44,7 +44,7 @@ function showUserInfo( event ) {
     var arrayIndex = userListData.map( function( userObject ) {
         return userObject.username;
     }).indexOf( thisUserName );
-    console.log( 'username: %s , index: %s' , thisUserName , arrayIndex );
+//    console.log( 'username: %s , index: %s' , thisUserName , arrayIndex );
 
     var thisUserObject = userListData[ arrayIndex ];
 
@@ -63,19 +63,18 @@ function addUser( event ) {
             errorCount++;
         }
     });
-
     if( errorCount !== 0 ) {
         return alert( 'Please fill in all fields' );
     }
 
     // If it is, compile all user info into one object
     var newUser = {
-        'username': $('#addUser fieldset input#inputUserName').val(),
-        'email': $('#addUser fieldset input#inputUserEmail').val(),
-        'fullname': $('#addUser fieldset input#inputUserFullName').val(),
-        'age': $('#addUser fieldset input#inputUserAge').val(),
-        'location': $('#addUser fieldset input#inputUserLocation').val(),
-        'gender': $('#addUser fieldset input#inputUserGender').val()
+        'username': $('#inputUserName').val(),
+        'email': $('#inputUserEmail').val(),
+        'fullname': $('#inputUserFullName').val(),
+        'age': $('#inputUserAge').val(),
+        'location': $('#inputUserLocation').val(),
+        'gender': $('#inputUserGender').val()
     }
 
     // Use AJAX to post the object to our adduser service
