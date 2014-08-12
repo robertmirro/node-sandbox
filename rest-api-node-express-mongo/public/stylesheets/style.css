@@ -56,6 +56,10 @@ a {
 		background:rgba(80,120,255,0.05);
 	}
 
+    #userInfo span {
+        margin-left: 4px;
+    }
+
 fieldset {
 	border:0;
 	padding:0; margin:0;
