@@ -22,7 +22,31 @@ block content
                 br
                 strong Location:
                 | <span id='userLocation'></span>
+                br
+                br
+                button#btnUpdateUser Update User
         // /USER INFO
+
+        // USER INFO DETAILS
+        #userInfoDetails
+            h2 User Info
+            p
+                label(for='inputUpdateUserFullName') <strong>Name:</strong>
+                input#inputUpdateUserFullName(type='text', placeholder='Name')
+                br
+                label(for='inputUpdateUserAge') <strong>Age:</strong>
+                input#inputUpdateUserAge(type='text', placeholder='Age')
+                br
+                label(for='inputUpdateUserGender') <strong>Gender:</strong>
+                input#inputUpdateUserGender(type='text', placeholder='Gender')
+                br
+                label(for='inputUpdateUserLocation') <strong>Location:</strong>
+                input#inputUpdateUserLocation(type='text', placeholder='Location')
+                br
+                br
+                button#btnCancelUpdate Cancel Update
+                button#btnSaveUserInformation Save User Information
+        // /USER INFO DETAIL
 
         // USER LIST
         h2 User List

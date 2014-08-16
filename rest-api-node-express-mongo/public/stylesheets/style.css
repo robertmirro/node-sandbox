@@ -16,7 +16,7 @@ a {
 }
 
 #wrapper {
-	padding-left:312px;
+	padding-left:350px;
 	position:relative;
 }
 
@@ -46,7 +46,8 @@ a {
 			}
 
 #userInfo {
-	width:250px;
+    display: none;
+	width:300px;
 	position:absolute;
 	top:0; left:0;
 }
@@ -56,8 +57,43 @@ a {
 		background:rgba(80,120,255,0.05);
 	}
 
+    #userInfo strong {
+        display: block;
+        float: left;
+        clear: left;
+        width: 70px;
+        line-height: 26px;
+    }
+
     #userInfo span {
-        margin-left: 4px;
+/*        margin-left: 4px;*/
+        line-height: 26px;
+    }
+
+#userInfoDetails {
+    display: none;
+    width: 300px;
+    position: absolute;
+    top: 200;
+    left: 0;
+}
+
+    #userInfoDetails p {
+        padding:15px;
+        border:1px solid #CCC;
+        background:rgba(80,120,255,0.05);
+    }
+
+    #userInfoDetails label {
+        display: block;
+        float: left;
+        clear: left;
+        width: 70px;
+        line-height: 26px;
+    }
+
+    #userInfoDetails input {
+        /*line-height: 25px;*/
     }
 
 fieldset {

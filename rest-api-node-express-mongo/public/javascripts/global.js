@@ -9,6 +9,12 @@ $( document ).ready( function() {
     // attach click handler to all username links to display user details
     $( '#userList table tbody' ).on( 'click' , 'td a.linkdeleteuser' , deleteUser );
 
+    // update user button
+    $( '#btnUpdateUser' ).on( 'click' , updateUser );
+
+    // cancel update button
+    $( '#btnCancelUpdate' ).on( 'click' , cancelUpdate );
+
     // add user button click handler to post to /users/adduser
     $( '#btnAddUser' ).on( 'click' , addUser );
 });
@@ -41,6 +47,9 @@ function showUserInfo( event ) {
     // prevent link from firing
     event.preventDefault();
 
+    $( '#userInfo' ).show();
+    $( '#userInfoDetails' ).hide();
+
     var thisUserName = $( this ).attr( 'rel' );
 
     // map all usernames to array, find index of this username
@@ -55,6 +64,20 @@ function showUserInfo( event ) {
     $( '#userAge' ).text( thisUserObject.age );
     $( '#userGender' ).text( thisUserObject.gender );
     $( '#userLocation' ).text( thisUserObject.location );
+}
+
+function updateUser( event ) {
+    event.preventDefault();
+
+    $( '#userInfoDetails' ).show();
+    $( '#userInfo' ).hide();
+}
+
+function cancelUpdate( event ) {
+    event.preventDefault();
+
+    $( '#userInfo' ).show();
+    $( '#userInfoDetails' ).hide();
 }
 
 function addUser( event ) {
