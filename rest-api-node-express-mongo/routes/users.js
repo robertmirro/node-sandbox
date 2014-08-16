@@ -11,8 +11,16 @@ router.get( '/userlist' , function ( req , res ) {
 
 // POST from add user, insert into DB
 router.post( '/adduser' , function( req , res ) {
+    console.log( 'req.body:' , req.body );
     req.db.collection( 'users' ).insert( req.body , function( err , result ) {
         res.send( { msg : ( err === null ? '' : err ) } );
+    });
+})
+
+// PUT from save user information, update user in DB
+router.put( '/updateuser/:userid' , function( req , res ) {
+    req.db.collection( 'users' ).updateById( req.params.userid , { $set: req.body } , function( err , result ) {
+        res.send( { msg : ( result === 1 ? '' : 'error: ' + err ) } );
     });
 })
 

@@ -42,6 +42,9 @@ span.userEmail::before {
 span.userEmail::after {
     content: ">";
 }
+span#userId {
+    display: none;
+}
 
 span.data {
     background-color: #EEE;
@@ -88,6 +91,7 @@ span.data {
 		padding:15px;
 		border:1px solid #CCC;
 		background:rgba(80,120,255,0.05);
+        margin-top: 0px;
 	}
 
     #userInfo strong {
@@ -116,6 +120,7 @@ span.data {
         padding:15px;
         border:1px solid #CCC;
         background:rgba(80,120,255,0.05);
+        margin-top: 0px;
     }
 
     #userInfoDetails label {

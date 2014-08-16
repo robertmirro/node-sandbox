@@ -15,17 +15,26 @@ $( document ).ready( function() {
     // cancel update button
     $( '#btnCancelUpdate' ).on( 'click' , cancelUpdate );
 
+    // save user information button
+    $( '#btnSaveUserInformation' ).on( 'click' , saveUserInformation );
+
     // add user button click handler to post to /users/adduser
     $( '#btnAddUser' ).on( 'click' , addUser );
 });
 
-function populateTable() {
+function populateTable( userInformationUpdated ) {
     var tableRow = '<tr>' +
             '<td><a href="#" class="linkshowuser" rel="#USERNAME#" title="Show Details">#USERNAME#</a></td>' +
             '<td>#EMAIL#</td>' +
             '<td><a href="#" class="linkdeleteuser" rel="#_ID#">delete</a></td>' +
             '</tr>' ,
         tableContent = '';
+
+    // if user information was not just updated, hide user info section of ui
+    if ( !userInformationUpdated ) {
+        $( '#userInfo' ).hide();
+        $( '#userInfoDetails' ).hide();
+    }
 
     $.getJSON( '/users/userlist' , function( data ) {
 //        console.log( 'json data:' , data );
@@ -63,6 +72,7 @@ function showUserInfo( event ) {
     console.log( thisUserObject );
     $( 'span.userName' ).text( thisUserObject.username );
     $( 'span.userEmail' ).text( thisUserObject.email );
+    $( 'span#userId' ).text( thisUserObject._id );
 
     $( '#userFullName' ).text( thisUserObject.fullname );
     $( '#userAge' ).text( thisUserObject.age );
@@ -87,6 +97,55 @@ function cancelUpdate( event ) {
 
     $( '#userInfo' ).show();
     $( '#userInfoDetails' ).hide();
+
+    $('#inputUpdateUserFullName').val( $( '#userFullName' ).text() ),
+    $('#inputUpdateUserAge').val( $( '#userAge' ).text() ),
+    $('#inputUpdateUserGender').val( $( '#userGender' ).text() ),
+    $('#inputUpdateUserLocation').val( $( '#userLocation' ).text() )
+}
+
+function saveUserInformation( event ) {
+    event.preventDefault();
+
+    var errorCount = 0;
+    $( '#userInfoDetails input' ).each( function( index , val ) {
+        if( $(this).val() === '' ) {
+            errorCount++;
+        }
+    });
+    if( errorCount !== 0 ) {
+        return alert( 'Please fill in all fields' );
+    }
+
+    var userUpdates = {
+        'fullname': $('#inputUpdateUserFullName').val(),
+        'age': $('#inputUpdateUserAge').val(),
+        'location': $('#inputUpdateUserLocation').val(),
+        'gender': $('#inputUpdateUserGender').val()
+    }
+
+    $.ajax({
+        type: 'PUT',
+        data: userUpdates,
+        url: '/users/updateuser/' + $( 'span#userId' ).text(),
+        dataType: 'JSON'
+    }).done( function( response ) {
+        if ( response.msg === '' ) {
+            $( '#userFullName' ).text( userUpdates.fullname );
+            $( '#userAge' ).text( userUpdates.age );
+            $( '#userGender' ).text( userUpdates.gender );
+            $( '#userLocation' ).text( userUpdates.location );
+
+            $( '#userInfo' ).show();
+            $( '#userInfoDetails' ).hide();
+
+            populateTable( true );
+        }
+        else {
+            alert( 'Error: ' + response.msg );
+        }
+    });
+
 }
 
 function addUser( event ) {
