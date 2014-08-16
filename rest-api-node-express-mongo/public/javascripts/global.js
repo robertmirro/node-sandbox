@@ -60,10 +60,19 @@ function showUserInfo( event ) {
 
     var thisUserObject = userListData[ arrayIndex ];
 
+    console.log( thisUserObject );
+    $( 'span.userName' ).text( thisUserObject.username );
+    $( 'span.userEmail' ).text( thisUserObject.email );
+
     $( '#userFullName' ).text( thisUserObject.fullname );
     $( '#userAge' ).text( thisUserObject.age );
     $( '#userGender' ).text( thisUserObject.gender );
     $( '#userLocation' ).text( thisUserObject.location );
+
+    $( '#inputUpdateUserFullName' ).val( thisUserObject.fullname );
+    $( '#inputUpdateUserAge' ).val( thisUserObject.age );
+    $( '#inputUpdateUserGender' ).val( thisUserObject.gender );
+    $( '#inputUpdateUserLocation' ).val( thisUserObject.location );
 }
 
 function updateUser( event ) {

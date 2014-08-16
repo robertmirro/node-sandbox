@@ -16,8 +16,31 @@ a {
 }
 
 #wrapper {
-	padding-left:350px;
+	padding-left:400px;
 	position:relative;
+}
+
+#userInfo span.userName,
+#userInfo span.userEmail,
+#userInfoDetails span.userName,
+#userInfoDetails span.userEmail
+{
+    line-height: 40px;
+}
+span.userName {
+    font-weight: bold;
+}
+span.userName , span.userEmail {
+    font-size: 18px;
+    font-style: italic;
+    color: #36C;
+}
+span.userEmail::before {
+    content: "<";
+    margin-left: 4px;
+}
+span.userEmail::after {
+    content: ">";
 }
 
 #userList {
@@ -47,9 +70,11 @@ a {
 
 #userInfo {
     display: none;
-	width:300px;
+	width:350px;
 	position:absolute;
-	top:0; left:0;
+	top:0; 
+    left:0;
+    overflow: hidden;
 }
 	#userInfo p {
 		padding:15px;
@@ -72,10 +97,11 @@ a {
 
 #userInfoDetails {
     display: none;
-    width: 300px;
+    width: 350px;
     position: absolute;
-    top: 200;
+    top: 0;
     left: 0;
+    overflow: hidden;
 }
 
     #userInfoDetails p {

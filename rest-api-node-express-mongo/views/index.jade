@@ -11,6 +11,9 @@ block content
         #userInfo
             h2 User Info
             p
+                span.userName
+                span.userEmail
+                br
                 strong Name:
                 | <span id='userFullName'></span>
                 br
@@ -31,6 +34,9 @@ block content
         #userInfoDetails
             h2 User Info
             p
+                span.userName
+                span.userEmail
+                br
                 label(for='inputUpdateUserFullName') <strong>Name:</strong>
                 input#inputUpdateUserFullName(type='text', placeholder='Name')
                 br
