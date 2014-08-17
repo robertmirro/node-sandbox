@@ -58,38 +58,30 @@ function puzzleIsSolved( puzzle2dArray ) {
     var correctSolution = 0;
     for ( var i = 1; i <= puzzleSize; i++ ) {
         correctSolution += i;
-//         console.log( 'i:%s = %s' , i , correctSolution );
     }
 
-//    console.log( 'puzzleSize:%s , correctSolution:%s' , puzzleSize , correctSolution );
+    for ( var column = 0; column < puzzleSize; column++ ) {
+        var puzzleSolution;
 
-    // solved horizontally
-    for ( var i = 0; i < puzzleSize; i++ ) {
-//         console.log( 'i:%s ' , i , puzzle2dArray[ i ] );
-        var puzzleSolution = puzzle2dArray[ i ].reduce( function( previousValue , currentValue , index , array ) {
-//            console.log( 'typeof previousValue:%s' , typeof previousValue );
+        // solved horizontally
+        puzzleSolution = puzzle2dArray[ column ].reduce( function( previousValue , currentValue , index , array ) {
             return +previousValue + +currentValue;
         });
-//        console.log( 'horizontal %s:%s' , i , puzzleSolution );
         if ( puzzleSolution !== correctSolution ) {
             return false;
         }
-    }
 
-    // solved vertically
-    for ( var column = 0; column < puzzleSize; column++ ) {
-        var puzzleSolution = 0;
+        // solved vertically
+        puzzleSolution = 0;
         for ( var row = 0; row < puzzleSize; row++ ) {
-//             console.log( 'puzzle2dArray[row][column]:' , puzzle2dArray[row][column] );
             puzzleSolution += +puzzle2dArray[row][column];
         }
-//        console.log( 'vertical %s:%s' , column , puzzleSolution );
         if ( puzzleSolution !== correctSolution ) {
             return false;
         }
     }
 
-//    return Math.round( Math.random() );
+    // return Math.round( Math.random() );
     return true;
 }
 
