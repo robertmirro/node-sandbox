@@ -1,0 +1,15 @@
+{
+  "name": "verify-suduko-with-streams",
+  "version": "0.0.0",
+  "description": "",
+  "main": "validate_suduko.js",
+  "dependencies": {
+    "through": "^2.3.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "RJM",
+  "license": "MIT"
+}
