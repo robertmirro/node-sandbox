@@ -1,0 +1,6 @@
+
+mklink /H C:\Dev\GitRepos\node-sandbox\nodeschool.io\stream-adventure\completed.json C:\Users\dev\.config\stream-adventure\completed.json
+
+C:\Dev\Db\MongoDB>fsutil hardlink list completed.json
+\Users\dev\.config\stream-adventure\completed.json
+\Dev\GitRepos\node-sandbox\nodeschool.io\stream-adventure\completed.json
