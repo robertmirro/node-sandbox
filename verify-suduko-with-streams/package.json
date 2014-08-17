@@ -4,6 +4,7 @@
   "description": "",
   "main": "validate_suduko.js",
   "dependencies": {
+    "split": "^0.3.0",
     "through": "^2.3.4"
   },
   "devDependencies": {},
