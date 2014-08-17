@@ -1,0 +1,6 @@
+
+mklink /H C:\Dev\GitRepos\node-sandbox\nodeschool.io\learnyounode\completed.json C:\Users\dev\.config\learnyounode\completed.json
+
+C:\Dev\Db\MongoDB>fsutil hardlink list completed.json
+\Users\dev\.config\learnyounode\completed.json
+\Dev\GitRepos\node-sandbox\nodeschool.io\learnyounode\completed.json
