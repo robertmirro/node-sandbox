@@ -43,9 +43,12 @@ function transformStreamProblem() {
 
 function transformStreamSolution() {
     var ts = stream.Transform( { objectMode : true } );
-    ts._transform = function( dataChunk , encoding , nextCb ) {
-//        console.log( 'Solution:' , dataChunk );
-        ts.push( dataChunk /* + ' (S)' */ /* + '\n' */ );
+    ts._transform = function( dataPuzzle , encoding , nextCb ) {
+//        console.log( 'Solution:' , dataPuzzle );
+
+        // TODO: Solve puzzle
+
+        ts.push( Math.round( Math.random() ) );
         nextCb();
     };
     return ts;
@@ -53,11 +56,13 @@ function transformStreamSolution() {
 
 function transformStreamFormat() {
     var ts = stream.Transform( { objectMode : true } );
-    ts._transform = function( dataChunk , encoding , nextCb ) {
-//        console.log( 'Format:' , dataChunk );
-        ts.push( dataChunk  /* + ' (F)' */ + '\n' );
+    ts._transform = function( dataSolution , encoding , nextCb ) {
+//        console.log( 'Format:' , dataSolution );
+        this.puzzleNumber++;
+        ts.push( 'Puzzle# ' + this.puzzleNumber + ': ' + ( dataSolution ? 'Yes' : 'No' )  + '\n' );
         nextCb();
     };
+    ts.puzzleNumber = 0;
     return ts;
 }
 
