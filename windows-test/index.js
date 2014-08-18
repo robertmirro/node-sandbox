@@ -7,7 +7,18 @@ app.get('/', function(req, res) {
 
 //app.listen(3000);
 
-var server = app.listen(3000, function() {
-//app.listen(3000, function() {
-    console.log('Listening on port %d... CTRL+C to end process', server.address().port);
+// capture server instance via var
+//var server = app.listen(3000, function() {
+//    console.log('Listening on port %d... CTRL+C to end server', server.address().port);
+//});
+
+// reference server instance via this
+app.listen(3000, function() {
+    console.log('Listening on port %d... CTRL+C to end this', this.address().port);
 });
+
+//
+// to test:
+//   1. start server: node .
+//   2. send web request to server:  curl http://localhost:3000
+//
