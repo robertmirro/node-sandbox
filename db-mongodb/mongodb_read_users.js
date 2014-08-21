@@ -1,6 +1,6 @@
-var MongoClient = require('mongodb').MongoClient;
+var mongodb = require('mongodb');
 
-MongoClient.connect( 'mongodb://localhost:27017/node_test' , function( err , db ) {
+mongodb.MongoClient.connect( 'mongodb://localhost:27017/node_test' , function( err , db ) {
     if ( err ) {
         throw err;
     }
