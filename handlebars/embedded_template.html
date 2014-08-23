@@ -3,33 +3,93 @@
     <head>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script type="text/javascript" src="./handlebars-v1.3.0.js"></script>
-        
+
+        <script id="uiTemplate" type="text/x-handlebars-template">
+            <div class="templateBodyItem {{ templateBodyItemClass }}">
+                {{ templateBodyItem }}
+                <div class="templateBodyItemFooter">{{ templateBodyFooter }}</div>
+            </div>
+        </script>
+
         <script type="text/javascript">
             (function( $ ) {
+                function renderTemplate() {
+                    var textName = $( '#textIdName' ).val();
+                    if ( textName == '' ) {
+                        return alert( 'Please enter a name.' );
+                    }
+
+                    var totalTemplateBodyItems = $( '.templateBodyItem' ).length;
+
+                    var templateBodyObject = {
+                        templateBodyItemClass : ( totalTemplateBodyItems % 2 ? 'templateBodyItemColor' : '' ),
+                        templateBodyItem : textName,
+                        templateBodyFooter : new Date()                                    
+                    };
+
+                    var renderTemplateHtml = Handlebars.compile( $( '#uiTemplate' ).html() );
+                    var templateHtml = renderTemplateHtml( templateBodyObject );
+
+                    if ( totalTemplateBodyItems <= 0) {
+                        $( '#templateOutputContainer' ).show();
+                    }    
+                    $( '#templateBody' ).prepend( templateHtml );
+                    $( '#textIdName' ).val('')
+                }
+
                 $( document ).ready( function() {
                     $( '#buttonIdSave' ).on( 'click' , function( e ) {
-                        console.log( 'clicked me... form: %s -' , this.form.name , new Date() );
-                        console.log( 'search for: %s' , document.formName.buttonNameSave.value );
-                        console.dir( document );
-                        // console.dir( this );
+                        renderTemplate();
                     });
                 });
-
             })( jQuery );
         </script>
+
+        <link rel="stylesheet" type="text/css" href="./normalize.css" >
+
+        <style type="text/css">
+            body {
+                padding: 20px;
+            }
+            #templateOutputContainer {
+                margin-top: 20px;
+                border: 1px solid #EBEBEB;
+                display: none;                    
+            }
+            #templateHeader {
+                padding: 4px;      
+                background-color: #EBDBDB;
+                font-weight: bold;
+            }
+            #templateBody {
+                padding: 4px;            
+            }
+            .templateBodyItem {
+                padding: 4px;
+            }
+            .templateBodyItemFooter {
+                margin-top: 4px;
+                font-style: italic;
+                font-size: 10px;
+                color: #666;
+            }
+            .templateBodyItemColor {
+                background-color: #F8F8F8;
+            }
+        </style>
     
     </head>
     <body>
         <h1>Handlebars - Embedded Template</h1>
+
         <form name="formName" id="formId">
-            <input type="text" id="textIdName" name="textNameName" />
-            <input type="text" id="textIdEmail" name="textNameEmail" />
+            <input type="text" id="textIdName" name="textNameName" placeholder="name" />
             <input type="button" id="buttonIdSave" name="buttonNameSave" value="Save" />
         </form>
 
-        <form name="formNameUnused" id="formIdUnused" style="display:none;">
-            <input type="text" id="textIdUnused" name="textNameUnused" />
-        </form>
-
+        <div id="templateOutputContainer">
+            <div id="templateHeader">Template Output:</div>
+            <div id="templateBody"></div>
+        </div>
     </body>
 </html>
