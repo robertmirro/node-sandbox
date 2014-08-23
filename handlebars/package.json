@@ -1,0 +1,18 @@
+{
+  "name": "handlebars",
+  "version": "0.0.0",
+  "description": "",
+  "main": "handlebars-v1.3.0.js",
+  "dependencies": {
+    "gulp": "^3.8.7",
+    "handlebars": "^2.0.0-alpha.4",
+    "hbsfy": "^2.0.0",
+    "jquery": "^2.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "RJM",
+  "license": "MIT"
+}
