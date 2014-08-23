@@ -36,7 +36,7 @@
                     }); 
 
                     var $templateBodyItem = $( '#templateBody .templateBodyItem' ).first();
-                    $templateBodyItem.slideDown( 'normal' ).css( { border : '1px solid rgba(' + getRGBA( '0' ) + ')' } );
+                    $templateBodyItem.slideDown( 'normal' );
                     $( { alpha : 0 } ).animate( { alpha : 1 } , {
                         duration : 1500 ,
                         step : function() {
@@ -90,6 +90,10 @@
             .templateBodyItem {
                 padding: 4px;
                 margin-top: 1px;
+                border: 1px solid rgba(0,0,0,0);
+                -webkit-border-radius: 10px;
+                -moz-border-radius: 10px;
+                border-radius: 10px;
             }
             .templateBodyItemFooter {
                 margin-top: 4px;
