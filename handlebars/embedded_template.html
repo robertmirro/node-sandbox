@@ -5,7 +5,7 @@
         <script type="text/javascript" src="./handlebars-v1.3.0.js"></script>
 
         <script id="uiTemplate" type="text/x-handlebars-template">
-            <div class="templateBodyItem {{ templateBodyItemClass }}">
+            <div class="templateBodyItem">
                 {{ templateBodyItem }}
                 <div class="templateBodyItemFooter">{{ templateBodyFooter }}</div>
             </div>
@@ -14,16 +14,17 @@
         <script type="text/javascript">
             (function( $ ) {
                 function renderTemplate() {
-                    var textName = $( '#textIdName' ).val();
-                    if ( textName == '' ) {
+                    var $textName = $( '#textIdName' );
+
+                    if ( $textName.val() == '' ) {
+                        $textName.focus();   
                         return alert( 'Please enter a name.' );
                     }
 
                     var totalTemplateBodyItems = $( '.templateBodyItem' ).length;
 
                     var templateBodyObject = {
-                        templateBodyItemClass : ( totalTemplateBodyItems % 2 ? 'templateBodyItemColor' : '' ),
-                        templateBodyItem : textName,
+                        templateBodyItem : $textName.val() ,
                         templateBodyFooter : new Date()                                    
                     };
 
@@ -34,13 +35,21 @@
                         $( '#templateOutputContainer' ).show();
                     }    
                     $( '#templateBody' ).prepend( templateHtml );
-                    $( '#textIdName' ).val('')
+                    $( '.templateBodyItem' ).each( function( index , element ) {
+                        index % 2 ? $( this ).addClass( 'templateBodyItemColor' ) : $( this ).removeClass( 'templateBodyItemColor' ) ;
+                    }); 
+                    $textName.val('');
+                    $textName.focus();
                 }
 
                 $( document ).ready( function() {
+                    $( 'form' ).submit( function ( e ) {
+                        e.preventDefault();
+                    });
                     $( '#buttonIdSave' ).on( 'click' , function( e ) {
                         renderTemplate();
                     });
+                    $( '#textIdName' ).focus();
                 });
             })( jQuery );
         </script>
@@ -88,7 +97,7 @@
         </form>
 
         <div id="templateOutputContainer">
-            <div id="templateHeader">Template Output:</div>
+            <div id="templateHeader">Names</div>
             <div id="templateBody"></div>
         </div>
     </body>
