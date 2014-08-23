@@ -5,7 +5,7 @@
         <script type="text/javascript" src="./handlebars-v1.3.0.js"></script>
 
         <script id="uiTemplate" type="text/x-handlebars-template">
-            <div class="templateBodyItem">
+            <div class="templateBodyItem" style="display:none;">
                 {{ templateBodyItem }}
                 <div class="templateBodyItemFooter">{{ templateBodyFooter }}</div>
             </div>
@@ -21,8 +21,6 @@
                         return alert( 'Please enter a name.' );
                     }
 
-                    var totalTemplateBodyItems = $( '.templateBodyItem' ).length;
-
                     var templateBodyObject = {
                         templateBodyItem : $textName.val() ,
                         templateBodyFooter : new Date()                                    
@@ -31,15 +29,31 @@
                     var renderTemplateHtml = Handlebars.compile( $( '#uiTemplate' ).html() );
                     var templateHtml = renderTemplateHtml( templateBodyObject );
 
-                    if ( totalTemplateBodyItems <= 0) {
-                        $( '#templateOutputContainer' ).show();
-                    }    
+                    $( '#templateOutputContainer' ).show();
                     $( '#templateBody' ).prepend( templateHtml );
                     $( '.templateBodyItem' ).each( function( index , element ) {
                         index % 2 ? $( this ).addClass( 'templateBodyItemColor' ) : $( this ).removeClass( 'templateBodyItemColor' ) ;
                     }); 
-                    $textName.val('');
-                    $textName.focus();
+
+                    var $templateBodyItem = $( '#templateBody .templateBodyItem' ).first();
+                    $templateBodyItem.slideDown( 'normal' ).css( { border : '1px solid rgba(' + getRGBA( '0' ) + ')' } );
+                    $( { alpha : 0 } ).animate( { alpha : 1 } , {
+                        duration : 1500 ,
+                        step : function() {
+                            $templateBodyItem.css( 'border-color' , 'rgba(' + getRGBA( this.alpha ) + ')' );
+                        } 
+                    }).animate( { alpha : 0 } , {
+                        duration : 500 ,
+                        step : function() {
+                            $templateBodyItem.css( 'border-color' , 'rgba(' + getRGBA( this.alpha ) + ')' );
+                        } 
+                    });
+
+                    $textName.val('').focus();
+                }
+
+                function getRGBA( alpha ) {
+                    return ' 201 , 100 , 100 , ' + alpha + ' ';
                 }
 
                 $( document ).ready( function() {
@@ -75,6 +89,7 @@
             }
             .templateBodyItem {
                 padding: 4px;
+                margin-top: 1px;
             }
             .templateBodyItemFooter {
                 margin-top: 4px;
