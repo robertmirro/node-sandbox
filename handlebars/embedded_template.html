@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script type="text/javascript" src="./handlebars-v1.3.0.js"></script>
+        
+        <script type="text/javascript">
+            (function( $ ) {
+                $( document ).ready( function() {
+                    $( '#buttonIdSave' ).on( 'click' , function( e ) {
+                        console.log( 'clicked me... form: %s -' , this.form.name , new Date() );
+                        console.log( 'search for: %s' , document.formName.buttonNameSave.value );
+                        console.dir( document );
+                        // console.dir( this );
+                    });
+                });
+
+            })( jQuery );
+        </script>
+    
+    </head>
+    <body>
+        <h1>Handlebars - Embedded Template</h1>
+        <form name="formName" id="formId">
+            <input type="text" id="textIdName" name="textNameName" />
+            <input type="text" id="textIdEmail" name="textNameEmail" />
+            <input type="button" id="buttonIdSave" name="buttonNameSave" value="Save" />
+        </form>
+
+        <form name="formNameUnused" id="formIdUnused" style="display:none;">
+            <input type="text" id="textIdUnused" name="textNameUnused" />
+        </form>
+
+    </body>
+</html>
