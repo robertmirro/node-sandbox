@@ -5,6 +5,7 @@
   "main": "handlebars-v1.3.0.js",
   "dependencies": {
     "gulp": "^3.8.7",
+    "gulp-browserify": "^0.5.0",
     "handlebars": "^2.0.0-alpha.4",
     "hbsfy": "^2.0.0",
     "jquery": "^2.1.1"
