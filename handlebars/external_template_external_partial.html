@@ -23,13 +23,17 @@
                     };
                     // console.log( 'templateBodyItemNumber:' , templateBodyObject.templateBodyItemNumber );
 
+                    //
+                    // NOTE: had to roll back to v1.3.0 to get partials to work, maybe @2.0.0-alpha.4 is broken OR partial functionality has changed
+                    //   1. $ npm install -g handlebars@1.3.0
+                    //   2. ./handlebars.runtime-v1.3.0.js
+                    //
                     // reference external "name_with_partial" template that was compiled from "name_with_partial.handlebars" via:
                     //   $ handlebars ./templates/name_with_partial.handlebars -f external_template_with_partial.js
                     //
                     // reference partial "item_number_partial" template that was compiled from "item_number_partial.handlebars" via:
                     //   $ handlebars ./templates/item_number_partial.handlebars -p -f external_partial_template.js
                     //
-                    // console.log( $( '#templateBodyItemNumberPartial' ).html() );
                     Handlebars.registerPartial( 'templateBodyItemNumberPartial' , Handlebars.partials.item_number_partial );
                     var templateHtml = Handlebars.templates.name_with_partial( templateBodyObject );
 
