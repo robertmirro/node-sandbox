@@ -16,9 +16,12 @@
                         return alert( 'Please enter a name.' );
                     }
 
+                    // console.log( JSON.stringify( getList() ) );
+
                     var templateBodyObject = {
                         templateBodyItemNumber : $( '#templateBody .templateBodyItem' ).length + 1 ,
                         templateBodyItem : $textName.val() ,
+                        templateBodySkillz : getSkillz( skillzList ) ,
                         templateBodyFooter : new Date()                                    
                     };
                     // console.log( 'templateBodyItemNumber:' , templateBodyObject.templateBodyItemNumber );
@@ -58,6 +61,44 @@
                     });
 
                     $textName.val('').focus();
+                }
+
+                var skillzList = [ 
+                    'html5' , 
+                    'css3' , 
+                    'js' , 
+                    'sass' , 
+                    'less' , 
+                    'node' , 
+                    'express' , 
+                    'jade' , 
+                    'handlebars' , 
+                    'mongodb' , 
+                    'postgresql' , 
+                    'angular' , 
+                    'ember' , 
+                    'backbone' , 
+                    'grunt' , 
+                    'gulp' , 
+                    'git' , 
+                    'svn' 
+                ];    
+                
+                function getSkillz( list ) {
+                    var objectArray = []; 
+
+                    // number of concurrent items to select, min of 1, max of 6
+                    var itemsToSelect = Math.ceil( Math.random() * 6 );  
+                    
+                    // start at a point in the list where all itemsToSelect are guaranteed to be selected        
+                    var startAt = Math.floor( Math.random() * ( list.length - itemsToSelect ) );
+                    
+                    for ( var itemNum = startAt, stopAt = startAt + itemsToSelect; itemNum < stopAt; itemNum++ ) {
+                        objectArray.push( { 'item' : list[ itemNum ] } );
+                        // console.log( '%s - %s' , itemNum , list[ itemNum ] );
+                    }
+
+                    return objectArray;
                 }
 
                 function getRGBA( alpha ) {
@@ -113,7 +154,7 @@
                 margin-top: 4px;
                 font-style: italic;
                 font-size: 10px;
-                color: #666;
+                color: #999;
             }
             .templateBodyItemColor {
                 background-color: #F8F8F8;
