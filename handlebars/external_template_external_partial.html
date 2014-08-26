@@ -19,9 +19,16 @@
                     var templateBodyObject = {
                         templateBodyItemNumber : $( '#templateBody .templateBodyItem' ).length + 1 ,
                         templateBodyItem : $textName.val() ,
+                        templateBodyItemAsHtml : '' ,
                         templateBodySkillz : getSkillz( skillzList ) ,
                         templateBodyFooter : new Date()                                    
                     };
+                    var allowHtml = 'html|';
+                    if ( templateBodyObject.templateBodyItem.indexOf( allowHtml ) === 0) {
+                        // console.log( 'allowing html...' , templateBodyObject.templateBodyItem.substr( allowHtml.length ) );
+                        templateBodyObject.templateBodyItemAsHtml = templateBodyObject.templateBodyItem.substr( allowHtml.length );
+                        templateBodyObject.templateBodyItem = '';
+                    }
                     // console.log( 'templateBodyItemNumber:' , templateBodyObject.templateBodyItemNumber );
 
                     //
@@ -93,9 +100,8 @@
                     
                     for ( var itemNum = startAt, stopAt = startAt + itemsToSelect; itemNum < stopAt; itemNum++ ) {
                         objectArray.push( { 'skill' : list[ itemNum ] } );
-                        // console.log( '%s - %s' , itemNum , list[ itemNum ] );
                     }
-                    console.log( JSON.stringify( objectArray ) );
+                    // console.log( JSON.stringify( objectArray ) );
                     return objectArray;
                 }
 
