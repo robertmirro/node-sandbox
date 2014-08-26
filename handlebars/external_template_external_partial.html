@@ -16,8 +16,6 @@
                         return alert( 'Please enter a name.' );
                     }
 
-                    // console.log( JSON.stringify( getList() ) );
-
                     var templateBodyObject = {
                         templateBodyItemNumber : $( '#templateBody .templateBodyItem' ).length + 1 ,
                         templateBodyItem : $textName.val() ,
@@ -94,10 +92,10 @@
                     var startAt = Math.floor( Math.random() * ( list.length - itemsToSelect ) );
                     
                     for ( var itemNum = startAt, stopAt = startAt + itemsToSelect; itemNum < stopAt; itemNum++ ) {
-                        objectArray.push( { 'item' : list[ itemNum ] } );
+                        objectArray.push( { 'skill' : list[ itemNum ] } );
                         // console.log( '%s - %s' , itemNum , list[ itemNum ] );
                     }
-
+                    console.log( JSON.stringify( objectArray ) );
                     return objectArray;
                 }
 
@@ -150,8 +148,24 @@
             .templateBodyItem .templateBodyItemNumber::after {
                 content: '\\';                
             }
+            .templateBodyItem .templateBodySkillz:first-of-type {
+                margin-left: 10px;
+            }
+            .templateBodyItem .templateBodySkillz {
+                display: inline-block;
+                margin-left: 2px;
+                padding: 1px 4px;
+                background-color: #EEE;
+                border: 1px solid #CCC;
+                color: #999;
+                font-size: 10px;
+                -webkit-border-radius: 4px;
+                -moz-border-radius: 4px;
+                border-radius: 4px;
+            }
             .templateBodyItemFooter {
                 margin-top: 4px;
+                padding: 2px;
                 font-style: italic;
                 font-size: 10px;
                 color: #999;

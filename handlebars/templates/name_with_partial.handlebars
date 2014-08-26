@@ -2,5 +2,8 @@
 <!-- handlebars template - name -->
 <div class="templateBodyItem" style="display:none;">
     {{> templateBodyItemNumberPartial }}{{ templateBodyItem }}
+    {{#each templateBodySkillz}}
+        <div class="templateBodySkillz">{{ skill }}</div>
+    {{/each}}
     <div class="templateBodyItemFooter">{{ templateBodyFooter }}</div>
 </div>
