@@ -18,7 +18,7 @@ function errorHandler(err, req, res, next) {
 
 app.use(errorHandler);
 
-// http://localhost:8080/roberto?getvar1=El&getvar2=Bobbio
+// curl "http://localhost:8080/roberto?getvar1=El&getvar2=Bobbio"
 app.get('/:name', function(req, res, next) {
     var name = req.params.name;
     var getvar1 = req.query.getvar1 || 'not specified' ;
