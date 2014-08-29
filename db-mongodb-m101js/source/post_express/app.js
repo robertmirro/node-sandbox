@@ -1,6 +1,6 @@
 var app = require('express')()
   , cons = require('consolidate')
-  , bodyParser = require('body-parser');
+  , bodyParser = require('body-parser');  // manually require this middleware for express 4.x
 
 app.engine('html', cons.swig);
 app.set('view engine', 'html');
@@ -10,6 +10,8 @@ app.set('views', __dirname + '/views');
 // app.use(express.bodyParser());
 // app.use(app.router);
 
+// middleware for express 4.x...
+//
 // http://stackoverflow.com/questions/24330014/bodyparser-is-deprecated-express-4/24330353#24330353
 // use extended option below to get rid of this message when starting app:
 //    "body-parser deprecated undefined extended: provide extended option app.js:13:20"
