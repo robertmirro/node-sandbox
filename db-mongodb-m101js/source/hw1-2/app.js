@@ -16,6 +16,7 @@ MongoClient.connect('mongodb://localhost:27017/m101', function(err, db) {
             return db.close();
         }
 
+        // answer (which is a lie): I like kittens
         var decipher = crypto.createDecipher(algorithm, doc['_id']);
         var decrypted = decipher.update(encrypted_message, 'hex', 'utf8') + decipher.final('utf8');
         console.log("Answer: " + decrypted);
