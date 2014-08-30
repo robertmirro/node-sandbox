@@ -1,5 +1,4 @@
-var express = require('express'),
-    app = express(),
+var app = require('express')(),
     cons = require('consolidate'),
     crypto = require('crypto'),
     MongoClient = require('mongodb').MongoClient;
@@ -24,6 +23,7 @@ MongoClient.connect('mongodb://localhost:27017/m101', function(err, db) {
                 return db.close();
             }
 
+            // answer: <h1>Hello, Agent 007.</h1>
             var decipher = crypto.createDecipher(algorithm, doc['_id']);
             var decrypted = decipher.update(encrypted_message, 'hex', 'utf8') + decipher.final('utf8');
             return res.render('hello', { "name" : decrypted });
@@ -34,6 +34,7 @@ MongoClient.connect('mongodb://localhost:27017/m101', function(err, db) {
         return res.send('Page Not Found', 404);
     });
 
-    app.listen(8080);
-    console.log('Express server started on port 8080');
+    app.listen( 8080 , function() {
+        console.log( 'Express server started on port ' + this.address().port );    
+    });
 });
