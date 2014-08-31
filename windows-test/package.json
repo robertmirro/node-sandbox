@@ -1,7 +1,8 @@
 {
-  "name": "hello", 
-  "version": "0.0.1", 
+  "name": "hello",
+  "version": "0.0.1",
   "dependencies": {
+    "chalk": "^0.5.1",
     "express": "latest"
   }
 }
