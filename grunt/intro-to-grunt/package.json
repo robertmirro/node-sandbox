@@ -1,0 +1,16 @@
+{
+  "name": "intro-to-grunt",
+  "version": "1.0.0",
+  "description": "https://www.youtube.com/watch?v=lGMmkQEJZxU",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "RJM",
+  "license": "MIT",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-coffee": "^0.11.1",
+    "grunt-contrib-less": "^0.11.4"
+  }
+}
