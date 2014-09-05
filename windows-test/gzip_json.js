@@ -34,6 +34,7 @@ httpServer.on( 'request' , function( request , response ) {
     var jsonFile = fs.readFile( 'contacts.json' , function( err , file ) {
         zlib.gzip( file , function( err , gzipFile ) {
             response.writeHead( 200 , { 
+                'Connection' : 'close' ,
                 'Content-Type' : 'application/json; charset=utf-8' ,
                 'Content-Encoding' : 'gzip' ,
                 'Content-Length' : gzipFile.length
