@@ -3,6 +3,8 @@
   "version": "0.0.1",
   "dependencies": {
     "chalk": "^0.5.1",
-    "express": "latest"
+    "dateformat": "^1.0.8-1.2.3",
+    "express": "latest",
+    "sprintf": "^0.1.4"
   }
 }
