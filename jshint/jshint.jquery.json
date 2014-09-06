@@ -1,0 +1,26 @@
+{
+  "name": "jshint",
+  "title": "jshint",
+  "description": "jshint sandbox",
+  "version": "0.1.0",
+  "homepage": "https://github.com/robertmirro/node-sandbox",
+  "author": {
+    "name": "robertmirro",
+    "email": "rmirro@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/robertmirro/node-sandbox.git"
+  },
+  "bugs": "https://github.com/robertmirro/node-sandbox/issues",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/robertmirro/node-sandbox/blob/master/LICENSE-MIT"
+    }
+  ],
+  "dependencies": {
+    "jquery": "*"
+  },
+  "keywords": []
+}
