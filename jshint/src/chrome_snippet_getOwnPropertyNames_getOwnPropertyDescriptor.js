@@ -1,5 +1,10 @@
+/* jshint -W097 */
+'use strict';
+
+
 console.clear();
 
+/* jshint -W034 */
 (function() {
     'use strict';
 
@@ -137,3 +142,5 @@ console.clear();
     });
     console.log('');
 })();
+/* jshint +W034 */
+
