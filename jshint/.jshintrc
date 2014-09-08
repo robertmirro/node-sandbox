@@ -8,7 +8,7 @@
   "sub": true,
   "undef": true,
   "unused": true,
-  "boss": true,
+  "boss": false,
   "eqnull": true,
   "node": true
 }
