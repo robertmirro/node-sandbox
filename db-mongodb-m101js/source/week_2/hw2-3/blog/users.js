@@ -85,6 +85,9 @@ function UsersDAO(db) {
             // console.log( "USER: %s \n" , JSON.stringify( user , null , '\t' ) );
             validateUserDoc( err , user )
         });
+
+        // alternate solution:
+        // users.findOne( {  "_id" : username } , validateUserDoc );
     }
 }
 
