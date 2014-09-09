@@ -28,8 +28,18 @@ function UsersDAO(db) {
             user['email'] = email;
         }
 
+
         // TODO: hw2.3
-        callback(Error("addUser Not Yet Implemented!"), null);
+        users.insert( user , function insertUser( err , result ) {
+            "use strict";
+
+            if (err) {
+                return callback( err , null );
+            }
+            // callback(Error("addUser Not Yet Implemented!"), null);
+
+            callback( err , user );
+        });
     }
 
     this.validateLogin = function(username, password, callback) {
