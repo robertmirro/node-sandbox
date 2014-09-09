@@ -71,7 +71,13 @@ function UsersDAO(db) {
         }
 
         // TODO: hw2.3
-        callback(Error("validateLogin Not Yet Implemented!"), null);
+        users.findOne( {  "_id" : username } , function( err , user ) {
+            // callback(Error("validateLoginn Not Yet Implemented!"), null);
+
+            // console.log( "USER: %s \n" , JSON.stringify( user , null , '\t' ) );
+            validateUserDoc( err , user )
+        });
+        
     }
 }
 
