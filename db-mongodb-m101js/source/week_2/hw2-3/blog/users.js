@@ -71,13 +71,20 @@ function UsersDAO(db) {
         }
 
         // TODO: hw2.3
+        //
+        // $ node validate.js
+        // Successfully created user
+        // Successfully logged out
+        // Successfully logged in
+        // Blog validated successfully!
+        // Your validation code is: A7foYWqTpKqRftI2d1D8        
+        //
         users.findOne( {  "_id" : username } , function( err , user ) {
             // callback(Error("validateLoginn Not Yet Implemented!"), null);
 
             // console.log( "USER: %s \n" , JSON.stringify( user , null , '\t' ) );
             validateUserDoc( err , user )
         });
-        
     }
 }
 
