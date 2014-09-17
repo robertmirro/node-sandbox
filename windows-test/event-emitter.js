@@ -28,3 +28,9 @@ myObj.on('myEvent', function myEventCb(str, num, num2) {
     console.log('myEvent triggered:', str, num, num2, Date.now() - start);
 });
 
+
+// OUTPUT:
+// this instanceof MyClass: true
+// MyClass.super_ === EventEmitter: true
+// myEvent triggered: hello world 44 84 1021
+// myEvent triggered: hello again world 4 8 2020
