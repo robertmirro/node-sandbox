@@ -2,10 +2,13 @@ var EventEmitter = require('events').EventEmitter;
 var util = require('util');
 
 function MyClass() {
-    console.log(this instanceof MyClass);
+    console.log( 'this instanceof MyClass:' , this instanceof MyClass );
     if (!(this instanceof MyClass)) return new MyClass();
 
-    EventEmitter.call(this);
+    console.log( 'MyClass.super_ === EventEmitter:' , MyClass.super_ === EventEmitter );
+
+    // EventEmitter.call(this);
+    MyClass.super_.call( this );
 
     var self = this;
     setTimeout(function () {
@@ -18,8 +21,9 @@ function MyClass() {
 }
 util.inherits(MyClass, EventEmitter);
 
-var myObj = new MyClass();
 var start = Date.now();
+
+var myObj = new MyClass();
 myObj.on('myEvent', function myEventCb(str, num, num2) {
     console.log('myEvent triggered:', str, num, num2, Date.now() - start);
 });
