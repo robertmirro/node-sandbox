@@ -1,0 +1,14 @@
+{
+  "name": "cute-files",
+  "version": "1.0.0",
+  "description": "Turn any folder on your computer into a cute file browser, available on the local network",
+  "main": "cute-files.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "RJM",
+  "license": "MIT"
+  "bin": {
+    "cute-files": "cute-files.js"
+  }  
+}
