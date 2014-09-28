@@ -24,7 +24,7 @@ function walk( dir , prefix ){
 
     }).map( function( f ){
 
-        console.log( 'f:' , f );
+        // console.log( 'f:' , f );
 
         var p = path.join( dir , f ),
             stat = fs.statSync( p );
