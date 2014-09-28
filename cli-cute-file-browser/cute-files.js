@@ -8,6 +8,8 @@ var pkg = require( path.join(__dirname, 'package.json') );
 var scan = require('./scan');
 
 
+// console.log( 'pkg.version:' , pkg.version );
+
 // Parse command line options
 
 var program = require('commander');
@@ -25,6 +27,7 @@ var port = program.port || 3000;
 // download links point to our /files route
 
 var tree = scan('.', 'files');
+// console.log( 'tree:' , tree );
 
 
 // Ceate a new express app
@@ -34,8 +37,6 @@ var app = express();
 // Serve static files from the frontend folder
 
 app.use('/', express.static(path.join(__dirname, 'frontend')));
-
-// Serve files from the current directory under the /files route
 
 app.use('/files', express.static(process.cwd(), {
     index: false,
