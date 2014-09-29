@@ -24,16 +24,16 @@ function walk( dir , prefix ){
 
     }).map( function( f ){
 
-        // console.log( 'f:' , f );
-
-        var p = path.join( dir , f ),
+        var p = path.join( dir , f ),  // fix path issues on windows, 
             stat = fs.statSync( p );
+
+            fixPath( path.join( prefix , p ) );
 
         if( stat.isDirectory() ){
             return {
                 name: f,
                 type: 'folder',
-                path: path.join( prefix , p ),
+                path: fixPath( path.join( prefix , p ) ),
                 items: walk( p , prefix )
             };
         }
@@ -41,8 +41,13 @@ function walk( dir , prefix ){
         return {
             name: f,
             type: 'file',
-            path: path.join( prefix , p ),
+            path: fixPath( path.join( prefix , p ) ),
             size: stat.size
         }
     });
 };
+
+// fix path issues on windows: need %2F in location #hash string, NOT %5C
+function fixPath( path ) {
+    return path.replace( /\\/g , '/' );
+}
