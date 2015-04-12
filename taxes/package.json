@@ -1,0 +1,14 @@
+{
+  "name": "taxes",
+  "version": "1.0.0",
+  "description": "",
+  "main": "expenseReport_2014.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "moment": "^2.10.2"
+  }
+}
