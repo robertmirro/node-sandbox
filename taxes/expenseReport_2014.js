@@ -7,14 +7,18 @@ var fs = require('fs');
 var stream = require('stream');
 var moment = require('moment');
 
-console.log( moment('01\\10\\1971', 'MM-DD-YYYY').toDate().getTime() );
+// console.log( moment('01\\10\\1971', 'MM-DD-YYYY').toDate().getTime() );
 
 
 
 // if maxWords is not passed, read stream will continue indefinitely
 function randomWordStream( maxWords ) {
-    var rs = stream.Readable();
-    var wordContents = fs.readFileSync( './Expenses 2014 new.txt' , 'utf8' );
+    var file, fileLines, rs;
+
+    file = fs.readFileSync( './Expenses 2014 new.txt' , 'utf8' );
+    fileLines = file.split('\n');
+
+    console.log('fileLines:', fileLines);
 // console.log('wordContents:', wordContents);    
 //    console.log( '%s bytes' , wordContents.length );
     var words = wordContents.split( '\n' );
@@ -22,6 +26,7 @@ function randomWordStream( maxWords ) {
    console.log( '%s words' , words.length );
     var currentWord = 0;
 
+    rs = stream.Readable();
     rs._read = function( size ) {
 console.log('_read...');        
         if ( currentWord >= maxWords ) {

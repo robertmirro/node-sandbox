@@ -10,8 +10,10 @@ var stream = require('stream');
 function randomWordStream( maxWords ) {
     var rs = stream.Readable();
     var wordContents = fs.readFileSync( './words.txt' , 'utf8' );
+// console.log('wordContents:', wordContents);    
 //    console.log( '%s bytes' , wordContents.length );
     var words = wordContents.split( '\n' );
+// console.log('words:', words);    
 //    console.log( '%s words' , words.length );
     var currentWord = 0;
 
