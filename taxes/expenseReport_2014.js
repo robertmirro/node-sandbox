@@ -41,10 +41,10 @@
 
             if (expense[0] && expense[1] && expense[3] && expense[4] && validDate.test(expense[0]) && validAmount.test(expense[1])) {
                 expenseDate = moment(expense[0], 'MM-DD-YY');
-                    console.log('\n', expense, '\n');
 
                 if (expenseDate.isValid()) {
-                    // console.log('\n', expense, '\n');
+                    console.log('\n', expense, '\n');
+                    console.log('expenseDate:', expense[0], '---', expenseDate.toDate().getTime(), '\n');
                 }
             }
             // console.log('expense:', expense, '\n');
