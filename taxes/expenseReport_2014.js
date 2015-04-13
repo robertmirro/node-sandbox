@@ -27,10 +27,9 @@
         var validDate = /^\d{2}\/\d{2}\/\d{2}$/;
         var validAmount = /^"?\$(([1-9]\d{0,2}(,\d{3})*)|\d+)?\.\d{2}"?$/; // REQUIRED: $ , decimal with 2 positions and leading number even if zero, OPTIONAL: containing double quotes, comma thousands seperator
 
-        file = fs.readFileSync( 'Expenses 2014 New 2.txt' , 'utf8' );
-// console.log('file:', file);        
+        fileName = (fileName || 'Expenses 2014 New 2.txt');
+        file = fs.readFileSync(fileName, 'utf8');
         fileLines = file.split('\n');
-// console.log('fileLines:', fileLines);
 
         expenses = [];
         _.forEach(fileLines, function(expense) {
