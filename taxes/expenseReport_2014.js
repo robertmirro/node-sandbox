@@ -22,7 +22,7 @@
     function readStream(fileName) {
         var rs;
         var file, fileLines;
-        var expenses, expenseDate, expenseAmount;
+        var expenseTypes, expenses, expenseDate, expenseAmount;
 
         var validDate = /^\d{2}\/\d{2}\/\d{2}$/;
         var validAmount = /^"?\$(([1-9]\d{0,2}(,\d{3})*)|\d+)?\.\d{2}"?$/; // REQUIRED: $ , decimal with 2 positions and leading number even if zero, OPTIONAL: containing double quotes, comma thousands seperator
@@ -30,6 +30,9 @@
         fileName = (fileName || 'Expenses 2014 New 2.txt');
         file = fs.readFileSync(fileName, 'utf8');
         fileLines = file.split('\n');
+
+        expenseTypes = expenseTypesList();
+console.log('expenseTypes:', expenseTypes);        
 
         expenses = [];
         _.forEach(fileLines, function(expense) {
@@ -40,9 +43,9 @@
                 expenseAmount = numeral().unformat(expense[1]);
 
                 if (expenseDate.isValid()) {
-                    console.log('\n', expense, '\n');
-                    console.log('expenseDate:', expense[0], '---', expenseDate.toDate().getTime(), '\n');
-                    console.log('expenseAmount:', expenseAmount, '---', typeof expenseAmount, '\n');
+                    // console.log('\n', expense, '\n');
+                    // console.log('expenseDate:', expense[0], '---', expenseDate.toDate().getTime(), '\n');
+                    // console.log('expenseAmount:', expenseAmount, '---', typeof expenseAmount, '\n');
                 }
             }
             // console.log('expense:', expense, '\n');
@@ -115,7 +118,7 @@
     // test - display words infinitely -
     // $ node readable_writable_transform_stream_random_word.js
 
-    function expenseTypes() {
+    function expenseTypesList() {
         var expenseTypes = [];
 
         addType(expenseTypes, 'Book',       'Computer Books [Other Exp: Educational Exp]', 0);
