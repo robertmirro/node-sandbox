@@ -146,18 +146,16 @@
         addType(expenseTypes, 'UtilSprag', '', 0);
         addType(expenseTypes, 'Util', '', 0);
         addType(expenseTypes, 'UtilHalf', '', 0);
-        addType(expenseTypes, '', '', 0);
-        addType(expenseTypes, '', '', 0);
-        addType(expenseTypes, '', '', 0);
-        addType(expenseTypes, '', '', 0);
-        addType(expenseTypes, '', '', 0);
-        addType(expenseTypes, '', '', 0);
-        addType(expenseTypes, '', '', 0);
-        addType(expenseTypes, '', '', 0);
-        addType(expenseTypes, '', '', 0);
-        addType(expenseTypes, '', '', 0);
-        addType(expenseTypes, '', '', 0);
-        addType(expenseTypes, '', '', 0);
+        addType(expenseTypes, '77Prof', '', 0);
+        addType(expenseTypes, '77Exp', '', 0);
+        addType(expenseTypes, '77ExpUpd', '', 0);
+        addType(expenseTypes, '77/79Exp', '', 0);
+        addType(expenseTypes, 'Pest', '', 0);
+        addType(expenseTypes, 'RentalCar', '', 0);
+        addType(expenseTypes, '311Rent', '', 0);
+        addType(expenseTypes, '311Util', '', 0);
+        addType(expenseTypes, '311Move', '', 0);
+        addType(expenseTypes, 'PropTax', '', 0);
         return expenseTypes;
 
         function addType(expenseTypes, type, description, sortOrder, excludeType) {
