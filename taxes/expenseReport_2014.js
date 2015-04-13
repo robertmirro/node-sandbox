@@ -1,30 +1,38 @@
-// http://tagtree.tv/intro-to-node-streams
-// words.txt - https://raw.githubusercontent.com/eneko/data-repository/master/data/words.txt
-
-"use strict";
+'use strict';
 
 var fs = require('fs');
 var stream = require('stream');
+var _ = require('lodash');
 var moment = require('moment');
 
 // console.log( moment('01\\10\\1971', 'MM-DD-YYYY').toDate().getTime() );
 
+var theDate = '01\\10\\1971';
+theDate = 'bob';
+var expenseDate = moment(theDate, 'MM-DD-YYYY');
+console.log('isValid', expenseDate.isValid());
 
 
 // if maxWords is not passed, read stream will continue indefinitely
 function randomWordStream( maxWords ) {
-    var file, fileLines, rs;
+    var rs;
+    var file, fileLines;
+    var expenses, expenseDate, expenseAmount;
 
-    file = fs.readFileSync( './Expenses 2014 new.txt' , 'utf8' );
+    file = fs.readFileSync( 'Expenses 2014 New.txt' , 'utf8' );
     fileLines = file.split('\n');
 
-    console.log('fileLines:', fileLines);
-// console.log('wordContents:', wordContents);    
-//    console.log( '%s bytes' , wordContents.length );
-    var words = wordContents.split( '\n' );
-// console.log('words:', words);    
-   console.log( '%s words' , words.length );
-    var currentWord = 0;
+    expenses = [];
+    _.forEach(fileLines, function(expense) {
+        expense = expense.split('\t');
+
+        if (expense[0] && expense[1] && expense[3] && expense[4]) {
+            console.log('expense:', expense, '\n');
+        }
+        // console.log('expense:', expense, '\n');
+    });
+
+    // console.log('fileLines:', fileLines);
 
     rs = stream.Readable();
     rs._read = function( size ) {
@@ -80,7 +88,7 @@ function transformWordStream() {
 
 // pass maxWords as a command line arg
 var rws = randomWordStream( process.argv[2] );
-console.log('AFTER randomWordStream');
+// console.log('AFTER randomWordStream');
 var wws = writeWordStream();
 var tws = transformWordStream();
 // rws.pipe( tws ).pipe( wws );
