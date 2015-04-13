@@ -35,9 +35,6 @@
         _.forEach(fileLines, function(expense) {
             expense = expense.split('\t');
 
-            // TODO - regex date validation - 99/99/99
-            // TODO - regex amt validation - $9+.99
-
             if (expense[0] && expense[1] && expense[3] && expense[4] && validDate.test(expense[0]) && validAmount.test(expense[1])) {
                 expenseDate = moment(expense[0], 'MM-DD-YY');
                 expenseAmount = numeral().unformat(expense[1]);
@@ -117,4 +114,63 @@
     //
     // test - display words infinitely -
     // $ node readable_writable_transform_stream_random_word.js
+
+    function expenseTypes() {
+        var expenseTypes = [];
+
+        addType(expenseTypes, 'Book', 'Computer Books [Other Exp: Educational Exp]', 0);
+        addType(expenseTypes, 'Bus Ins', 'Business Insurance', 0);
+        addType(expenseTypes, 'Cell', '', 0);
+        addType(expenseTypes, 'Conf', '', 0);
+        addType(expenseTypes, 'Meals', '', 0);
+        addType(expenseTypes, 'Furn', '', 0);
+        addType(expenseTypes, 'Hard', '', 0);
+        addType(expenseTypes, 'Lodging', '', 0);
+        addType(expenseTypes, 'Ins', '', 0);
+        addType(expenseTypes, 'Mag', '', 0);
+        addType(expenseTypes, 'Mem', '', 0);
+        addType(expenseTypes, 'Misc', '', 0);
+        addType(expenseTypes, 'MiscMed', '', 0);
+        addType(expenseTypes, 'MiscEdu', '', 0);
+        addType(expenseTypes, 'Net', '', 0);
+        addType(expenseTypes, 'Phone', '', 0);
+        addType(expenseTypes, 'Postage', '', 0);
+        addType(expenseTypes, 'Rent', '', 0);
+        addType(expenseTypes, 'Mort', '', 0);
+        addType(expenseTypes, 'MortEscrow', '', 0);
+        addType(expenseTypes, 'Sec', '', 0);
+        addType(expenseTypes, 'Soft', '', 0);
+        addType(expenseTypes, 'Supplies', '', 0);
+        addType(expenseTypes, 'Tax', '', 0);
+        addType(expenseTypes, 'Toll', '', 0);
+        addType(expenseTypes, 'UtilSprag', '', 0);
+        addType(expenseTypes, 'Util', '', 0);
+        addType(expenseTypes, 'UtilHalf', '', 0);
+        addType(expenseTypes, '', '', 0);
+        addType(expenseTypes, '', '', 0);
+        addType(expenseTypes, '', '', 0);
+        addType(expenseTypes, '', '', 0);
+        addType(expenseTypes, '', '', 0);
+        addType(expenseTypes, '', '', 0);
+        addType(expenseTypes, '', '', 0);
+        addType(expenseTypes, '', '', 0);
+        addType(expenseTypes, '', '', 0);
+        addType(expenseTypes, '', '', 0);
+        addType(expenseTypes, '', '', 0);
+        addType(expenseTypes, '', '', 0);
+        return expenseTypes;
+
+        function addType(expenseTypes, type, description, sortOrder, excludeType) {
+            if (excludeType) {
+                return;
+            }
+
+            expenseTypes.push({
+                'type': type,
+                'description': description,
+                'sortOrder': sortOrder
+            });
+        }  
+    }
+
 })();
