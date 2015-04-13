@@ -7,10 +7,12 @@ var moment = require('moment');
 
 // console.log( moment('01\\10\\1971', 'MM-DD-YYYY').toDate().getTime() );
 
-var theDate = '01\\10\\1971';
-theDate = 'bob';
+var theDate = '01/10/1971';
+// theDate = 'bob';
+theDate = '01/bob/1971'
+theDate = '01/19/1971'
 var expenseDate = moment(theDate, 'MM-DD-YYYY');
-console.log('isValid', expenseDate.isValid());
+console.log('isValid', expenseDate.isValid(), expenseDate.toDate().getTime());
 
 
 // if maxWords is not passed, read stream will continue indefinitely
@@ -21,13 +23,21 @@ function randomWordStream( maxWords ) {
 
     file = fs.readFileSync( 'Expenses 2014 New.txt' , 'utf8' );
     fileLines = file.split('\n');
+// console.log('fileLines:', fileLines);
 
     expenses = [];
     _.forEach(fileLines, function(expense) {
         expense = expense.split('\t');
 
+        // TODO - regex date validation - 99/99/99
+        // TODO - regex amt validation - $9+.99
+
         if (expense[0] && expense[1] && expense[3] && expense[4]) {
-            console.log('expense:', expense, '\n');
+            expenseDate = moment(expense[0], 'MM-DD-YY');
+
+            if (expenseDate.isValid()) {
+                console.log('expense2:', expense, '\n');
+            }
         }
         // console.log('expense:', expense, '\n');
     });
