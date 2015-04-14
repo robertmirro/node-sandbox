@@ -15,15 +15,15 @@
 
     // console.log( moment('01\\10\\1971', 'MM-DD-YYYY').toDate().getTime() );
 
-    var theDate = '01/10/1971';
-    // theDate = 'bob';
-    theDate = '01/bob/1971'
-    theDate = '01/19/1971'
-    var expenseDate = moment(theDate, 'MM-DD-YYYY');
-    console.log('isValid', expenseDate.isValid(), expenseDate.toDate().getTime());
+    // var theDate = '01/10/1971';
+    // // theDate = 'bob';
+    // theDate = '01/bob/1971'
+    // theDate = '01/19/1971'
+    // var expenseDate = moment(theDate, 'MM-DD-YYYY');
+    // console.log('isValid', expenseDate.isValid(), expenseDate.toDate().getTime());
 
-    var theAmount = '$4b,ob8.95';
-    console.log('theAmount:', numeral().unformat(theAmount));
+    // var theAmount = '$4b,ob8.95';
+    // console.log('theAmount:', numeral().unformat(theAmount));
  
     function readStream(fileName, invalidExpenseType) {
         var rs;
@@ -35,9 +35,11 @@
 
         fileName = (fileName || 'Expenses 2014 New.txt');
         file = fs.readFileSync(fileName, 'utf8');
+// console.log('file:', file);        
         fileLines = file.split('\n');
+// console.log('fileLines:', fileLines);
 
-        expenseTypes = expenseTypesList(invalidExpenseType);
+        expenseTypes = _.sortByAll(expenseTypesList(invalidExpenseType), ['sortOrder', 'description']);
 // console.log('expenseTypes:', expenseTypes);        
 
         expenses = [];
@@ -50,7 +52,7 @@
                 if (expenseDate.isValid()) {
                     expenseAmount = numeral().unformat(expense[1]);
                     expenseType = expense[3];
-                    expenseDescription = (typeof expense[4] === 'string' ? expense[4].trim() : expense[4]);
+                    expenseDescription = (typeof expense[4] === 'string' ? expense[4].trim() : 'Invalid Expense Description');
 
                     typeIsInvalid = !expenseTypeIsValid(expenseTypes, expenseType);
 
@@ -66,7 +68,7 @@
             }
             // console.log('expense:', expense, '\n');
         });
-console.log('expenses:', expenses);
+console.log('expenses:\n', expenses);
         // console.log('fileLines:', fileLines);
 
         rs = stream.Readable();
@@ -165,11 +167,7 @@ console.log('expenses:', expenses);
         addType(expenseTypes, invalidExpenseType, 'Invalid Expense Type', 999);
         return expenseTypes;
 
-        function addType(expenseTypes, type, description, sortOrder, excludeType) {
-            if (excludeType) {
-                return;
-            }
-
+        function addType(expenseTypes, type, description, sortOrder) {
             expenseTypes.push({
                 'type': type,
                 'description': description,
