@@ -28,7 +28,7 @@
     function readStream(fileName, invalidExpenseType) {
         var rs;
         var file, fileLines;
-        var expenseTypes, expenses, expenseDate, expenseAmount, expenseTypeIsInvalid;
+        var expenseTypes, expenses, expenseDate, expenseAmount, expenseType, expenseDescription, typeIsInvalid;
 
         var validDate = /^\d{2}\/\d{2}\/\d{2}$/;
         var validAmount = /^"?\$(([1-9]\d{0,2}(,\d{3})*)|\d+)?\.\d{2}"?$/; // REQUIRED: $ , decimal with 2 positions and leading number even if zero, OPTIONAL: containing double quotes, comma thousands seperator
@@ -46,21 +46,22 @@
 
             if (expense[0] && expense[1] && expense[3] && expense[4] && validDate.test(expense[0]) && validAmount.test(expense[1])) {
                 expenseDate = moment(expense[0], 'MM-DD-YY');
-                expenseAmount = numeral().unformat(expense[1]);
 
                 if (expenseDate.isValid()) {
+                    expenseAmount = numeral().unformat(expense[1]);
+                    expenseType = expense[3];
+                    expenseDescription = (typeof expense[4] === 'string' ? expense[4].trim() : expense[4]);
+
+                    typeIsInvalid = !expenseTypeIsValid(expenseTypes, expenseType);
 
                     expenses.push({
-                        'type': '',
+                        'type': (typeIsInvalid ? invalidExpenseType : expenseType),
                         'displayDate': expenseDate.format('MM/DD/YYYY'),
                         'sortByDate': expenseDate.toDate().getTime(),
-                        'displayAmount': '',
-                        'calculateAmount': '',
-                        'description': ''
+                        'displayAmount': numeral(expenseAmount).format('$0,0.00'),
+                        'calculateAmount': expenseAmount,
+                        'description': (typeIsInvalid ? '[TYPE: ' + expenseType + '] ' : '') + expenseDescription
                     });
-                    // console.log('\n', expense, '\n');
-                    // console.log('expenseDate:', expense[0], '---', expenseDate.toDate().getTime(), '\n');
-                    // console.log('expenseAmount:', expenseAmount, '---', typeof expenseAmount, '\n');
                 }
             }
             // console.log('expense:', expense, '\n');
