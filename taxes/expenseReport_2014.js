@@ -28,7 +28,7 @@
     function readStream(fileName, invalidExpenseType) {
         var rs;
         var file, fileLines;
-        var expenseTypes, expenses, expenseDate, expenseAmount;
+        var expenseTypes, expenses, expenseDate, expenseAmount, expenseTypeIsInvalid;
 
         var validDate = /^\d{2}\/\d{2}\/\d{2}$/;
         var validAmount = /^"?\$(([1-9]\d{0,2}(,\d{3})*)|\d+)?\.\d{2}"?$/; // REQUIRED: $ , decimal with 2 positions and leading number even if zero, OPTIONAL: containing double quotes, comma thousands seperator
@@ -38,7 +38,7 @@
         fileLines = file.split('\n');
 
         expenseTypes = expenseTypesList(invalidExpenseType);
-console.log('expenseTypes:', expenseTypes);        
+// console.log('expenseTypes:', expenseTypes);        
 
         expenses = [];
         _.forEach(fileLines, function(expense) {
@@ -49,6 +49,15 @@ console.log('expenseTypes:', expenseTypes);
                 expenseAmount = numeral().unformat(expense[1]);
 
                 if (expenseDate.isValid()) {
+
+                    expenses.push({
+                        'type': '',
+                        'displayDate': expenseDate.format('MM/DD/YYYY'),
+                        'sortByDate': expenseDate.toDate().getTime(),
+                        'displayAmount': '',
+                        'calculateAmount': '',
+                        'description': ''
+                    });
                     // console.log('\n', expense, '\n');
                     // console.log('expenseDate:', expense[0], '---', expenseDate.toDate().getTime(), '\n');
                     // console.log('expenseAmount:', expenseAmount, '---', typeof expenseAmount, '\n');
@@ -56,7 +65,7 @@ console.log('expenseTypes:', expenseTypes);
             }
             // console.log('expense:', expense, '\n');
         });
-
+console.log('expenses:', expenses);
         // console.log('fileLines:', fileLines);
 
         rs = stream.Readable();
@@ -166,6 +175,16 @@ console.log('expenseTypes:', expenseTypes);
                 'sortOrder': sortOrder
             });
         }  
+    }
+
+    function expenseTypeIsValid(expenseTypes, expenseType) {
+        return Boolean(getExpenseType(expenseTypes, expenseType));
+    }
+
+    function getExpenseType(expenseTypes, expenseType) {
+        return _.find(expenseTypes, {
+            'type': expenseType
+        });
     }
 
 })();
