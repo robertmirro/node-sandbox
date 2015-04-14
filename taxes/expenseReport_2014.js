@@ -7,6 +7,12 @@
     var moment = require('moment');
     var numeral = require('numeral');
 
+    var rs = readStream(process.argv[2], 'INVALID');
+    var ws = writeStream();
+    var ts = transformStream();
+    // rs.pipe(ts).pipe(ws);
+
+
     // console.log( moment('01\\10\\1971', 'MM-DD-YYYY').toDate().getTime() );
 
     var theDate = '01/10/1971';
@@ -19,7 +25,7 @@
     var theAmount = '$4b,ob8.95';
     console.log('theAmount:', numeral().unformat(theAmount));
  
-    function readStream(fileName) {
+    function readStream(fileName, invalidExpenseType) {
         var rs;
         var file, fileLines;
         var expenseTypes, expenses, expenseDate, expenseAmount;
@@ -27,11 +33,11 @@
         var validDate = /^\d{2}\/\d{2}\/\d{2}$/;
         var validAmount = /^"?\$(([1-9]\d{0,2}(,\d{3})*)|\d+)?\.\d{2}"?$/; // REQUIRED: $ , decimal with 2 positions and leading number even if zero, OPTIONAL: containing double quotes, comma thousands seperator
 
-        fileName = (fileName || 'Expenses 2014 New 2.txt');
+        fileName = (fileName || 'Expenses 2014 New.txt');
         file = fs.readFileSync(fileName, 'utf8');
         fileLines = file.split('\n');
 
-        expenseTypes = expenseTypesList();
+        expenseTypes = expenseTypesList(invalidExpenseType);
 console.log('expenseTypes:', expenseTypes);        
 
         expenses = [];
@@ -105,20 +111,7 @@ console.log('expenseTypes:', expenseTypes);
         return ts;
     }
 
-    // pass maxWords as a command line arg
-    var rs = readStream(process.argv[2]);
-    // console.log('AFTER randomWordStream');
-    var ws = writeStream();
-    var ts = transformStream();
-    // rs.pipe(ts).pipe(ws);
-
-    // test - display 10 words:
-    // $ node readable_writable_transform_stream_random_word.js 10
-    //
-    // test - display words infinitely -
-    // $ node readable_writable_transform_stream_random_word.js
-
-    function expenseTypesList() {
+    function expenseTypesList(invalidExpenseType) {
         var expenseTypes = [];
 
         addType(expenseTypes, 'Book',       'Computer Books [Other Exp: Educational Exp]', 0);
@@ -159,6 +152,7 @@ console.log('expenseTypes:', expenseTypes);
         addType(expenseTypes, '311Util',    'Utilities 311 Wesmond Dr (Home Office) [Exp for Utilities]', 0);
         addType(expenseTypes, '311Move',    'Moving expenses from 79 3rd Ave, PA to 311 Wesmond Dr, VA', 0);
         addType(expenseTypes, 'PropTax',    'Personal Property Tax', 0);
+        addType(expenseTypes, invalidExpenseType, 'Invalid Expense Type', 999);
         return expenseTypes;
 
         function addType(expenseTypes, type, description, sortOrder, excludeType) {
