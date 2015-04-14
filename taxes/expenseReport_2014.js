@@ -10,7 +10,7 @@
     var rs = readStream(process.argv[2], 'INVALID');
     var ws = writeStream();
     var ts = transformStream();
-    // rs.pipe(ts).pipe(ws);
+    rs.pipe(ts).pipe(ws);
 
 
     // console.log( moment('01\\10\\1971', 'MM-DD-YYYY').toDate().getTime() );
@@ -71,10 +71,12 @@
 console.log('expenses:\n', expenses);
         // console.log('fileLines:', fileLines);
 
+        var currentWord = 0;
+
         rs = stream.Readable();
         rs._read = function( size ) {
     console.log('_read...');        
-            if ( currentWord >= maxWords ) {
+            if ( currentWord >= 4 /* maxWords */) {
                 // null terminator to inform consumer that data is done being output
                 return rs.push( null );
             }
@@ -83,8 +85,9 @@ console.log('expenses:\n', expenses);
 
             // simulate a delay and illustrate async processing
             setTimeout( function() {
-                var randomIndex = Math.floor( Math.random() * words.length ) ;
-                rs.push( currentWord + '. ' + words[ randomIndex ] /* + '\n' */ );
+                rs.push( currentWord.toString() );
+                // var randomIndex = Math.floor( Math.random() * words.length ) ;
+                // rs.push( currentWord + '. ' + words[ randomIndex ] /* + '\n' */ );
             }, 100 );
         };
 
@@ -113,7 +116,8 @@ console.log('expenses:\n', expenses);
             // transform pass-thru data to UPPERCASE and push it out to write stream
             // display original word text in parens (split word from index + word)
             var wordString = dataChunk.toString().trim();
-            ts.push( wordString.toUpperCase() + ' (' + wordString.split(' ')[1] + ')' );
+            // ts.push( wordString.toUpperCase() + ' (' + wordString.split(' ')[1] + ')' );
+            ts.push( wordString.toUpperCase() );
 
             // simulate a delay and illustrate async processing
             // inform producer we are ready for next dataChunk
