@@ -2,16 +2,17 @@ var mod = require('module');
 
 var holdModuleExports = module.exports;
 
-function myModule (  ) {
-    console.log( 'myModule' );
+function myModule() {
+    console.log('myModule');
 }
-function writeLog ( title ) {
+
+function writeLog(title) {
     console.log('\n---------- ' + title + ' ----------');
-    console.log( module );
+    console.log('module:\n', module);
     console.log('');
-    console.log( exports );
+    console.log('exports:\n', exports);
     console.log('');
-    console.log( 'module.exports === exports:' , module.exports === exports );
+    console.log('module.exports === exports:', module.exports === exports);
 }
 
 writeLog('init');
@@ -23,8 +24,8 @@ writeLog('module.exports = myModule');
 module.exports = holdModuleExports;
 
 exports.myMod = myModule;
-exports.myOtherMod = function(  ) {
-    console.log( 'myOtherMethod' );
+exports.myOtherMod = function() {
+    console.log('myOtherMethod');
 };
 exports.myMessage = 'hola';
 writeLog('exports.myMod = myModule...');
@@ -33,4 +34,3 @@ writeLog('exports.myMod = myModule...');
 // the console.log below fails when module_no_export exports nothing
 var modNoExport = require('./module_no_export');
 console.log(modNoExport());
-
