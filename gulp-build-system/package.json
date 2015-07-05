@@ -1,0 +1,14 @@
+{
+  "name": "gulp-build-system",
+  "version": "1.0.0",
+  "description": "https://www.youtube.com/watch?v=LmdT2zhFmn4",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "RJM",
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "^3.9.0"
+  }
+}
