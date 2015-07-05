@@ -1,0 +1,21 @@
+{
+  "name": "gulp-build-system",
+  "version": "0.0.0",
+  "homepage": "https://github.com/robertmirro/node-sandbox",
+  "authors": [
+    "RJM"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.4",
+    "angular": "~1.4.1",
+    "backbone": "~1.2.1"
+  }
+}
