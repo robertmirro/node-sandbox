@@ -38,6 +38,7 @@ $susy: (
 
 .page{
 	@include container($container);
+	//@include container(200px);
 	background: $white;
 	//background: red;
 	padding: 0 3%;
