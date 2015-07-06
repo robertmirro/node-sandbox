@@ -5,9 +5,11 @@
     console.log('inside of main.js: myVar:', myVar);
 
     function test() {
-        console.log('test...');
+        console.log('test function...');
     }
     test();
+
+    document.getElementById('sweet-header').innerText = 'NEW HEADER TEXT...';
 
 })();
 

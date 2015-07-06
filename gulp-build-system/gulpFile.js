@@ -11,4 +11,8 @@ gulp.task('scripts', function() {
         .pipe(gulp.dest('app/js'));
 });
 
-gulp.task('default', ['scripts']);
+gulp.task('watch', function() {
+    gulp.watch('app/js/**/*.js', ['scripts']);
+});
+
+gulp.task('default', ['scripts', 'watch']);
