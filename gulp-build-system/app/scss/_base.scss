@@ -39,6 +39,7 @@ $susy: (
 .page{
 	@include container($container);
 	background: $white;
+	//background: red;
 	padding: 0 3%;
 } // page
 
@@ -47,7 +48,7 @@ $susy: (
 
 	#header-wrapper{
 		@include span(12);
-	}	
+	}
 } // #header
 
 #content{
@@ -63,6 +64,6 @@ $susy: (
 		@include breakpoint($break-menu) {
 		    @include span(4);
 		 }
-	}	
+	}
 } // content
 
