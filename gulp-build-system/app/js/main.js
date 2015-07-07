@@ -9,7 +9,7 @@
     }
     test();
 
-    document.getElementById('sweet-header').innerHTML = 'NEW HEADER TEXT...';
+    document.getElementById('sweet-header').innerHTML = 'A NEWER NEW HEADER TEXT...';
 
 })();
 

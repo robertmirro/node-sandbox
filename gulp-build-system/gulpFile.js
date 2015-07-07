@@ -7,7 +7,8 @@ var gulp = require('gulp'),
     plumber = require('gulp-plumber'),
     autoprefixer = require('gulp-autoprefixer'),
     browserSync = require('browser-sync'),
-    reloadBrowser = browserSync.reload;
+    reloadBrowser = browserSync.reload,
+    del = require('del');
 
 gulp.task('scripts', function() {
     gulp.src(['app/js/**/*.js', '!app/js/**/*.min.js'])
@@ -55,3 +56,30 @@ gulp.task('watch', function() {
 
 gulp.task('default', ['scripts', 'compass', 'html', 'browser-sync', 'watch']);
 
+gulp.task('build:cleanfolder', function(cb) {
+    del([
+        'build/**'
+    ], cb);
+});
+
+gulp.task('build:copy', ['build:cleanfolder'], function() {
+    return gulp.src('app/**/*')
+        .pipe(gulp.dest('build/'));
+});
+
+gulp.task('build:remove', ['build:copy'], function(cb) {
+    del([
+        'build/scss/',
+        'build/js/!(*.min.js)'
+    ], cb);
+});
+
+gulp.task('build', ['build:copy', 'build:remove']);
+
+gulp.task('build:serve', function() {
+    browserSync({
+        server: {
+            baseDir: './build/'
+        }
+    });
+});
