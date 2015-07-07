@@ -1,0 +1,18 @@
+{
+  "name": "gulp-the-basics",
+  "version": "1.0.0",
+  "description": "https://www.youtube.com/watch?v=dwSLFai8ovQ, https://github.com/CaryLandholt/tutorial-gulp-the-basics",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "RJM",
+  "license": "MIT",
+  "devDependencies": {
+    "event-stream": "^3.3.1",
+    "gulp": "^3.9.0",
+    "gulp-coffee": "^2.3.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-uglify": "^1.2.0"
+  }
+}
