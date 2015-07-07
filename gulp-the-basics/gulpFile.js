@@ -17,10 +17,10 @@ gulp.task('scripts', function() {
 
     var javaScript = gulp.src('src/*.js');
 
-    return es.merge(javaScriptFromCoffeeScript, javaScript)
-    .pipe(concat('all.min.js'))
-    .pipe(uglify())
-    .pipe(gulp.dest('dist'));
+    return /* gulp.src('src/*.js') */ es.merge(javaScriptFromCoffeeScript, javaScript)
+        .pipe(concat('all.min.js'))
+        .pipe(uglify())
+        .pipe(gulp.dest('dist'));
 });
 
 gulp.task('default', ['scripts']);
