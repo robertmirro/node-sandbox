@@ -23,5 +23,9 @@ gulp.task('scripts', function() {
         .pipe(gulp.dest('dist'));
 });
 
-gulp.task('default', ['scripts']);
+gulp.task('watch', function() {
+    gulp.watch('src/*.{js,coffee}', ['scripts']);
+});
+
+gulp.task('default', ['scripts', 'watch']);
 
