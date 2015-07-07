@@ -5,17 +5,21 @@ var gulp = require('gulp'),
     rename = require('gulp-rename'),
     compass = require('gulp-compass'),
     plumber = require('gulp-plumber'),
-    autoprefixer = require('gulp-autoprefixer');
+    autoprefixer = require('gulp-autoprefixer'),
+    browserSync = require('browser-sync'),
+    reloadBrowser = browserSync.reload;
 
 gulp.task('scripts', function() {
     gulp.src(['app/js/**/*.js', '!app/js/**/*.min.js'])
         .pipe(plumber())
         .pipe(rename({suffix: '.min'}))
         .pipe(uglify())
-        .pipe(gulp.dest('app/js'));
+        .pipe(gulp.dest('app/js'))
+        .pipe(reloadBrowser({stream: true}));
 });
 
 // NOTE: plumber NEEDS to be located directly after .src()
+// NOTE: browser-sync needs to be final pipe in a task
 gulp.task('compass', function() {
     gulp.src('app/scss/style.scss')
         .pipe(plumber())
@@ -26,12 +30,28 @@ gulp.task('compass', function() {
             require: ['susy']
         }))
         .pipe(autoprefixer('last 2 versions'))
-        .pipe(gulp.dest('app/css/'));
+        .pipe(gulp.dest('app/css/'))
+        .pipe(reloadBrowser({stream: true}));
+});
+
+gulp.task('html', function() {
+    gulp.src('app/**/*.html')
+        .pipe(reloadBrowser({stream: true}));
+});
+
+gulp.task('browser-sync', function() {
+    browserSync({
+        server: {
+            baseDir: './app/'
+        }
+    });
 });
 
 gulp.task('watch', function() {
     gulp.watch('app/js/**/*.js', ['scripts']);
     gulp.watch('app/scss/**/*.scss', ['compass']);
+    gulp.watch('app/**/*.html', ['html']);
 });
 
-gulp.task('default', ['scripts', 'compass', 'watch']);
+gulp.task('default', ['scripts', 'compass', 'html', 'browser-sync', 'watch']);
+
