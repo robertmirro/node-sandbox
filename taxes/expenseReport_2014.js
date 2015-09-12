@@ -25,10 +25,6 @@
     // var theAmount = '$4b,ob8.95';
     // console.log('theAmount:', numeral().unformat(theAmount));
 
-    function createExpenseReport() {
-        fileName, invalidExpenseType
-    }
-
     function readStream(fileName, invalidExpenseType) {
         var rs;
         var file, fileLines;
@@ -89,7 +85,8 @@
 
         var currentWord = 0;
 
-        rs = stream.Readable();
+        // rs = stream.Readable();
+        rs = stream.Readable.call(this, {objectMode: true});
         rs._read = function(size) {
             console.log('_read...');
             if (currentWord >= 4 /* maxWords */) {
@@ -102,9 +99,13 @@
             // simulate a delay and illustrate async processing
             setTimeout(function() {
                 console.log('_read before rs.push...');
-                //rs.push(currentWord.toString());
+                // rs.push(currentWord.toString());
+                rs.push({name: currentWord});
+                // rs.push(JSON.stringify({name: currentWord}));
+
+
                 // var randomIndex = Math.floor( Math.random() * words.length ) ;
-                // rs.push( currentWord + '. ' + words[ randomIndex ] /* + '\n' */ );
+                // rs.push(currentWord + '. ' + words[ randomIndex ] /* + '\n' */);
             }, 100);
         };
 
@@ -127,14 +128,16 @@
 
     // act as BOTH a read AND write stream
     function transformStream() {
-        var ts = stream.Transform();
+        // var ts = stream.Transform();
+        var ts = stream.Transform.call(this, {objectMode: true});
         ts._transform = function(dataChunk , encoding , nextCb) {
             //        console.log( 'chunk: %s\n' , dataChunk.toString() + '(' + ')' );
             // transform pass-thru data to UPPERCASE and push it out to write stream
             // display original word text in parens (split word from index + word)
-            var wordString = dataChunk.toString().trim();
-            // ts.push( wordString.toUpperCase() + ' (' + wordString.split(' ')[1] + ')' );
-            ts.push(wordString.toUpperCase());
+            // var wordString = dataChunk.toString().trim();
+            // ts.push(wordString.toUpperCase());
+            console.log('dataChunk:', dataChunk, typeof dataChunk);
+            ts.push(dataChunk.name.toString());
 
             // simulate a delay and illustrate async processing
             // inform producer we are ready for next dataChunk
