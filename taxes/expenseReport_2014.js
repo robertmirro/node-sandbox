@@ -72,7 +72,10 @@
             }
             // console.log('expense:', expense, '\n');
         });
-        console.log('expenses:\n', expenses);
+        console.log('\n\nexpenses:\n', expenses);
+
+        expenses = _.sortBy(expenses, 'sortByDate');
+        console.log('\n\nexpenses sorted:\n', expenses);
 
         expenseTypesToProcess = _.filter(expenseTypes, function(expenseType) {
             // returns { false: 5, true: 2 } when value is found/counted or { false: 7 } when value is not found/counted
@@ -81,8 +84,7 @@
             }).true;
             return expenseType.expenseCount > 0;
         });
-        console.log('expenseTypesToProcess:', expenseTypesToProcess);
-
+        // console.log('expenseTypesToProcess:', expenseTypesToProcess);
 
 
         var currentWord = 0;
