@@ -25,10 +25,14 @@
     // var theAmount = '$4b,ob8.95';
     // console.log('theAmount:', numeral().unformat(theAmount));
 
+    function createExpenseReport() {
+        fileName, invalidExpenseType
+    }
+
     function readStream(fileName, invalidExpenseType) {
         var rs;
         var file, fileLines;
-        var expenseTypes, expenses, expenseDate, expenseAmount, expenseType, expenseDescription, typeIsInvalid;
+        var expenseTypes, expenses, expenseDate, expenseAmount, expenseType, expenseDescription, typeIsInvalid, expenseTypesToProcess, expenseCount;
 
         var validDate = /^\d{2}\/\d{2}\/\d{2}$/;
         var validAmount = /^"?\$(([1-9]\d{0,2}(,\d{3})*)|\d+)?\.\d{2}"?$/; // REQUIRED: $ , decimal with 2 positions and leading number even if zero, OPTIONAL: containing double quotes, comma thousands seperator
@@ -70,6 +74,17 @@
         });
         console.log('expenses:\n', expenses);
 
+        expenseTypesToProcess = _.filter(expenseTypes, function(expenseType) {
+            // returns { false: 5, true: 2 } when value is found/counted or { false: 7 } when value is not found/counted
+            expenseType.expenseCount = _.countBy(expenses, {
+                'type': expenseType.type
+            }).true;
+            return expenseType.expenseCount > 0;
+        });
+        console.log('expenseTypesToProcess:', expenseTypesToProcess);
+
+
+
         var currentWord = 0;
 
         rs = stream.Readable();
@@ -84,7 +99,8 @@
 
             // simulate a delay and illustrate async processing
             setTimeout(function() {
-                rs.push(currentWord.toString());
+                console.log('_read before rs.push...');
+                //rs.push(currentWord.toString());
                 // var randomIndex = Math.floor( Math.random() * words.length ) ;
                 // rs.push( currentWord + '. ' + words[ randomIndex ] /* + '\n' */ );
             }, 100);
@@ -97,7 +113,7 @@
     function writeStream() {
         var ws = stream.Writable();
         ws._write = function(dataChunk , encoding , nextCb) {
-            console.log(dataChunk.toString());
+            console.log('write:', dataChunk.toString());
 
             // simulate a delay and illustrate async processing
             // inform producer we are ready for next dataChunk
