@@ -31,10 +31,10 @@
         var validDate = /^\d{2}\/\d{2}\/\d{2}$/;
         var validAmount = /^"?\$(([1-9]\d{0,2}(,\d{3})*)|\d+)?\.\d{2}"?$/; // REQUIRED: $ , decimal with 2 positions and leading number even if zero, OPTIONAL: containing double quotes, comma thousands seperator
 
+        expenseTypes = _.sortByAll(expenseTypesList(invalidExpenseType), ['sortOrder', 'description']);
+
         file = fs.readFileSync(fileName, 'utf8');
         fileLines = file.split('\n');
-
-        expenseTypes = _.sortByAll(expenseTypesList(invalidExpenseType), ['sortOrder', 'description']);
 
         expenses = [];
         _.forEach(fileLines, function(expense) {
@@ -133,28 +133,39 @@
     function transformStream(dataType) {
         var ts = stream.Transform({objectMode: true});
         ts._transform = function(dataChunk , encoding , nextCb) {
-            // console.log('dataChunk:', dataChunk, Object.prototype.toString.call(dataChunk));
+            var columnSpacer = fill(2, ' ');
+
             _.forEach(dataChunk, function(data) {
                 if (data.type === dataType.header) {
-                    ts.push(dataType.header + ': ' + data.description + '\n');
+                    ts.push('\n');
+                    ts.push('TYPE: ' + data.description + '\n');
+                    ts.push('   DATE   '  + columnSpacer + '  AMOUNT  '  + columnSpacer + ' DESCRIPTION' + '\n');
+                    ts.push(fill(10, '-') + columnSpacer + fill(10, '-') + columnSpacer + fill(60, '-')  + '\n');
                 }
 
                 if (data.type === dataType.lineItem) {
-                    ts.push(dataType.lineItem + ': ' + formatAmount(data.lineItem.amount) + ' ' + data.lineItem.description + '\n');
+                    ts.push(data.lineItem.date + columnSpacer + formatAmount(data.lineItem.amount) + columnSpacer + data.lineItem.description + '\n');
                 }
 
                 if (data.type === dataType.subTotal) {
-                    ts.push(dataType.subTotal + ': ' + formatAmount(data.amount) + '\n\n');
+                    ts.push(fill(10, ' ') + columnSpacer + fill(10, '=') + '\n');
+                    ts.push('     TOTAL: ' + formatAmount(data.amount) + '\n\n\n');
                 }
 
                 if (data.type === dataType.grandTotal) {
-                    ts.push(dataType.grandTotal + ': ' + formatAmount(data.amount) + '\n');
+                    ts.push('GRANDTOTAL: ' + formatAmount(data.amount) + '\n\n');
                 }
             });
             nextCb();
 
-            function formatAmount(amount) {
-                return numeral(amount).format('$0,0.00');
+            function fill(length, character) {
+                return new Array(length + 1).join(character);
+            }
+
+            function formatAmount(amount, length) {
+                amount = numeral(amount).format('$0,0.00');
+                length = length || 10;
+                return fill(length - amount.length, ' ') + amount;
             }
         };
         return ts;
