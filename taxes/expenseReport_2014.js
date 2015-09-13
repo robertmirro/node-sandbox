@@ -7,17 +7,18 @@
     var moment = require('moment');
     var numeral = require('numeral');
 
+    var fileName = process.argv[2] || 'Expenses 2014 New.txt';
     var dataType = {
-        header: 'header',
-        lineItem: 'lineItem',
-        subTotal: 'subTotal',
-        grandTotal: 'grandTotal'
+        header: 'HEADER',
+        lineItem: 'LINEITEM',
+        subTotal: 'SUBTOTAL',
+        grandTotal: 'GRANDTOTAL'
     };
 
-    var rs = readStream(process.argv[2]);
-    var ts = transformStream();
+    var rs = readStream(fileName, dataType);
+    var ts = transformStream(dataType);
     var ws = writeStream();
-    var wss = fs.createWriteStream('expenseReport.txt');
+    var wss = fs.createWriteStream(fileName + '.REPORT.txt');
     // rs.pipe(ts).pipe(ws);
     rs.pipe(ts).pipe(wss);
 
@@ -35,10 +36,10 @@
     // var theAmount = '$4b,ob8.95';
     // console.log('theAmount:', numeral().unformat(theAmount));
 
-    function readStream(fileName) {
+    function readStream(fileName, dataType) {
         var rs;
         var file, fileLines;
-        var expenseTypes, expenses, expenseDate, expenseAmount, expenseType, expenseDescription, typeIsInvalid, sortByType;
+        var expenseTypes, expenses, expenseDate, expenseType, expenseDescription, typeIsInvalid;
         var currentExpenseType;
 
         var invalidExpenseType = 'INVALID';
@@ -46,7 +47,7 @@
         var validDate = /^\d{2}\/\d{2}\/\d{2}$/;
         var validAmount = /^"?\$(([1-9]\d{0,2}(,\d{3})*)|\d+)?\.\d{2}"?$/; // REQUIRED: $ , decimal with 2 positions and leading number even if zero, OPTIONAL: containing double quotes, comma thousands seperator
 
-        fileName = (fileName || 'Expenses 2014 New.txt');
+        // fileName = (fileName || 'Expenses 2014 New.txt');
         file = fs.readFileSync(fileName, 'utf8');
         // console.log('file:', file);
         fileLines = file.split('\n');
@@ -63,7 +64,6 @@
                 expenseDate = moment(expense[0], 'MM-DD-YY');
 
                 if (expenseDate.isValid()) {
-                    expenseAmount = numeral().unformat(expense[1]);
                     expenseType = expense[3];
                     expenseDescription = (typeof expense[4] === 'string' ? expense[4].trim() : 'Invalid Expense Description');
 
@@ -71,10 +71,10 @@
 
                     expenses.push({
                         type: (typeIsInvalid ? invalidExpenseType : expenseType),
-                        amount: expenseAmount,
+                        date: expenseDate.format('MM/DD/YYYY'),
+                        amount: numeral().unformat(expense[1]),
                         description: (typeIsInvalid ? '[TYPE: ' + expenseType + '] ' : '') + expenseDescription,
-                        displayDate: expenseDate.format('MM/DD/YYYY'),
-                        displayAmount: numeral(expenseAmount).format('$0,0.00'),
+
                         sortByType: getExpenseTypeIndex(typeIsInvalid ? invalidExpenseType : expenseType),
                         sortByDate: expenseDate.toDate().getTime()
                     });
@@ -161,7 +161,7 @@
                     });
                 }
 
-                currentExpenseType = getExpenseType(expenses[0].type)
+                currentExpenseType = getExpenseType(expenses[0].type);
                 dataToPrint.push({
                     type: dataType.header,
                     description: currentExpenseType.description
@@ -235,7 +235,7 @@
     }
 
     // act as BOTH a read AND write stream
-    function transformStream() {
+    function transformStream(dataType) {
         // var ts = stream.Transform();
         var ts = stream.Transform({objectMode: true});
         // var ts = stream.Transform.call(this, {objectMode: true});
@@ -252,17 +252,24 @@
                     ts.push(dataType.header + ': ' + data.description + '\n');
                 }
                 if (data.type === dataType.lineItem) {
-                    ts.push(dataType.lineItem + ': ' + data.lineItem.displayAmount + ' ' + data.lineItem.description + '\n');
+                    ts.push(dataType.lineItem + ': ' + formatAmount(data.lineItem.amount) + ' ' + data.lineItem.description + '\n');
                 }
                 if (data.type === dataType.subTotal) {
-                    ts.push(dataType.subTotal + ': ' + data.amount + '\n\n');
+                    ts.push(dataType.subTotal + ': ' + formatAmount(data.amount) + '\n\n');
                 }
                 if (data.type === dataType.grandTotal) {
-                    ts.push(dataType.grandTotal + ': ' + data.amount + '\n');
+                    ts.push(dataType.grandTotal + ': ' + formatAmount(data.amount) + '\n');
                 }
+
+                // displayAmount: numeral(expenseAmount).format('$0,0.00'),
+                // displayAmount: numeral(expenseAmount).format('$0,0.00'),
 
             });
             nextCb();
+
+            function formatAmount(amount) {
+                return numeral(amount).format('$0,0.00');
+            }
 
             /*
                         // ts.push('1: ' + dataChunk.name.toString());
