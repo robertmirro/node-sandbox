@@ -12,6 +12,7 @@
     var ts = transformStream();
     rs.pipe(ts).pipe(ws);
 
+    console.log('NUMERAL:');
 
     // console.log( moment('01\\10\\1971', 'MM-DD-YYYY').toDate().getTime() );
 
@@ -139,6 +140,7 @@
                     currentExpenseType = undefined;
                     return rs.push(dataToPrint);
                 }
+
                 return rs.push(null);
             }
 
