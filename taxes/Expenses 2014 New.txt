@@ -7,7 +7,7 @@ JANUARY
 		p	77Exp	UGI PNG: Natural Gas (77 3rd Ave)
 		p	UtilHalf	PAWC: Water
 01/08/14	$139.19	"p,amex"	Cell	AT&T: Business cell phone
-01/01/14	"$2,000.00"	c	311Rent	Scott Sweat: 311 Wesmond apartment rent
+01/01/14	"$2,000.00"	c	311Rent	Scott: 311 apartment rent
 01/16/14	$57.17	p	311Util	Dominion: Electricity
 01/12/14	$45.94	p	311Util	Washington Gas: Natural Gas
 01/21/14	$61.22	"p, amex"	Net	Comcast: Cable Internet Service
