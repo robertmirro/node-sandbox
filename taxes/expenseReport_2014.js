@@ -17,24 +17,8 @@
 
     var rs = readStream(fileName, dataType);
     var ts = transformStream(dataType);
-    var ws = writeStream();
-    var wss = fs.createWriteStream(fileName + '.REPORT.txt');
-    // rs.pipe(ts).pipe(ws);
-    rs.pipe(ts).pipe(wss);
-
-    // console.log('NUMERAL:', numeral(.1 + .2).format('$0,0.00'));
-
-    // console.log( moment('01\\10\\1971', 'MM-DD-YYYY').toDate().getTime() );
-
-    // var theDate = '01/10/1971';
-    // // theDate = 'bob';
-    // theDate = '01/bob/1971'
-    // theDate = '01/19/1971'
-    // var expenseDate = moment(theDate, 'MM-DD-YYYY');
-    // console.log('isValid', expenseDate.isValid(), expenseDate.toDate().getTime());
-
-    // var theAmount = '$4b,ob8.95';
-    // console.log('theAmount:', numeral().unformat(theAmount));
+    var ws = fs.createWriteStream(fileName + '.REPORT.txt');
+    rs.pipe(ts).pipe(ws);
 
     function readStream(fileName, dataType) {
         var rs;
@@ -47,14 +31,10 @@
         var validDate = /^\d{2}\/\d{2}\/\d{2}$/;
         var validAmount = /^"?\$(([1-9]\d{0,2}(,\d{3})*)|\d+)?\.\d{2}"?$/; // REQUIRED: $ , decimal with 2 positions and leading number even if zero, OPTIONAL: containing double quotes, comma thousands seperator
 
-        // fileName = (fileName || 'Expenses 2014 New.txt');
         file = fs.readFileSync(fileName, 'utf8');
-        // console.log('file:', file);
         fileLines = file.split('\n');
-        // console.log('fileLines:', fileLines);
 
         expenseTypes = _.sortByAll(expenseTypesList(invalidExpenseType), ['sortOrder', 'description']);
-        // console.log('expenseTypes:', expenseTypes);
 
         expenses = [];
         _.forEach(fileLines, function(expense) {
@@ -74,66 +54,18 @@
                         date: expenseDate.format('MM/DD/YYYY'),
                         amount: numeral().unformat(expense[1]),
                         description: (typeIsInvalid ? '[TYPE: ' + expenseType + '] ' : '') + expenseDescription,
-
                         sortByType: getExpenseTypeIndex(typeIsInvalid ? invalidExpenseType : expenseType),
                         sortByDate: expenseDate.toDate().getTime()
                     });
                 }
             }
-            // console.log('expense:', expense, '\n');
         });
-        // console.log('\n\nexpenses:\n', expenses);
-
         expenses = _.sortByAll(expenses, ['sortByType', 'sortByDate']);
-        // console.log('\n\nexpenses sorted:\n', expenses);
 
-        // var expensesGroupBy = _.groupBy(expenses, 'type');
-        // console.log('\n\nexpenses groupBy:\n', expensesGroupBy);
-
-        // var expensesGroupByPairs = _.pairs(expensesGroupBy);
-        // console.log('\n\nexpenses groupByPairs:\n', expensesGroupByPairs);
-
-
-        // expenseTypesToProcess = _.filter(expenseTypes, function(expenseType) {
-        //     // returns { false: 5, true: 2 } when value is found/counted or { false: 7 } when value is not found/counted
-        //     expenseType.expenseCount = _.countBy(expenses, {
-        //         'type': expenseType.type
-        //     }).true;
-        //     return expenseType.expenseCount > 0;
-        // });
-        // // console.log('expenseTypesToProcess:', expenseTypesToProcess);
-
-
-        var currentWord = 0;
-
-        // rs = stream.Readable();
         rs = stream.Readable({objectMode: true});
-        // rs = stream.Readable.call(this, {objectMode: true});
         rs._read = function(size) {
             var dataToPrint = [];
             var lineItem;
-
-            /*
-            var currentExpenseType, currentExpense;
-
-            // if there is no next expense (expense.length = 0)
-
-                // if there is a currentType, print array (sub total AND grand total), clear currentType
-                // if there is NOT a currentType, end read (return push(null))
-
-            // else if currentType not defined OR currentType.type <> type of next expense in array
-
-                // var arrayToPrint = [];
-                // if there is a currentType, arrayToPrint.push(currentType subtotal line)
-                // set currentType (getExpenseType(next expense in array: expense.type))
-                // arrayToPrint.push(new currentType header and column headers)
-
-            // else
-
-                // shift expense from expenses array
-                // print array (expense detail line)
-
-            */
 
             if (!expenses.length) {
                 if (currentExpenseType) {
@@ -178,30 +110,7 @@
                 lineItem: lineItem
             });
             return rs.push(dataToPrint);
-
-
-            // console.log('_read...');
-            // if (currentWord >= 4 /* maxWords */) {
-            //     // null terminator to inform consumer that data is done being output
-            //     return rs.push(null);
-            // }
-
-            // currentWord++;
-
-            // // simulate a delay and illustrate async processing
-            // setTimeout(function() {
-            //     console.log('_read before rs.push...');
-            //     // rs.push(currentWord.toString());
-            //     // rs.push(JSON.stringify({name: currentWord}));
-
-            //     rs.push({name: currentWord});
-            //     // rs.push([{name: currentWord}]);
-
-            //     // var randomIndex = Math.floor( Math.random() * words.length ) ;
-            //     // rs.push(currentWord + '. ' + words[ randomIndex ] /* + '\n' */);
-            // }, 100);
         };
-
         return rs;
 
         function expenseTypeIsInvalid(expenseType) {
@@ -221,67 +130,32 @@
         }
     }
 
-    function writeStream() {
-        var ws = stream.Writable();
-        ws._write = function(dataChunk , encoding , nextCb) {
-            console.log('write:', dataChunk.toString());
-
-            // simulate a delay and illustrate async processing
-            // inform producer we are ready for next dataChunk
-            // nextCb();
-            setTimeout(nextCb , 100);
-        };
-        return ws;
-    }
-
-    // act as BOTH a read AND write stream
     function transformStream(dataType) {
-        // var ts = stream.Transform();
         var ts = stream.Transform({objectMode: true});
-        // var ts = stream.Transform.call(this, {objectMode: true});
         ts._transform = function(dataChunk , encoding , nextCb) {
-            //        console.log( 'chunk: %s\n' , dataChunk.toString() + '(' + ')' );
-            // transform pass-thru data to UPPERCASE and push it out to write stream
-            // display original word text in parens (split word from index + word)
-            // var wordString = dataChunk.toString().trim();
-            // ts.push(wordString.toUpperCase());
-
             // console.log('dataChunk:', dataChunk, Object.prototype.toString.call(dataChunk));
             _.forEach(dataChunk, function(data) {
                 if (data.type === dataType.header) {
                     ts.push(dataType.header + ': ' + data.description + '\n');
                 }
+
                 if (data.type === dataType.lineItem) {
                     ts.push(dataType.lineItem + ': ' + formatAmount(data.lineItem.amount) + ' ' + data.lineItem.description + '\n');
                 }
+
                 if (data.type === dataType.subTotal) {
                     ts.push(dataType.subTotal + ': ' + formatAmount(data.amount) + '\n\n');
                 }
+
                 if (data.type === dataType.grandTotal) {
                     ts.push(dataType.grandTotal + ': ' + formatAmount(data.amount) + '\n');
                 }
-
-                // displayAmount: numeral(expenseAmount).format('$0,0.00'),
-                // displayAmount: numeral(expenseAmount).format('$0,0.00'),
-
             });
             nextCb();
 
             function formatAmount(amount) {
                 return numeral(amount).format('$0,0.00');
             }
-
-            /*
-                        // ts.push('1: ' + dataChunk.name.toString());
-                        // ts.push('2: ' + dataChunk.name.toString());
-                        ts.push('1: ' + dataChunk.toString());
-                        // ts.push('2: ' + dataChunk.toString());
-
-                        // simulate a delay and illustrate async processing
-                        // inform producer we are ready for next dataChunk
-                        // nextCb();
-                        setTimeout(nextCb , 100);
-*/
         };
         return ts;
     }
