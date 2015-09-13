@@ -7,12 +7,19 @@
     var moment = require('moment');
     var numeral = require('numeral');
 
+    var dataType = {
+        header: 'header',
+        lineItem: 'lineItem',
+        subTotal: 'subTotal',
+        grandTotal: 'grandTotal'
+    };
+
     var rs = readStream(process.argv[2]);
     var ws = writeStream();
     var ts = transformStream();
     rs.pipe(ts).pipe(ws);
 
-    console.log('NUMERAL:');
+    // console.log('NUMERAL:', numeral(.1 + .2).format('$0,0.00'));
 
     // console.log( moment('01\\10\\1971', 'MM-DD-YYYY').toDate().getTime() );
 
@@ -33,9 +40,9 @@
         var currentExpenseType;
 
         var invalidExpenseType = 'INVALID';
+        var grandTotal = 0;
         var validDate = /^\d{2}\/\d{2}\/\d{2}$/;
         var validAmount = /^"?\$(([1-9]\d{0,2}(,\d{3})*)|\d+)?\.\d{2}"?$/; // REQUIRED: $ , decimal with 2 positions and leading number even if zero, OPTIONAL: containing double quotes, comma thousands seperator
-        var grandTotal = 0;
 
         fileName = (fileName || 'Expenses 2014 New.txt');
         file = fs.readFileSync(fileName, 'utf8');
@@ -129,11 +136,11 @@
             if (!expenses.length) {
                 if (currentExpenseType) {
                     dataToPrint.push({
-                        type: 'SUBTOTAL',
+                        type: dataType.subTotal,
                         amount: currentExpenseType.subTotal
                     });
                     dataToPrint.push({
-                        type: 'GRANDTOTAL',
+                        type: dataType.grandTotal,
                         amount: grandTotal
                     });
 
@@ -147,14 +154,14 @@
             if (_.isUndefined(currentExpenseType) || currentExpenseType.type !== expenses[0].type) {
                 if (currentExpenseType) {
                     dataToPrint.push({
-                        type: 'SUBTOTAL',
+                        type: dataType.subTotal,
                         amount: currentExpenseType.subTotal
                     });
                 }
 
                 currentExpenseType = getExpenseType(expenses[0].type)
                 dataToPrint.push({
-                    type: 'HEADERS',
+                    type: dataType.header,
                     description: currentExpenseType.description
                 });
                 return rs.push(dataToPrint);
@@ -165,8 +172,8 @@
             grandTotal += lineItem.amount;
 
             dataToPrint.push({
-                type: 'LINEITEM',
-                lineItme: lineItem
+                type: dataType.lineItem,
+                lineItem: lineItem
             });
             return rs.push(dataToPrint);
 
@@ -215,7 +222,7 @@
     function writeStream() {
         var ws = stream.Writable();
         ws._write = function(dataChunk , encoding , nextCb) {
-            // console.log('write:', dataChunk.toString());
+            console.log('write:', dataChunk.toString());
 
             // simulate a delay and illustrate async processing
             // inform producer we are ready for next dataChunk
@@ -236,16 +243,36 @@
             // display original word text in parens (split word from index + word)
             // var wordString = dataChunk.toString().trim();
             // ts.push(wordString.toUpperCase());
-            console.log('dataChunk:', dataChunk, Object.prototype.toString.call(dataChunk));
-            // ts.push('1: ' + dataChunk.name.toString());
-            // ts.push('2: ' + dataChunk.name.toString());
-            ts.push('1: ' + dataChunk.toString());
-            // ts.push('2: ' + dataChunk.toString());
 
-            // simulate a delay and illustrate async processing
-            // inform producer we are ready for next dataChunk
-            // nextCb();
-            setTimeout(nextCb , 100);
+            // console.log('dataChunk:', dataChunk, Object.prototype.toString.call(dataChunk));
+            _.forEach(dataChunk, function(data) {
+                if (data.type === dataType.header) {
+                    ts.push(dataType.header + ': ' + data.description);
+                }
+                if (data.type === dataType.lineItem) {
+                    ts.push(dataType.lineItem + ': ' + data.lineItem.displayAmount + ' ' + data.lineItem.description);
+                }
+                if (data.type === dataType.subTotal) {
+                    ts.push(dataType.subTotal + ': ' + data.amount + '\n');
+                }
+                if (data.type === dataType.grandTotal) {
+                    ts.push(dataType.grandTotal + ': ' + data.amount);
+                }
+
+            });
+            nextCb();
+
+            /*
+                        // ts.push('1: ' + dataChunk.name.toString());
+                        // ts.push('2: ' + dataChunk.name.toString());
+                        ts.push('1: ' + dataChunk.toString());
+                        // ts.push('2: ' + dataChunk.toString());
+
+                        // simulate a delay and illustrate async processing
+                        // inform producer we are ready for next dataChunk
+                        // nextCb();
+                        setTimeout(nextCb , 100);
+*/
         };
         return ts;
     }
