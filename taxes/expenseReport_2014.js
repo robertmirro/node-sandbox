@@ -7,7 +7,7 @@
     var moment = require('moment');
     var numeral = require('numeral');
 
-    var rs = readStream(process.argv[2], 'INVALID');
+    var rs = readStream(process.argv[2]);
     var ws = writeStream();
     var ts = transformStream();
     rs.pipe(ts).pipe(ws);
@@ -25,11 +25,12 @@
     // var theAmount = '$4b,ob8.95';
     // console.log('theAmount:', numeral().unformat(theAmount));
 
-    function readStream(fileName, invalidExpenseType) {
+    function readStream(fileName) {
         var rs;
         var file, fileLines;
-        var expenseTypes, expenses, expenseDate, expenseAmount, expenseType, expenseDescription, typeIsInvalid, sortByType, expenseTypesToProcess, expenseCount;
+        var expenseTypes, expenses, expenseDate, expenseAmount, expenseType, expenseDescription, typeIsInvalid, sortByType;
 
+        var invalidExpenseType = 'INVALID';
         var validDate = /^\d{2}\/\d{2}\/\d{2}$/;
         var validAmount = /^"?\$(([1-9]\d{0,2}(,\d{3})*)|\d+)?\.\d{2}"?$/; // REQUIRED: $ , decimal with 2 positions and leading number even if zero, OPTIONAL: containing double quotes, comma thousands seperator
 
@@ -54,7 +55,7 @@
                     expenseType = expense[3];
                     expenseDescription = (typeof expense[4] === 'string' ? expense[4].trim() : 'Invalid Expense Description');
 
-                    typeIsInvalid = !expenseTypeIsValid(expenseTypes, expenseType);
+                    typeIsInvalid = expenseTypeIsInvalid(expenseType);
 
                     expenses.push({
                         type: (typeIsInvalid ? invalidExpenseType : expenseType),
@@ -62,7 +63,7 @@
                         displayAmount: numeral(expenseAmount).format('$0,0.00'),
                         calculateAmount: expenseAmount,
                         description: (typeIsInvalid ? '[TYPE: ' + expenseType + '] ' : '') + expenseDescription,
-                        sortByType: getExpenseTypeIndex(expenseTypes, (typeIsInvalid ? invalidExpenseType : expenseType)),
+                        sortByType: getExpenseTypeIndex(typeIsInvalid ? invalidExpenseType : expenseType),
                         sortByDate: expenseDate.toDate().getTime()
                     });
                 }
@@ -81,14 +82,14 @@
         // console.log('\n\nexpenses groupByPairs:\n', expensesGroupByPairs);
 
 
-        expenseTypesToProcess = _.filter(expenseTypes, function(expenseType) {
-            // returns { false: 5, true: 2 } when value is found/counted or { false: 7 } when value is not found/counted
-            expenseType.expenseCount = _.countBy(expenses, {
-                'type': expenseType.type
-            }).true;
-            return expenseType.expenseCount > 0;
-        });
-        // console.log('expenseTypesToProcess:', expenseTypesToProcess);
+        // expenseTypesToProcess = _.filter(expenseTypes, function(expenseType) {
+        //     // returns { false: 5, true: 2 } when value is found/counted or { false: 7 } when value is not found/counted
+        //     expenseType.expenseCount = _.countBy(expenses, {
+        //         'type': expenseType.type
+        //     }).true;
+        //     return expenseType.expenseCount > 0;
+        // });
+        // // console.log('expenseTypesToProcess:', expenseTypesToProcess);
 
 
         var currentWord = 0;
@@ -118,7 +119,7 @@
                 // shift expense from expenses array
                 // print array (expense detail line)
 
-*/
+            */
 
 
             console.log('_read...');
@@ -146,8 +147,23 @@
             }, 100);
         };
 
-        // return an instance of our stream
         return rs;
+
+        function expenseTypeIsInvalid(expenseType) {
+            return !(getExpenseType(expenseType));
+        }
+
+        function getExpenseType(expenseType) {
+            return _.find(expenseTypes, {
+                'type': expenseType
+            });
+        }
+
+        function getExpenseTypeIndex(expenseType) {
+            return _.findIndex(expenseTypes, {
+                'type': expenseType
+            });
+        }
     }
 
     function writeStream() {
@@ -191,48 +207,48 @@
     function expenseTypesList(invalidExpenseType) {
         var expenseTypes = [];
 
-        addType(expenseTypes, 'Book',       'Computer Books [Other Exp: Educational Exp]', 0);
-        addType(expenseTypes, 'Bus Ins',    'Business Insurance', 0);
-        addType(expenseTypes, 'Cell',       'Business Cell Phone [Communication Exp]', 0);
-        addType(expenseTypes, 'Conf',       'Conferences & Seminars', 0);
-        addType(expenseTypes, 'Meals',      'Meals [Meals & Entertainment Exp]', 0);
-        addType(expenseTypes, 'Furn',       'Office Furniture', 0);
-        addType(expenseTypes, 'Hard',       'Computer Hardware & Office Equipment [Business Assets]', 0);
-        addType(expenseTypes, 'Lodging',    'Lodging [Business Travel]', 0);
-        addType(expenseTypes, 'Ins',        'Medical Insurance', 0);
-        addType(expenseTypes, 'Mag',        'Magazine Subscriptions', 0);
-        addType(expenseTypes, 'Mem',        'Membership Fees', 0);
-        addType(expenseTypes, 'Misc',       'Miscellaneous Expenses [Deductible Exp]', 0);
-        addType(expenseTypes, 'MiscMed',    'Miscellaneous Medical', 0);
-        addType(expenseTypes, 'MiscEdu',    'Miscellaneous Educational Expenses [Other Exp: Educational Exp]', 0);
-        addType(expenseTypes, 'Net',        'Internet Connectivity [Communication Exp]', 0);
-        addType(expenseTypes, 'Phone',      'Long Distance Business Calls [Communication Exp]', 0);
-        addType(expenseTypes, 'Postage',    'Business Postage Fees', 0);
-        addType(expenseTypes, 'Rent',       'Rent 350 Sprague Ave (Home Office) OfficeSqFt=144 AptSqFt=778', 0);
-        addType(expenseTypes, 'Mort',       'Mortgage 79 3rd Ave (Home Office) OfficeSqFt=130 79SqFt=1017 77+79SqFt=2034', 0);
-        addType(expenseTypes, 'MortEscrow', 'Mortgage Escrow & Flood 79 3rd Ave (Home Office)', 0);
-        addType(expenseTypes, 'Sec',        'Security And Monitoring [Exp for Entire Home - Other Exp]', 0);
-        addType(expenseTypes, 'Soft',       'Computer Software', 0);
-        addType(expenseTypes, 'Supplies',   'Office Supplies (Home Office)', 0);
-        addType(expenseTypes, 'Tax',        'Business Tax Preparation', 0);
-        addType(expenseTypes, 'Toll',       'Business Trip Driving Toll [Other Vehicle Exp]', 0);
-        addType(expenseTypes, 'UtilSprag',  'Utilities 350 Sprague Ave (Home Office) [Exp for Utilities]', 0);
-        addType(expenseTypes, 'Util',       'Utilities 79 3rd Ave (Home Office) [Exp for Utilities]', 0);
-        addType(expenseTypes, 'UtilHalf',   'Utilities 77/79 3rd Ave (50% = 100% WO for 77 expense, 50% = Util WO for 79Home Office)', 0);
-        addType(expenseTypes, '77Prof',     '77 3rd Ave Profits', 0);
-        addType(expenseTypes, '77Exp',      '77 3rd Ave Expenses (100% = 100% WO for 77 expense)', 0);
-        addType(expenseTypes, '77ExpUpd',   '77 3rd Ave Expenses - Updates (100% = 100% WO for 77 expense)', 0);
-        addType(expenseTypes, '77/79Exp',   '77/79 3rd Ave Expenses (50% = 100% WO for 77 expense)', 0);
-        addType(expenseTypes, 'Pest',       'Pest Control [Exp for Entire Home - Other]', 0);
-        addType(expenseTypes, 'RentalCar',  'Rental Car [Business Travel]', 0);
-        addType(expenseTypes, '311Rent',    'Rent 311 Wesmond Dr (Home Office) OfficeSqFt=99 AptSqFt=659', 0);
-        addType(expenseTypes, '311Util',    'Utilities 311 Wesmond Dr (Home Office) [Exp for Utilities]', 0);
-        addType(expenseTypes, '311Move',    'Moving expenses from 79 3rd Ave, PA to 311 Wesmond Dr, VA', 0);
-        addType(expenseTypes, 'PropTax',    'Personal Property Tax', 0);
-        addType(expenseTypes, invalidExpenseType, 'Invalid Expense Type', 999);
+        addType('Book',       'Computer Books [Other Exp: Educational Exp]', 0);
+        addType('Bus Ins',    'Business Insurance', 0);
+        addType('Cell',       'Business Cell Phone [Communication Exp]', 0);
+        addType('Conf',       'Conferences & Seminars', 0);
+        addType('Meals',      'Meals [Meals & Entertainment Exp]', 0);
+        addType('Furn',       'Office Furniture', 0);
+        addType('Hard',       'Computer Hardware & Office Equipment [Business Assets]', 0);
+        addType('Lodging',    'Lodging [Business Travel]', 0);
+        addType('Ins',        'Medical Insurance', 0);
+        addType('Mag',        'Magazine Subscriptions', 0);
+        addType('Mem',        'Membership Fees', 0);
+        addType('Misc',       'Miscellaneous Expenses [Deductible Exp]', 0);
+        addType('MiscMed',    'Miscellaneous Medical', 0);
+        addType('MiscEdu',    'Miscellaneous Educational Expenses [Other Exp: Educational Exp]', 0);
+        addType('Net',        'Internet Connectivity [Communication Exp]', 0);
+        addType('Phone',      'Long Distance Business Calls [Communication Exp]', 0);
+        addType('Postage',    'Business Postage Fees', 0);
+        addType('Rent',       'Rent 350 Sprague Ave (Home Office) OfficeSqFt=144 AptSqFt=778', 0);
+        addType('Mort',       'Mortgage 79 3rd Ave (Home Office) OfficeSqFt=130 79SqFt=1017 77+79SqFt=2034', 0);
+        addType('MortEscrow', 'Mortgage Escrow & Flood 79 3rd Ave (Home Office)', 0);
+        addType('Sec',        'Security And Monitoring [Exp for Entire Home - Other Exp]', 0);
+        addType('Soft',       'Computer Software', 0);
+        addType('Supplies',   'Office Supplies (Home Office)', 0);
+        addType('Tax',        'Business Tax Preparation', 0);
+        addType('Toll',       'Business Trip Driving Toll [Other Vehicle Exp]', 0);
+        addType('UtilSprag',  'Utilities 350 Sprague Ave (Home Office) [Exp for Utilities]', 0);
+        addType('Util',       'Utilities 79 3rd Ave (Home Office) [Exp for Utilities]', 0);
+        addType('UtilHalf',   'Utilities 77/79 3rd Ave (50% = 100% WO for 77 expense, 50% = Util WO for 79Home Office)', 0);
+        addType('77Prof',     '77 3rd Ave Profits', 0);
+        addType('77Exp',      '77 3rd Ave Expenses (100% = 100% WO for 77 expense)', 0);
+        addType('77ExpUpd',   '77 3rd Ave Expenses - Updates (100% = 100% WO for 77 expense)', 0);
+        addType('77/79Exp',   '77/79 3rd Ave Expenses (50% = 100% WO for 77 expense)', 0);
+        addType('Pest',       'Pest Control [Exp for Entire Home - Other]', 0);
+        addType('RentalCar',  'Rental Car [Business Travel]', 0);
+        addType('311Rent',    'Rent 311 Wesmond Dr (Home Office) OfficeSqFt=99 AptSqFt=659', 0);
+        addType('311Util',    'Utilities 311 Wesmond Dr (Home Office) [Exp for Utilities]', 0);
+        addType('311Move',    'Moving expenses from 79 3rd Ave, PA to 311 Wesmond Dr, VA', 0);
+        addType('PropTax',    'Personal Property Tax', 0);
+        addType(invalidExpenseType, 'Invalid Expense Type', 999);
         return expenseTypes;
 
-        function addType(expenseTypes, type, description, sortOrder) {
+        function addType(type, description, sortOrder) {
             expenseTypes.push({
                 'type': type,
                 'description': description,
@@ -240,21 +256,4 @@
             });
         }
     }
-
-    function expenseTypeIsValid(expenseTypes, expenseType) {
-        return Boolean(getExpenseType(expenseTypes, expenseType));
-    }
-
-    function getExpenseType(expenseTypes, expenseType) {
-        return _.find(expenseTypes, {
-            'type': expenseType
-        });
-    }
-
-    function getExpenseTypeIndex(expenseTypes, expenseType) {
-        return _.findIndex(expenseTypes, {
-            'type': expenseType
-        });
-    }
-
 })();
