@@ -15,9 +15,11 @@
     };
 
     var rs = readStream(process.argv[2]);
-    var ws = writeStream();
     var ts = transformStream();
-    rs.pipe(ts).pipe(ws);
+    var ws = writeStream();
+    var wss = fs.createWriteStream('expenseReport.txt');
+    // rs.pipe(ts).pipe(ws);
+    rs.pipe(ts).pipe(wss);
 
     // console.log('NUMERAL:', numeral(.1 + .2).format('$0,0.00'));
 
@@ -247,16 +249,16 @@
             // console.log('dataChunk:', dataChunk, Object.prototype.toString.call(dataChunk));
             _.forEach(dataChunk, function(data) {
                 if (data.type === dataType.header) {
-                    ts.push(dataType.header + ': ' + data.description);
+                    ts.push(dataType.header + ': ' + data.description + '\n');
                 }
                 if (data.type === dataType.lineItem) {
-                    ts.push(dataType.lineItem + ': ' + data.lineItem.displayAmount + ' ' + data.lineItem.description);
+                    ts.push(dataType.lineItem + ': ' + data.lineItem.displayAmount + ' ' + data.lineItem.description + '\n');
                 }
                 if (data.type === dataType.subTotal) {
-                    ts.push(dataType.subTotal + ': ' + data.amount + '\n');
+                    ts.push(dataType.subTotal + ': ' + data.amount + '\n\n');
                 }
                 if (data.type === dataType.grandTotal) {
-                    ts.push(dataType.grandTotal + ': ' + data.amount);
+                    ts.push(dataType.grandTotal + ': ' + data.amount + '\n');
                 }
 
             });
