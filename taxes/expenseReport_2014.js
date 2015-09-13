@@ -96,6 +96,30 @@
         rs = stream.Readable({objectMode: true});
         // rs = stream.Readable.call(this, {objectMode: true});
         rs._read = function(size) {
+
+            /*
+            var currentExpenseType, currentExpense;
+
+            // if there is no next expense (expense.length = 0)
+
+                // if there is a currentType, print array (sub total AND grand total), clear currentType
+                // if there is NOT a currentType, end read (return push(null))
+
+            // else if currentType not defined OR currentType.type <> type of next expense in array
+
+                // var arrayToPrint = [];
+                // if there is a currentType, arrayToPrint.push(currentType subtotal line)
+                // set currentType (getExpenseType(next expense in array: expense.type))
+                // arrayToPrint.push(new currentType header and column headers)
+
+            // else
+
+                // shift expense from expenses array
+                // print array (expense detail line)
+
+*/
+            
+            
             console.log('_read...');
             if (currentWord >= 4 /* maxWords */) {
                 // null terminator to inform consumer that data is done being output
