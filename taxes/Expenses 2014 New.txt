@@ -1,0 +1,27 @@
+Date	Expense	Receipt	Type	Description
+				
+JANUARY				
+		p	Util	UGI: Electricity
+		p	Util	UGI PNG: Natural Gas
+		p	77Exp	UGI: Electricity (77 3rd Ave)
+		p	77Exp	UGI PNG: Natural Gas (77 3rd Ave)
+		p	UtilHalf	PAWC: Water
+01/08/14	$139.19	"p,amex"	Cell	AT&T: Business cell phone
+01/01/14	"$2,000.00"	c	311Rent	Scott Sweat: 311 Wesmond apartment rent
+01/16/14	$57.17	p	311Util	Dominion: Electricity
+01/12/14	$45.94	p	311Util	Washington Gas: Natural Gas
+01/21/14	$61.22	"p, amex"	Net	Comcast: Cable Internet Service
+01/16/14	$731.88	c	Ins	COBRA: Health Insurance
+				
+		p	Net	Verizon: DSL internet service
+				
+		p	Phone	Frontier: Business calls from home phone
+		p	Net	Frontier: DSL internet service
+		v	Net	Prolog/Penteledata/Microserve: Internet PPP account
+01/08/14	$4.00	p	Toll	PA Turnpike: EZPass monthly printed statement charge
+		v	Sec	Vector Security: Security Monitoring Service
+01/bob/14	$4.00	p	Toll	PA Turnpike: EZPass monthly printed statement charge2222
+		c	Ins	MegaLife: Non-group health insurance 
+		c	Ins	NASE: Non-group health insurance membership
+				
+		"p,amex"	Book	Amazon.com: Beginning Object-Oriented ASP.NET 2.0 with VB.NET

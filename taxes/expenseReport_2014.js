@@ -73,6 +73,13 @@
         expenses = _.sortBy(expenses, 'sortByDate');
         console.log('\n\nexpenses sorted:\n', expenses);
 
+        // var expensesGroupBy = _.groupBy(expenses, 'type');
+        // console.log('\n\nexpenses groupBy:\n', expensesGroupBy);
+
+        // var expensesGroupByPairs = _.pairs(expensesGroupBy);
+        // console.log('\n\nexpenses groupByPairs:\n', expensesGroupByPairs);
+
+
         expenseTypesToProcess = _.filter(expenseTypes, function(expenseType) {
             // returns { false: 5, true: 2 } when value is found/counted or { false: 7 } when value is not found/counted
             expenseType.expenseCount = _.countBy(expenses, {
@@ -86,7 +93,8 @@
         var currentWord = 0;
 
         // rs = stream.Readable();
-        rs = stream.Readable.call(this, {objectMode: true});
+        rs = stream.Readable({objectMode: true});
+        // rs = stream.Readable.call(this, {objectMode: true});
         rs._read = function(size) {
             console.log('_read...');
             if (currentWord >= 4 /* maxWords */) {
@@ -100,8 +108,12 @@
             setTimeout(function() {
                 console.log('_read before rs.push...');
                 // rs.push(currentWord.toString());
-                rs.push({name: currentWord});
                 // rs.push(JSON.stringify({name: currentWord}));
+
+
+                rs.push({name: currentWord});
+                // rs.push([{name: currentWord}]);
+
 
 
                 // var randomIndex = Math.floor( Math.random() * words.length ) ;
@@ -129,15 +141,19 @@
     // act as BOTH a read AND write stream
     function transformStream() {
         // var ts = stream.Transform();
-        var ts = stream.Transform.call(this, {objectMode: true});
+        var ts = stream.Transform({objectMode: true});
+        // var ts = stream.Transform.call(this, {objectMode: true});
         ts._transform = function(dataChunk , encoding , nextCb) {
             //        console.log( 'chunk: %s\n' , dataChunk.toString() + '(' + ')' );
             // transform pass-thru data to UPPERCASE and push it out to write stream
             // display original word text in parens (split word from index + word)
             // var wordString = dataChunk.toString().trim();
             // ts.push(wordString.toUpperCase());
-            console.log('dataChunk:', dataChunk, typeof dataChunk);
-            ts.push(dataChunk.name.toString());
+            console.log('dataChunk:', dataChunk, Object.prototype.toString.call(dataChunk));
+            // ts.push('1: ' + dataChunk.name.toString());
+            // ts.push('2: ' + dataChunk.name.toString());
+            ts.push('1: ' + dataChunk.toString());
+            ts.push('2: ' + dataChunk.toString());
 
             // simulate a delay and illustrate async processing
             // inform producer we are ready for next dataChunk
