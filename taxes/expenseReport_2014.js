@@ -29,10 +29,12 @@
         var rs;
         var file, fileLines;
         var expenseTypes, expenses, expenseDate, expenseAmount, expenseType, expenseDescription, typeIsInvalid, sortByType;
+        var currentExpenseType;
 
         var invalidExpenseType = 'INVALID';
         var validDate = /^\d{2}\/\d{2}\/\d{2}$/;
         var validAmount = /^"?\$(([1-9]\d{0,2}(,\d{3})*)|\d+)?\.\d{2}"?$/; // REQUIRED: $ , decimal with 2 positions and leading number even if zero, OPTIONAL: containing double quotes, comma thousands seperator
+        var grandTotal = 0;
 
         fileName = (fileName || 'Expenses 2014 New.txt');
         file = fs.readFileSync(fileName, 'utf8');
@@ -59,10 +61,10 @@
 
                     expenses.push({
                         type: (typeIsInvalid ? invalidExpenseType : expenseType),
+                        amount: expenseAmount,
+                        description: (typeIsInvalid ? '[TYPE: ' + expenseType + '] ' : '') + expenseDescription,
                         displayDate: expenseDate.format('MM/DD/YYYY'),
                         displayAmount: numeral(expenseAmount).format('$0,0.00'),
-                        calculateAmount: expenseAmount,
-                        description: (typeIsInvalid ? '[TYPE: ' + expenseType + '] ' : '') + expenseDescription,
                         sortByType: getExpenseTypeIndex(typeIsInvalid ? invalidExpenseType : expenseType),
                         sortByDate: expenseDate.toDate().getTime()
                     });
@@ -98,6 +100,8 @@
         rs = stream.Readable({objectMode: true});
         // rs = stream.Readable.call(this, {objectMode: true});
         rs._read = function(size) {
+            var dataToPrint = [];
+            var lineItem;
 
             /*
             var currentExpenseType, currentExpense;
@@ -121,30 +125,70 @@
 
             */
 
+            if (!expenses.length) {
+                if (currentExpenseType) {
+                    dataToPrint.push({
+                        type: 'SUBTOTAL',
+                        amount: currentExpenseType.subTotal
+                    });
+                    dataToPrint.push({
+                        type: 'GRANDTOTAL',
+                        amount: grandTotal
+                    });
 
-            console.log('_read...');
-            if (currentWord >= 4 /* maxWords */) {
-                // null terminator to inform consumer that data is done being output
+                    currentExpenseType = undefined;
+                    return rs.push(dataToPrint);
+                }
                 return rs.push(null);
             }
 
-            currentWord++;
+            if (_.isUndefined(currentExpenseType) || currentExpenseType.type !== expenses[0].type) {
+                if (currentExpenseType) {
+                    dataToPrint.push({
+                        type: 'SUBTOTAL',
+                        amount: currentExpenseType.subTotal
+                    });
+                }
 
-            // simulate a delay and illustrate async processing
-            setTimeout(function() {
-                console.log('_read before rs.push...');
-                // rs.push(currentWord.toString());
-                // rs.push(JSON.stringify({name: currentWord}));
+                currentExpenseType = getExpenseType(expenses[0].type)
+                dataToPrint.push({
+                    type: 'HEADERS',
+                    description: currentExpenseType.description
+                });
+                return rs.push(dataToPrint);
+            }
+
+            lineItem = expenses.shift();
+            currentExpenseType.subTotal += lineItem.amount;
+            grandTotal += lineItem.amount;
+
+            dataToPrint.push({
+                type: 'LINEITEM',
+                lineItme: lineItem
+            });
+            return rs.push(dataToPrint);
 
 
-                rs.push({name: currentWord});
-                // rs.push([{name: currentWord}]);
+            // console.log('_read...');
+            // if (currentWord >= 4 /* maxWords */) {
+            //     // null terminator to inform consumer that data is done being output
+            //     return rs.push(null);
+            // }
 
+            // currentWord++;
 
+            // // simulate a delay and illustrate async processing
+            // setTimeout(function() {
+            //     console.log('_read before rs.push...');
+            //     // rs.push(currentWord.toString());
+            //     // rs.push(JSON.stringify({name: currentWord}));
 
-                // var randomIndex = Math.floor( Math.random() * words.length ) ;
-                // rs.push(currentWord + '. ' + words[ randomIndex ] /* + '\n' */);
-            }, 100);
+            //     rs.push({name: currentWord});
+            //     // rs.push([{name: currentWord}]);
+
+            //     // var randomIndex = Math.floor( Math.random() * words.length ) ;
+            //     // rs.push(currentWord + '. ' + words[ randomIndex ] /* + '\n' */);
+            // }, 100);
         };
 
         return rs;
@@ -250,9 +294,10 @@
 
         function addType(type, description, sortOrder) {
             expenseTypes.push({
-                'type': type,
-                'description': description,
-                'sortOrder': sortOrder
+                type: type,
+                description: description,
+                sortOrder: sortOrder,
+                subTotal: 0
             });
         }
     }
