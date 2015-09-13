@@ -43,7 +43,7 @@
         // console.log('fileLines:', fileLines);
 
         expenseTypes = _.sortByAll(expenseTypesList(invalidExpenseType), ['sortOrder', 'description']);
-        console.log('expenseTypes:', expenseTypes);
+        // console.log('expenseTypes:', expenseTypes);
 
         expenses = [];
         _.forEach(fileLines, function(expense) {
@@ -72,10 +72,10 @@
             }
             // console.log('expense:', expense, '\n');
         });
-        console.log('\n\nexpenses:\n', expenses);
+        // console.log('\n\nexpenses:\n', expenses);
 
         expenses = _.sortByAll(expenses, ['sortByType', 'sortByDate']);
-        console.log('\n\nexpenses sorted:\n', expenses);
+        // console.log('\n\nexpenses sorted:\n', expenses);
 
         // var expensesGroupBy = _.groupBy(expenses, 'type');
         // console.log('\n\nexpenses groupBy:\n', expensesGroupBy);
@@ -213,7 +213,7 @@
     function writeStream() {
         var ws = stream.Writable();
         ws._write = function(dataChunk , encoding , nextCb) {
-            console.log('write:', dataChunk.toString());
+            // console.log('write:', dataChunk.toString());
 
             // simulate a delay and illustrate async processing
             // inform producer we are ready for next dataChunk
@@ -238,7 +238,7 @@
             // ts.push('1: ' + dataChunk.name.toString());
             // ts.push('2: ' + dataChunk.name.toString());
             ts.push('1: ' + dataChunk.toString());
-            ts.push('2: ' + dataChunk.toString());
+            // ts.push('2: ' + dataChunk.toString());
 
             // simulate a delay and illustrate async processing
             // inform producer we are ready for next dataChunk
