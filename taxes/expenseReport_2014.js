@@ -7,7 +7,7 @@
     var moment = require('moment');
     var numeral = require('numeral');
 
-    var fileName = process.argv[2] || 'Expenses 2014 New.txt';
+    var fileName = process.argv[2] || 'Expenses 2014.txt';
     var dataType = {
         header: 'HEADER',
         lineItem: 'LINEITEM',
@@ -46,6 +46,8 @@
                 if (expenseDate.isValid()) {
                     expenseType = expense[3];
                     expenseDescription = (typeof expense[4] === 'string' ? expense[4].trim() : 'Invalid Expense Description');
+                    // console.log('|' + expenseDescription + '|')
+                    expenseDescription = expenseDescription.replace(/^"/, '').replace(/"$/, '')
 
                     typeIsInvalid = expenseTypeIsInvalid(expenseType);
 
