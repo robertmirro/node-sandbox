@@ -28,7 +28,7 @@
     function readStream(fileName, invalidExpenseType) {
         var rs;
         var file, fileLines;
-        var expenseTypes, expenses, expenseDate, expenseAmount, expenseType, expenseDescription, typeIsInvalid, expenseTypesToProcess, expenseCount;
+        var expenseTypes, expenses, expenseDate, expenseAmount, expenseType, expenseDescription, typeIsInvalid, sortByType, expenseTypesToProcess, expenseCount;
 
         var validDate = /^\d{2}\/\d{2}\/\d{2}$/;
         var validAmount = /^"?\$(([1-9]\d{0,2}(,\d{3})*)|\d+)?\.\d{2}"?$/; // REQUIRED: $ , decimal with 2 positions and leading number even if zero, OPTIONAL: containing double quotes, comma thousands seperator
@@ -40,7 +40,7 @@
         // console.log('fileLines:', fileLines);
 
         expenseTypes = _.sortByAll(expenseTypesList(invalidExpenseType), ['sortOrder', 'description']);
-        // console.log('expenseTypes:', expenseTypes);
+        console.log('expenseTypes:', expenseTypes);
 
         expenses = [];
         _.forEach(fileLines, function(expense) {
@@ -57,12 +57,13 @@
                     typeIsInvalid = !expenseTypeIsValid(expenseTypes, expenseType);
 
                     expenses.push({
-                        'type': (typeIsInvalid ? invalidExpenseType : expenseType),
-                        'displayDate': expenseDate.format('MM/DD/YYYY'),
-                        'sortByDate': expenseDate.toDate().getTime(),
-                        'displayAmount': numeral(expenseAmount).format('$0,0.00'),
-                        'calculateAmount': expenseAmount,
-                        'description': (typeIsInvalid ? '[TYPE: ' + expenseType + '] ' : '') + expenseDescription
+                        type: (typeIsInvalid ? invalidExpenseType : expenseType),
+                        displayDate: expenseDate.format('MM/DD/YYYY'),
+                        displayAmount: numeral(expenseAmount).format('$0,0.00'),
+                        calculateAmount: expenseAmount,
+                        description: (typeIsInvalid ? '[TYPE: ' + expenseType + '] ' : '') + expenseDescription,
+                        sortByType: getExpenseTypeIndex(expenseTypes, (typeIsInvalid ? invalidExpenseType : expenseType)),
+                        sortByDate: expenseDate.toDate().getTime()
                     });
                 }
             }
@@ -70,7 +71,7 @@
         });
         console.log('\n\nexpenses:\n', expenses);
 
-        expenses = _.sortBy(expenses, 'sortByDate');
+        expenses = _.sortByAll(expenses, ['sortByType', 'sortByDate']);
         console.log('\n\nexpenses sorted:\n', expenses);
 
         // var expensesGroupBy = _.groupBy(expenses, 'type');
@@ -118,8 +119,8 @@
                 // print array (expense detail line)
 
 */
-            
-            
+
+
             console.log('_read...');
             if (currentWord >= 4 /* maxWords */) {
                 // null terminator to inform consumer that data is done being output
@@ -246,6 +247,12 @@
 
     function getExpenseType(expenseTypes, expenseType) {
         return _.find(expenseTypes, {
+            'type': expenseType
+        });
+    }
+
+    function getExpenseTypeIndex(expenseTypes, expenseType) {
+        return _.findIndex(expenseTypes, {
             'type': expenseType
         });
     }
