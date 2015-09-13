@@ -17,7 +17,7 @@
 
     var rs = readStream(fileName, dataType);
     var ts = transformStream(dataType);
-    var ws = fs.createWriteStream(fileName + '.REPORT.txt');
+    var ws = fs.createWriteStream(fileName.replace('.txt', '-EXP.txt'));
     rs.pipe(ts).pipe(ws);
 
     function readStream(fileName, dataType) {
