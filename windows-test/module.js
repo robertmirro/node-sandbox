@@ -1,4 +1,6 @@
-var mod = require('module');
+// var mod = require('module');
+// console.log('mod:', mod);
+// return;
 
 var holdModuleExports = module.exports;
 
@@ -33,4 +35,4 @@ writeLog('exports.myMod = myModule...');
 
 // the console.log below fails when module_no_export exports nothing
 var modNoExport = require('./module_no_export');
-console.log(modNoExport());
+// console.log(modNoExport());
