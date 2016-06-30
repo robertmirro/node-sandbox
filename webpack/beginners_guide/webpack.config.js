@@ -1,4 +1,5 @@
 module.exports = {
+    debug: false,
     entry: ['./someOtherFile.js', './app.js'],
     output: {
         filename: "bundle.js"
@@ -12,8 +13,8 @@ module.exports = {
 
         }],
         loaders: [{
-            test: [/\.js$/, /\.es6$/],
-            exclude: /node_modules/,
+            test: [/\.js$/, /\.es6$/]
+,            exclude: /node_modules/,
             loader: 'babel-loader',
             query: {
                 presets: ['react', 'es2015', 'stage-2']
