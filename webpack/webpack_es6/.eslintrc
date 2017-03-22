@@ -1,0 +1,38 @@
+{
+    "parser": "babel-eslint",
+
+    "globals": {
+        "jasmine": false,
+        "it": false,
+        "expect": false,
+        "spyOn": false,
+        "describe": false,
+        "beforeEach": false,
+        "afterEach": false,
+        "asyncTest": false,
+        "__DEV__": false,
+        "requestAnimationFrame": false,
+        "angular": true,
+        "inject": true
+    },
+
+    "plugins": [
+        "react",
+        "flowtype",
+        "standard"
+    ],
+
+    "extends": ["standard", "standard-react"],
+
+    "rules": {
+        "object-curly-newline": ["error", {
+            "ObjectExpression": { "minProperties": 2 },
+            "ObjectPattern": "never"
+        }],
+        "object-curly-spacing": ["error", "always"],
+        "semi": ["error", "always"],
+        "indent": ["error", 4],
+        "space-before-function-paren": ["error", "never"],
+        "quote-props": ["error", "as-needed"]
+    }
+}
