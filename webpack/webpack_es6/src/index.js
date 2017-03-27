@@ -38,6 +38,13 @@ console.log('other service options:', otherService.options);
 console.log('other service theVar:', otherService.theVar);
 otherService.methodOne('other one');
 otherService.mTwo('other two');
+otherService.asyncFn()
+    .then(x => console.log('other service asyncFn x:', x));
+otherService.asyncValueFn()
+    .then(x => console.log('other service asyncValueFn x:', x));
+otherService.promiseFn()
+    .then(x => x * 2)
+    .then(x => console.log('other service promiseFn x:', x));
 line();
 
 console.log('passThroughAll:', passThroughAll);
