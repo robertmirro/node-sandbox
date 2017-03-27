@@ -1,4 +1,5 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = (env = {}) => {
     return {
@@ -14,6 +15,11 @@ module.exports = (env = {}) => {
                 loader: 'babel-loader',
                 options: { presets: ['stage-0', 'latest', 'react'] }
             }]
-        }] }
+        }] },
+        plugins: [new HtmlWebpackPlugin({
+            title: 'webpack + es2015',
+            template: './src/index.html.ejs',
+            hash: true
+        })]
     };
 };
