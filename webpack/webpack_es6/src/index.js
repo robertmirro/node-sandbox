@@ -23,6 +23,7 @@ import defaultYetAnotherService, { var1, varThree, var4 as four, var5 as fiveVar
 
 import { controller } from './component';
 
+// import angular from 'angular';
 import _ from 'lodash';
 import $ from 'jquery';
 
@@ -92,6 +93,7 @@ controller('the ctrl');
 line();
 
 console.log('angular:', angular.version.full);
+console.log('angular.element: %O', angular.element);
 line();
 
 console.log('lodash:', _.VERSION);
