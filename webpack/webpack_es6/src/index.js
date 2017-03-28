@@ -23,6 +23,9 @@ import defaultYetAnotherService, { var1, varThree, var4 as four, var5 as fiveVar
 
 import { controller } from './component';
 
+import _ from 'lodash';
+import $ from 'jquery';
+
 defaultMethod('d to the fault');
 serviceCall('the params');
 console.log('service options:', options);
@@ -86,4 +89,13 @@ console.log('theValue:', theValue);
 line();
 
 controller('the ctrl');
+line();
+
+console.log('angular:', angular.version.full);
+line();
+
+console.log('lodash:', _.VERSION);
+line();
+
+console.log('jquery:', $.fn.jquery);
 line();

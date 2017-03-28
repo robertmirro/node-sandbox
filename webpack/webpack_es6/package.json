@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack"
+    "build:dev": "webpack",
+    "build:prod": "webpack --env.production"
   },
   "author": "rjm",
   "license": "MIT",
@@ -28,5 +29,11 @@
     "eslint-plugin-standard": "^2.1.1",
     "html-webpack-plugin": "^2.28.0",
     "webpack": "^2.3.1"
+  },
+  "dependencies": {
+    "angular": "^1.6.3",
+    "angular-ui-router": "^0.4.2",
+    "jquery": "^3.2.1",
+    "lodash": "^4.17.4"
   }
 }
