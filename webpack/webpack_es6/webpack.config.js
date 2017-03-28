@@ -31,5 +31,11 @@ module.exports = (env = {}) => {
                 minChunks: 2
             })
         ]
+        .concat(env.production ? new webpack.optimize.UglifyJsPlugin({
+            minimize: true,
+            mangle: true,
+            comments: false,
+            beautify: false
+        }) : [])
     };
 };
