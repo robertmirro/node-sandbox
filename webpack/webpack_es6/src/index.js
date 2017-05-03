@@ -27,6 +27,8 @@ import { controller } from './component';
 import _ from 'lodash';
 import $ from 'jquery';
 
+import defaultExpression from './defaultExpression';
+
 defaultMethod('d to the fault');
 serviceCall('the params');
 console.log('service options:', options);
@@ -100,4 +102,7 @@ console.log('lodash:', _.VERSION);
 line();
 
 console.log('jquery:', $.fn.jquery);
+line();
+
+console.log('defaultExpression:', defaultExpression);
 line();
