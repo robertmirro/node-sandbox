@@ -3429,6 +3429,42 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // npm run build
 
+// import fp from 'lodash/fp';
+
+// console.log('fp: %O', fp);
+
+// const users = [
+//     {
+//         name: 'Ac',
+//         age: 48
+//     },
+//     {
+//         name: 'B',
+//         age: 34
+//     },
+//     {
+//         name: 'b',
+//         age: 40
+//     },
+//     {
+//         name: 'ab',
+//         age: 36
+//     }
+// ];
+
+// self.lobList = _.flow(
+//     _.filter({ clientId: $scope.actionItemFilter.clientId }),
+//     _.sortBy('lobName')
+// )(UserSession.getUserInfo().clientLobs);
+
+// // let d = fp.filter(u => u.age >= 36)(users);
+// let d = fp.flow(
+//     fp.filter(u => u.age >= 36),
+//     fp.sortBy('name')
+// )(users);
+
+// console.log('d:', d);
+
 var line = function line() {
     return console.log('-'.repeat(80));
 };
