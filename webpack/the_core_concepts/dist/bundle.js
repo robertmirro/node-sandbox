@@ -65,37 +65,46 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__foo__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__bar_cjs__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__bar_cjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__bar_cjs__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__webpack_academy_logo_jpg__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__webpack_academy_logo_jpg___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__webpack_academy_logo_jpg__);
 
 
+var _foo = __webpack_require__(1);
+
+var _foo2 = _interopRequireDefault(_foo);
+
+var _barCjs = __webpack_require__(2);
+
+var _barCjs2 = _interopRequireDefault(_barCjs);
+
+__webpack_require__(3);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+console.log('hello from webpack academy! (fooString: ' + _foo2.default + ', barString: ' + _barCjs2.default + ')');
 // import './webpack-academy-logo.png';
-
-
-console.log(`hello from webpack academy! (fooString: ${__WEBPACK_IMPORTED_MODULE_0__foo__["a" /* default */]}, barString: ${__WEBPACK_IMPORTED_MODULE_1__bar_cjs___default.a})`);
-
 
 /***/ }),
 /* 1 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ('foo');
 
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = 'foo';
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
 
 module.exports = 'bar';
-
 
 /***/ }),
 /* 3 */
