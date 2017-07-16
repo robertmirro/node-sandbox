@@ -1,0 +1,15 @@
+{
+    "name": "the_core_concepts",
+    "version": "1.0.0",
+    "description": "\u0016https://webpack.academy/courses/enrolled/104961",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "webpack"
+    },
+    "author": "rjm",
+    "license": "MIT",
+    "devDependencies": {
+        "webpack": "^3.3.0"
+    }
+}
