@@ -14,6 +14,7 @@
         "webpack": "^3.3.0"
     },
     "dependencies": {
-        "eslint-config-rmirro": "^1.0.0"
+        "eslint-config-rmirro": "^1.0.0",
+        "file-loader": "^0.11.2"
     }
 }

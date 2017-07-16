@@ -72,7 +72,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__foo__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__bar_cjs__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__bar_cjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__bar_cjs__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__webpack_academy_logo_jpg__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__webpack_academy_logo_jpg___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__webpack_academy_logo_jpg__);
 
+
+// import './webpack-academy-logo.png';
 
 
 console.log(`hello from webpack academy! (fooString: ${__WEBPACK_IMPORTED_MODULE_0__foo__["a" /* default */]}, barString: ${__WEBPACK_IMPORTED_MODULE_1__bar_cjs___default.a})`);
@@ -92,6 +96,12 @@ console.log(`hello from webpack academy! (fooString: ${__WEBPACK_IMPORTED_MODULE
 
 module.exports = 'bar';
 
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "09f9c97ba2e98102b4bd1986348fd6e2.jpg";
 
 /***/ })
 /******/ ]);
