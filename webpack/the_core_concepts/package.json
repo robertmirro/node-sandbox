@@ -4,9 +4,9 @@
     "description": "\u0016https://webpack.academy/courses/enrolled/104961",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
+        "eslint": "eslint \"**/*.js\"",
         "build": "webpack",
-        "eslint": "eslint \"**/*.js\""
+        "watch": "webpack --watch"
     },
     "author": "rjm",
     "license": "MIT",
