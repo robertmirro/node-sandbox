@@ -5,9 +5,12 @@ const Good = require('good');
 
 const server = new Hapi.Server();
 server.connection({
+    labels: ['api'],
     host: 'localhost',
     port: 4848
 });
+
+// console.log('server.select(api):', server.select('api'));
 
 server.route({
     method: 'GET',
