@@ -31,6 +31,11 @@ server.register(require('inert'), err => {
     });
 });
 
+server.register(Object.assign(require('./custom-plugin'), { options: { key: 'value' } }), err => {
+    if (err) throw err;
+    console.log('custom-plugin: registered');
+});
+
 server.register({
     register: Good,
     options: { reporters: { console: [{
