@@ -1,0 +1,15 @@
+{
+    "name": "hapijs.com",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "rjm",
+    "license": "MIT",
+    "dependencies": {
+        "eslint-config-rmirro": "^1.0.0",
+        "hapi": "^16.5.0"
+    }
+}
