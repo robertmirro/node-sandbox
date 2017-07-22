@@ -3,14 +3,17 @@
 const Hapi = require('hapi');
 const Good = require('good');
 
+const err = message => err => {
+    if (err) throw err;
+    console.log(message);
+};
+
 const server = new Hapi.Server();
 server.connection({
     labels: ['api'],
     host: 'localhost',
     port: 4848
 });
-
-// console.log('server.select(api):', server.select('api'));
 
 server.route({
     method: 'GET',
@@ -21,8 +24,17 @@ server.route({
 server.route({
     method: 'GET',
     path: '/{name}',
-    handler: (request, reply) => { reply(`GET - name: ${encodeURIComponent(request.params.name)}`); }
+    handler: (request, reply) => { reply(`GET - root/name: ${encodeURIComponent(request.params.name)}`); }
 });
+
+// console.log('server.select(api):', server.select('api'));
+server.select('api').route({
+    method: 'GET',
+    path: '/theapi',
+    handler: (request, reply) => { reply('GET - root/theapi'); }
+});
+
+server.register(require('./routes/user'), { select: 'api' }, err('routes/users: registered'));
 
 server.register(require('inert'), err => {
     if (err) throw err;
@@ -34,10 +46,7 @@ server.register(require('inert'), err => {
     });
 });
 
-server.register(Object.assign(require('./custom-plugin'), { options: { key: 'value' } }), err => {
-    if (err) throw err;
-    console.log('custom-plugin: registered');
-});
+server.register(Object.assign(require('./custom-plugin'), { options: { key: 'value' } }), err('custom-plugin: registered'));
 
 server.register({
     register: Good,
