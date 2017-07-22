@@ -12,7 +12,11 @@ const server = new Hapi.Server();
 server.connection({
     labels: ['api'],
     host: 'localhost',
-    port: 4848
+    // host: '10.0.0.242',
+    port: 4848,
+    routes: { cors: { origin: ['*'] } }
+    // routes: { cors: { origin: ['http://peg.com'] } }
+    // routes: { cors: false }
 });
 
 server.route({

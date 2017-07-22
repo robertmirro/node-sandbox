@@ -1,5 +1,5 @@
 const register = (server, options, next) => {
-    console.log(`routes/users: registering... options:`, options);
+    console.log(`routes/user: registering... options:`, options);
 
     server.route({
         method: 'GET',
@@ -9,8 +9,17 @@ const register = (server, options, next) => {
 
     server.route({
         method: 'GET',
-        path: '/detail',
-        handler: (request, reply) => { reply('GET - user/detail'); }
+        path: '/{userId}/detail/{version?}',
+        handler: (request, reply) => { reply(`GET - user/userId/detail/version: ${encodeURIComponent(request.params.userId)} / ${encodeURIComponent(request.params.version)}`); }
+    });
+
+    server.route({
+        method: 'GET',
+        path: '/{clientPatient*2}/config',
+        handler: (request, reply) => {
+            const [ clientId, patientId ] = request.params.clientPatient.split('/');
+            reply(`GET - user/clientId/patientId/config: ${encodeURIComponent(clientId)} / ${encodeURIComponent(patientId)}`);
+        }
     });
 
     next();
