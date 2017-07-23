@@ -19,6 +19,15 @@ server.connection({
     // routes: { cors: false }
 });
 
+server.method('util.sanitize', value => `server util.sanitize: ${encodeURIComponent(value || '')}`, {});
+server.method({
+    name: 'util.cleanse',
+    method: value => `server util.cleanse: ${(value || '').toUpperCase()}`,
+    options: {}
+});
+console.log(server.methods.util.sanitize('the sanitized value'));
+console.log(server.methods.util.cleanse('the cleansed value'));
+
 server.route({
     method: 'GET',
     path: '/',
