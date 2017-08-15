@@ -144,12 +144,12 @@
 /******/ 	__webpack_require__.oe = function(err) { console.error(err); throw err; };
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 127);
+/******/ 	return __webpack_require__(__webpack_require__.s = 129);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 118:
+/***/ 119:
 /***/ (function(module, exports) {
 
 /**
@@ -4839,16 +4839,16 @@ angular.module('ui.router.state')
 
 /***/ }),
 
-/***/ 119:
+/***/ 120:
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(122);
+__webpack_require__(123);
 module.exports = angular;
 
 
 /***/ }),
 
-/***/ 122:
+/***/ 123:
 /***/ (function(module, exports) {
 
 /**
@@ -38199,7 +38199,7 @@ $provide.value("$locale", {
 
 /***/ }),
 
-/***/ 127:
+/***/ 129:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38213,14 +38213,14 @@ $provide.value("$locale", {
 
 // have to use require() otherwise jquery is loaded after angular for some reason, might be a result of babel
 global.$ = global.jQuery = __webpack_require__(87);
+__webpack_require__(120);
 __webpack_require__(119);
-__webpack_require__(118);
 __webpack_require__(88);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(48)))
 
 /***/ }),
 
-/***/ 312:
+/***/ 314:
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -65627,7 +65627,7 @@ return jQuery;
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(48), __webpack_require__(312)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(48), __webpack_require__(314)(module)))
 
 /***/ })
 

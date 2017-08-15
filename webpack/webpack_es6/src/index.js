@@ -142,3 +142,15 @@ line();
 
 console.log('defaultExpression:', defaultExpression);
 line();
+
+import { $http, $q } from './ngimport2';
+console.log('$http:', $http);
+console.log('$q:', $q);
+line();
+
+import { $http as $http2, $q as $q2, $state, $stateParams } from './eh-import';
+console.log('$http2:', $http2);
+console.log('$q2:', $q2);
+console.log('$state:', $state);
+console.log('$stateParams:', $stateParams);
+line();
