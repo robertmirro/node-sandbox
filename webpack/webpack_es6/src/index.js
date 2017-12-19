@@ -154,3 +154,9 @@ console.log('$q2:', $q2);
 console.log('$state:', $state);
 console.log('$stateParams:', $stateParams);
 line();
+
+// import { findIndex } from './util';
+// findIndex([4, 8, 4, 8]);
+import { myFindIndex } from './util';
+myFindIndex([4, 8, 4, 8]);
+line();
