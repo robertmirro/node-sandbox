@@ -38,7 +38,7 @@ export function promiseFn(mode = 'promise') {
         .then(x => x + 8)
         .then(x => x / 3)
         .then(x => {
-            console.log(`promise resolved ${mode}`);
+            console.log(`promise resolved ${mode}, x: ${x}`);
             return x;
         });
 }

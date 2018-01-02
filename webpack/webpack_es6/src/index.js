@@ -1,4 +1,4 @@
-// npm run build
+// npm run build:dev
 
 // import fp from 'lodash/fp';
 
@@ -38,33 +38,11 @@
 
 const line = () => console.log('-'.repeat(80));
 
+line();
 console.log(`index.js...`);
 line();
 
 import defaultMethod, { serviceCall, options, methodOne, mTwo as methodTwo } from './service';
-
-import * as otherService from './otherService';
-import { default as otherDefaultMethod } from './otherService';
-
-import * as passThroughAll from './passThroughAll';
-import passThroughDefault, * as passThrough from './passThroughAll';
-
-import defaultMethodPassByName, { serviceCall as sCall, _options, methodOne as m1, methodTWO, theVar as _theVar } from './passThroughByName';
-
-// method.theMethod = unexpected token error, this is not allowed
-// let method = {};
-// import { methodTWO as method.theMethod } from './passThroughByName';
-
-import defaultYetAnotherService, { var1, varThree, var4 as four, var5 as fiveVar, CONST1 as CONSTANT_ONE, CONST2 } from './yetAnotherService';
-
-import { controller } from './component';
-
-// import angular from 'angular';
-import _ from 'lodash';
-import $ from 'jquery';
-
-import defaultExpression from './defaultExpression';
-
 defaultMethod('d to the fault');
 serviceCall('the params');
 console.log('service options:', options);
@@ -72,9 +50,15 @@ methodOne('one');
 methodTwo('two');
 line();
 
+import otherExplicitDefaultMethod from './otherService'; // explicit default import
+otherExplicitDefaultMethod('explicit other d to the fault');
+
+import { default as otherDefaultMethod } from './otherService'; // default manually imported and renamed
+otherDefaultMethod('manual other d to the fault');
+
+import * as otherService from './otherService';  // import all module exports, default referenced by <module_object>.default
 console.log('otherService:', otherService);
-otherService.default('d to the fault');
-otherDefaultMethod('other d to the fault');
+otherService.default('<module_object>.default other d to the fault');
 otherService.serviceCall('the other params');
 console.log('other service options:', otherService.options);
 console.log('other service theVar:', otherService.theVar);
@@ -89,6 +73,7 @@ otherService.promiseFn()
     .then(x => console.log('other service promiseFn x:', x));
 line();
 
+import * as passThroughAll from './passThroughAll';
 console.log('passThroughAll:', passThroughAll);
 passThroughAll.default('passThroughAll d to the d to the fault');
 passThroughAll.serviceCall('passThroughAll the other params');
@@ -97,6 +82,7 @@ passThroughAll.methodOne('passThroughAll other one');
 passThroughAll.mTwo('passThroughAll other two');
 line();
 
+import passThroughDefault, * as passThrough from './passThroughAll';
 console.log('passThrough:', passThrough);
 passThroughDefault('passThroughDefault d to the d to the d to the fault');
 passThrough.serviceCall('passThrough the other params');
@@ -105,6 +91,7 @@ passThrough.methodOne('passThrough other one');
 passThrough.mTwo('passThrough other two');
 line();
 
+import defaultMethodPassByName, { serviceCall as sCall, _options, methodOne as m1, methodTWO, theVar as _theVar } from './passThroughByName';
 defaultMethodPassByName('passThroughByName d to the fault');
 sCall('passThroughByName the other params');
 console.log('passThroughByName other service options:', _options);
@@ -115,6 +102,11 @@ m1('passThroughByName other one');
 methodTWO('passThroughByName other two');
 line();
 
+// // method.theMethod = unexpected token error, this is not allowed
+// // let method = {};
+// // import { methodTWO as method.theMethod } from './passThroughByName';
+
+import defaultYetAnotherService, { var1, varThree, var4 as four, var5 as fiveVar, CONST1 as CONSTANT_ONE, CONST2 } from './yetAnotherService';
 console.log('defaultYetAnotherService:', defaultYetAnotherService);
 console.log('var1:', var1);
 console.log('varThree:', varThree);
@@ -127,20 +119,25 @@ console.log('name:', name);
 console.log('theValue:', theValue);
 line();
 
+// import defaultExpression from './defaultExpression';
+// console.log('defaultExpression:', defaultExpression);
+// line();
+
+import { controller } from './component';
 controller('the ctrl');
 line();
 
-console.log('angular:', angular.version.full);
-console.log('angular.element: %O', angular.element);
-line();
-
+import _ from 'lodash';
 console.log('lodash:', _.VERSION);
 line();
 
+import $ from 'jquery';
 console.log('jquery:', $.fn.jquery);
 line();
 
-console.log('defaultExpression:', defaultExpression);
+// import angular from 'angular';
+console.log('angular:', angular.version.full);
+console.log('angular.element: %O', angular.element);
 line();
 
 import { $http, $q } from './ngimport2';
