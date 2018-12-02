@@ -10,6 +10,7 @@ module.exports = {
             }
         },
         'cleanse-config': {
+            meta: { fixable: 'code' },
             create: function(context) {
                 return {
                     CallExpression(node) {
@@ -18,7 +19,12 @@ module.exports = {
                             !/^__\w*__$/.test(azureArg.value) &&
                             !(defaultArg.type === 'Identifier' && defaultArg.name === 'undefined') // null should also be handled
                         ) {
-                            context.report(node, 'cleanse config required -> ' + node.arguments[0].value);
+                            // context.report(node, 'cleanse config required -> ' + node.arguments[0].value);
+                            context.report({
+                                node,
+                                message: 'cleanse config required --> ' + azureArg.value,
+                                fix: fixer => fixer.replaceTextRange(defaultArg.range, 'undefined')
+                            });
                         }
                     }
                 };
