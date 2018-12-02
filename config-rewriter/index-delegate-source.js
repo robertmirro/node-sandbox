@@ -19,7 +19,7 @@ parseScript(config, parseOptions, (node, meta) => {
         cleanseArgs.push({
             start,
             end
-        })
+        });
     }
 });
 
@@ -27,5 +27,5 @@ cleanseArgs
     .reverse()
     .forEach(arg => {
         config = `${config.substring(0, arg.start)}undefined${config.substring(arg.end)}`;
-    })
+    });
 fs.writeFileSync('./eh-config-parsed.js', config);
