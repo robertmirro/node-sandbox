@@ -6,12 +6,13 @@
 const { parseScript, Syntax } = require('esprima');
 const fs = require('fs');
 
-let config = fs.readFileSync('./eh-config.js', 'utf8');
 const parseOptions = {
     range: true,
     loc: true
 };
 const cleanseArgs = [];
+const configFile = './eh-config.js';
+let config = fs.readFileSync(configFile, 'utf8');
 
 parseScript(config, parseOptions, (node, meta) => {
     if (node.type === Syntax.CallExpression && node.callee.name === 'vsts' && !/^__\w*__$/.test(node.arguments[0].value)) {
@@ -28,4 +29,4 @@ cleanseArgs
     .forEach(arg => {
         config = `${config.substring(0, arg.start)}undefined${config.substring(arg.end)}`;
     });
-fs.writeFileSync('./eh-config-parsed.js', config);
+fs.writeFileSync(configFile, config);

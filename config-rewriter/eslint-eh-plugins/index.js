@@ -22,7 +22,7 @@ module.exports = {
                             // context.report(node, 'cleanse config required -> ' + node.arguments[0].value);
                             context.report({
                                 node,
-                                message: 'cleanse config required --> ' + azureArg.value,
+                                message: `cleanse config --> ${azureArg.value}`,
                                 fix: fixer => fixer.replaceTextRange(defaultArg.range, 'undefined')
                             });
                         }
@@ -32,13 +32,3 @@ module.exports = {
         }
     }
 };
-
-// parseScript(config, parseOptions, (node, meta) => {
-//     if (node.type === Syntax.CallExpression && node.callee.name === 'vsts' && !/^__\w*__$/.test(node.arguments[0].value)) {
-//         const [start, end] = node.arguments[1].range;
-//         cleanseArgs.push({
-//             start,
-//             end
-//         });
-//     }
-// });
